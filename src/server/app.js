@@ -37,7 +37,7 @@ app.get('/accounts/:id', accounts.getOne);
 app.delete('/accounts/:id', accounts.deleteOne);
 
 // Question RESTFul endpoints
-// app.get('/questions', questions.getAll);
-// app.post('/questions', questions.createOne);
-// app.get('/questions/:id', questions.getOne);
-// app.delete('/questions/:id', questions.deleteOne);
+app.get('/questions', questions.getAll);
+app.post('/questions', questions.createOne);
+app.get('/questions/:id', questions.getOne);
+app.delete('/questions/:id', questions.deleteOne);
