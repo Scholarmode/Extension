@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const accounts = require('./routers/account');
 const questions = require('./routers/question');
+const replies = require('./routers/reply');
 const app = express();
 
 app.listen(8080);
@@ -45,3 +46,9 @@ app.get('/questions', questions.getAll);
 app.post('/questions', questions.createOne);
 app.get('/questions/:id', questions.getOne);
 app.delete('/questions/:id', questions.deleteOne);
+
+// Reply RESTFul endpoints
+app.get('/replies', replies.getAll);
+app.post('/replies', replies.createOne);
+app.get('/replies/:id', replies.getOne);
+app.delete('/replies/:id', replies.deleteOne);

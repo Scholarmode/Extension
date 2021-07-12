@@ -2,15 +2,12 @@ const mongoose = require('mongoose');
 
 const replySchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
+	author: String,
 	content: {
 		type: String,
 		required: true,
 	},
-	votes: Number,
-	author: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Account',
-	},
+	flagged: Boolean,
 	parentQuestion: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Question',
@@ -19,9 +16,9 @@ const replySchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Reply',
 	},
-	reports: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Account' }],
-	flagged: Boolean,
+	reports: [String],
 	timestamp: Date,
+	votes: Number,
 });
 
 module.exports = mongoose.model('Reply', replySchema);

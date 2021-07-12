@@ -18,7 +18,6 @@ module.exports = {
 		newQuestionDetails._id = new mongoose.Types.ObjectId();
 
 		let question = new Question(newQuestionDetails);
-		console.log(question);
 		question.save((err) => {
 			res.json(question);
 		});
