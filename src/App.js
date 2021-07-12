@@ -1,25 +1,31 @@
-import logo from './logo.svg';
+/* global chrome */
+import React, {useState, useEffect} from 'react';
+// import { ShadowRoot } from './ShadowRoot';
+import styled from "styled-components";
+import {localmode} from './constants'
 import './App.css';
 
+
+
+
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <ShadowRoot >
+      <div className="App">
+      </div>
+    // </ShadowRoot>
   );
 }
 
 export default App;
+
+
+/* Stuff to cover:
+  - Chrome Extension stuff
+  - How YouTube is structured
+  - React inside Chrome extensions
+  - Bugs & Future features 
+
+*/
