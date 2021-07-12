@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -11,8 +13,10 @@ console.log('Listening on port 8080');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const uri =
-	'mongodb+srv://ScholarAdmin:GPfWNlJSE4sT5PKZ@realmcluster.fi10q.mongodb.net/ScholarMode?retryWrites=true&w=majority';
+const atlasUser = process.env.ATLAS_USER;
+const atlasPwrd = process.env.ATLAS_PWRD;
+
+const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@realmcluster.fi10q.mongodb.net/ScholarMode?retryWrites=true&w=majority`;
 
 mongoose.connect(
 	uri,
