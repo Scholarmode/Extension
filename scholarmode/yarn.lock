@@ -5306,6 +5306,11 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+google-one-tap@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/google-one-tap/-/google-one-tap-1.0.1.tgz#94d2a1278c1896736ee76891b24d2b1f45625e04"
+  integrity sha512-bhLkLBcgw+7jOHFjTiUZQhxXjuhYITCWkWJmeU8+cmXT/46bwn5wpScAX/rdk2r6XArU3J3iuxmkAOOduEUliQ==
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
