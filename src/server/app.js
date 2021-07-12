@@ -46,9 +46,13 @@ app.get('/questions', questions.getAll);
 app.post('/questions', questions.createOne);
 app.get('/questions/:id', questions.getOne);
 app.delete('/questions/:id', questions.deleteOne);
+app.put('/questions/:id/upvote', questions.upvote);
+app.put('/questions/:id/downvote', questions.downvote);
 
 // Reply RESTFul endpoints
 app.get('/replies', replies.getAll);
 app.post('/replies', replies.createOne);
 app.get('/replies/:id', replies.getOne);
 app.delete('/replies/:id', replies.deleteOne);
+app.put('/replies/:id/upvote', replies.upvote);
+app.put('/replies/:id/downvote', replies.downvote);

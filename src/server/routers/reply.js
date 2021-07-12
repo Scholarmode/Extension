@@ -49,4 +49,30 @@ module.exports = {
 			res.json();
 		});
 	},
+
+	upvote: (req, res) => {
+		Reply.findOneAndUpdate(
+			{ _id: req.params.id },
+			{ $inc: { votes: 1 } },
+			{ returnOriginal: false },
+			(err, reply) => {
+				if (err) return res.status(400).json(err);
+				if (!reply) return res.status(404).json();
+				res.json(reply);
+			}
+		);
+	},
+
+	downvote: (req, res) => {
+		Reply.findOneAndUpdate(
+			{ _id: req.params.id },
+			{ $inc: { votes: -1 } },
+			{ returnOriginal: false },
+			(err, reply) => {
+				if (err) return res.status(400).json(err);
+				if (!reply) return res.status(404).json();
+				res.json(reply);
+			}
+		);
+	},
 };

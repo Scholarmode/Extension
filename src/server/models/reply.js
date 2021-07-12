@@ -7,6 +7,7 @@ const replySchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	dateCreated: Date,
 	flagged: Boolean,
 	parentQuestion: {
 		type: mongoose.Schema.Types.ObjectId,
