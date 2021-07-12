@@ -1,5 +1,6 @@
 import { Avatar } from "@material-ui/core";
 import styled from 'styled-components'
+import UserImage from "./UserImage";
 
 const CustomDiv = styled.div`
     display: flex;
@@ -34,11 +35,11 @@ const UploadedDate = styled.div`
 `;
 
 
-function QuestionHeader({ userName, timeStamp, dateUploaded }) {
+function QuestionHeader({ userName, timeStamp, dateUploaded, userImageUrl }) {
     return (
         <CustomDiv>
             {/* User Profile Image - Will Move In Different Component */}
-            <Avatar>A</Avatar>
+            <UserImage userName={userName} userImage={userImageUrl} />
             <UserNameText>{userName}</UserNameText>
             <p> • </p>
             <TimeStamp>{timeStamp}</TimeStamp>

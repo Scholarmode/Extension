@@ -13,7 +13,9 @@ const ButtonBackground = styled.div`
 export default function ScholarModeButton() {
     return (
         <div>
-            <ButtonBackground />
+            <ButtonBackground>
+
+            </ButtonBackground>
         </div>
     )
 }

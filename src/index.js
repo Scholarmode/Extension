@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
-import Block from './components/Block'
 import ScholarModeButton from './components/ScholarModeButton';
 import Question from './components/Question';
 

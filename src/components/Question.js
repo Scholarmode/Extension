@@ -1,21 +1,30 @@
-import styled from 'styled-components'
 import QuestionHeader from './QuestionHeader'
+import QuestionTitle from './QuestionTitle'
+import { Sidebar } from './Sidebar'
+import styled from 'styled-components';
 
 
-const Blob = styled.div`
-    background: #ECECEC;
-    height: 400px;
-    width: 100%;
-    border-radius: 40px;
-    border-width: thin;
+const QBlock = styled.div`
+    display: flex;
+    flex-direction:row;
 `
 
 
 function Question() {
     return (
-        <div>
-            <QuestionHeader userName="Ansh" timeStamp="15:21" dateUploaded="3 months ago" />
-        </div>
+        <QBlock>
+            <div className='sidebar'>
+                <Sidebar />
+            </div>
+            <div className='questionMain'>
+                <QuestionHeader
+                    userName="Ansh"
+                    timeStamp="15:21"
+                    dateUploaded="3 months ago"
+                    userImageUrl="https://material-ui.com/static/images/avatar/2.jpg" />
+                <QuestionTitle questionTitle="Some question ?" />
+            </div>
+        </QBlock>
     )
 }
 
