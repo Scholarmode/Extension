@@ -8,6 +8,7 @@ const CustomDiv = styled.div`
     background: #ECECEC;
     width: 100%;
     padding: 10px; 
+    padding-bottom: 0px;
     align-items: center;
 `;
 
