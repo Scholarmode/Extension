@@ -3,6 +3,7 @@ import QuestionTitle from './QuestionTitle'
 import { Sidebar } from './Sidebar'
 import styled from 'styled-components';
 import QuestionContent from './QuestionContent'
+import QuestionFooter from './QuestionFooter'
 
 
 const QBlock = styled.div`
@@ -27,6 +28,7 @@ function Question() {
                 <QuestionContent
                     question="Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. Anim do deserunt nulla esse ex occaecat enim Lorem. Voluptate sunt quis ipsum laborum aliqua excepteur nostrud sit laboris est?"
                 />
+                <QuestionFooter totalReplies={7} />
             </div>
         </div>
     )
