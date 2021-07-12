@@ -51,7 +51,6 @@ function QuestionFooter({ totalReplies }) {
     const [isReplyOpen, setReplyOpen] = useState(false);
 
     const onClickReply = () => {
-        console.log("Hey: " + isReplyOpen)
         setReplyOpen(!isReplyOpen)
     }
 
