@@ -4,6 +4,7 @@ import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useState } from 'react';
 import Replies from './Replies.js'
+import ReplyBox from './ReplyBox.js';
 
 const CustomDiv = styled.div`
     display: flex;
@@ -18,11 +19,31 @@ const RepliesTextLink = styled.div`
     font-size : 16px;
     color: #2196F3;
     cursor: pointer;
+
+    ::selection {
+    color: none;
+    background: none;
+   }
+/* For Mozilla Firefox */
+   ::-moz-selection {
+    color: none;
+    background: none;
+   }
 `;
 
 const ArrowDown = styled(ArrowDropDownIcon)`
    color: #2196F3;
    cursor: pointer;
+
+   ::selection {
+    color: none;
+    background: none;
+   }
+/* For Mozilla Firefox */
+   ::-moz-selection {
+    color: none;
+    background: none;
+   }
 `;
 
 const ReplyIcon = styled(SmsIcon)`
@@ -37,6 +58,7 @@ const ReplyClickText = styled.p`
    font-size : 16px;
    margin-left: 2px;
    cursor: pointer;
+   text-align: center;
 
 `;
 
@@ -50,8 +72,14 @@ function QuestionFooter({ totalReplies }) {
 
     const [isReplyOpen, setReplyOpen] = useState(false);
 
+    const [isReplyBoxOpen, setReplyBoxOpen] = useState(false);
+
     const onClickReply = () => {
         setReplyOpen(!isReplyOpen)
+    }
+
+    const onReplyBoxClick = () => {
+        setReplyBoxOpen(!isReplyBoxOpen)
     }
 
     return (
@@ -65,10 +93,11 @@ function QuestionFooter({ totalReplies }) {
                     </>
                 }
 
-                <ReplyIcon fontSize="large" />
-                <ReplyClickText>Reply</ReplyClickText>
+                <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
+                <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <OptionsMenu fontSize="large" />
             </CustomDiv>
+            {isReplyBoxOpen && <ReplyBox />}
             {isReplyOpen && <Replies />}
         </div>
     )
