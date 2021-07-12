@@ -36,6 +36,7 @@ module.exports = {
 		Account.findOneAndUpdate(
 			{ _id: req.params.id },
 			req.body,
+			{ returnOriginal: false },
 			(err, actor) => {
 				if (err) return res.status(400).json(err);
 				if (!actor) return res.status(404).json();

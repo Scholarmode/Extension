@@ -37,22 +37,25 @@ mongoose.connect(
 //Configuring Endpoints
 // Account RESTFul endpoints
 app.get('/accounts', accounts.getAll);
-app.post('/accounts', accounts.createOne);
 app.get('/accounts/:id', accounts.getOne);
+app.post('/accounts', accounts.createOne);
+app.put('/accounts/:id', accounts.updateOne);
 app.delete('/accounts/:id', accounts.deleteOne);
 
 // Question RESTFul endpoints
 app.get('/questions', questions.getAll);
-app.post('/questions', questions.createOne);
 app.get('/questions/:id', questions.getOne);
+app.post('/questions', questions.createOne);
+app.put('/questions/:id', questions.updateOne);
 app.delete('/questions/:id', questions.deleteOne);
 app.put('/questions/:id/upvote', questions.upvote);
 app.put('/questions/:id/downvote', questions.downvote);
 
 // Reply RESTFul endpoints
 app.get('/replies', replies.getAll);
-app.post('/replies', replies.createOne);
 app.get('/replies/:id', replies.getOne);
+app.post('/replies', replies.createOne);
+app.put('/replies/:id', replies.updateOne);
 app.delete('/replies/:id', replies.deleteOne);
 app.put('/replies/:id/upvote', replies.upvote);
 app.put('/replies/:id/downvote', replies.downvote);
