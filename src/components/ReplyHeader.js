@@ -7,7 +7,6 @@ const CustomDiv = styled.div`
     flex-direction: row;
     background: #ECECEC;
     width: 100%;
-    padding: 10px; 
     padding-bottom: 0px;
     align-items: center;
 `;
@@ -36,18 +35,20 @@ const UploadedDate = styled.div`
 `;
 
 
-function QuestionHeader({ userName, timeStamp, dateUploaded, userImageUrl }) {
+function ReplyHeader({ userName, timeStamp, dateUploaded, userImageUrl }) {
     return (
-        <CustomDiv>
-            {/* User Profile Image - Will Move In Different Component */}
-            <UserImage userName={userName} userImage={userImageUrl} />
-            <UserNameText>{userName}</UserNameText>
-            <p> • </p>
-            <TimeStamp>{timeStamp}</TimeStamp>
-            <p> • </p>
-            <UploadedDate>{dateUploaded}</UploadedDate>
-        </CustomDiv>
+        <div>
+            <CustomDiv>
+                {/* User Profile Image - Will Move In Different Component */}
+                <UserImage userName={userName} userImage={userImageUrl} />
+                <UserNameText>{userName}</UserNameText>
+                <p> • </p>
+                <TimeStamp>{timeStamp}</TimeStamp>
+                <p> • </p>
+                <UploadedDate>{dateUploaded}</UploadedDate>
+            </CustomDiv>
+        </div>
     )
 }
 
-export default QuestionHeader
+export default ReplyHeader
