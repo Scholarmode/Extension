@@ -30,7 +30,7 @@ const Reply = props => {
                 <ReplyHeader userName={props.userName} timeStamp={props.timeStamp} dateUploaded={props.dateUploaded} userImageUrl={props.userImageUrl} />
                 <ReplyThread >
                     <ReplyContent reply={props.reply} />
-                    {/* <ReplyFooter votes={2} /> */}
+                    <ReplyFooter votes={2} />
                     <CustomUnorderedList>
                         {props.children.map(child => <Reply {...child} />)}
                     </CustomUnorderedList>
