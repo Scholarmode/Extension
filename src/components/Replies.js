@@ -35,7 +35,7 @@ function Replies({ totalReplies, listOfReplies }) {
         },
         {
             id: 2, parent_id: 1,
-            userName: "Random name 2",
+            userName: "Random",
             timeStamp: "15:21",
             dateUploaded: "3 months ago",
             userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
@@ -43,7 +43,7 @@ function Replies({ totalReplies, listOfReplies }) {
         },
         {
             id: 3, parent_id: 1,
-            userName: "Random name 3",
+            userName: "Random",
             timeStamp: "15:21",
             dateUploaded: "3 months ago",
             userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
@@ -51,7 +51,7 @@ function Replies({ totalReplies, listOfReplies }) {
         },
         {
             id: 4, parent_id: 2,
-            userName: "Random name a",
+            userName: "Random",
             timeStamp: "15:21",
             dateUploaded: "3 months ago",
             userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",

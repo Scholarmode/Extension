@@ -2,8 +2,8 @@
 import styled from 'styled-components';
 import QuestionHeader from './QuestionHeader';
 import ReplyContent from './ReplyContent';
-import ReplyFooter from './ReplyFooter';
 import ReplyHeader from './ReplyHeader';
+import ReplyFooter from './ReplyFooter';
 
 const CustomUnorderedList = styled.ul`
     margin-left: 10px; 

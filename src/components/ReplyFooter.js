@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import ForwardIcon from '@material-ui/icons/Forward';
 import { useState } from 'react'
+import { ReactComponent as UpArrow } from '../assets/questionCardVoteArrow.svg'
 
 const CustomDiv = styled.div`
     display: flex;
@@ -8,17 +8,10 @@ const CustomDiv = styled.div`
     background: #ECECEC;
     width: 100%;
     padding: 10px; 
+    padding-bottom: 0px;
     align-items: center;
 `;
 
-const UpArrow = styled.div`
-    transform: rotate(90deg);
-    cursor: pointer;
-`
-const DownArrow = styled.div`
-    transform: rotate(-90deg);
-    cursor: pointer;
-`
 
 function ReplyFooter({ votes }) {
 
@@ -26,14 +19,13 @@ function ReplyFooter({ votes }) {
 
     return (
         <CustomDiv>
-            <UpArrow>
-                <ForwardIcon onClick={setTotalVotes((prevVotes) => prevVotes + 1)} />
-            </UpArrow>
+            {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
             {/* Total votes for this reply */}
+            <UpArrow fontSize="large" />
             <p>{totalVotes}</p>
-            <DownArrow>
+            {/* <DownArrow>
                 <ForwardIcon />
-            </DownArrow>
+            </DownArrow> */}
         </CustomDiv>
     )
 }
