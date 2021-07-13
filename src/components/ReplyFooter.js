@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ReactComponent as UpArrow } from '../assets/questionCardVoteArrow.svg'
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 const CustomDiv = styled.div`
     display: flex;
@@ -35,6 +36,12 @@ const ReplyClickText = styled.p`
 
 `;
 
+const OptionsMenu = styled(MoreHorizIcon)`
+    color: #909090;
+    margin-left: 15px;
+    cursor: pointer;
+`;
+
 const UpArrowNew = styled.div`
     transform: rotate(-90deg);
 `
@@ -50,8 +57,15 @@ function ReplyFooter({ votes }) {
 
     const updateVotes = () => {
         if (clickable) {
-            setClickable(false)
-            setTotalVotes((v) => v + 1)
+            if (downClickable) {
+                setClickable(false)
+                setTotalVotes((v) => v + 1)
+            }
+            else {
+                setDownClickable(true)
+                setClickable(false)
+                setTotalVotes((v) => v + 2)
+            }
         }
         else {
             setClickable(true)
@@ -61,8 +75,15 @@ function ReplyFooter({ votes }) {
 
     const updateDownVotes = () => {
         if (totalVotes > 0 && downClickable) {
-            setDownClickable(false)
-            setTotalVotes((v) => v - 1)
+            if (clickable) {
+                setDownClickable(false)
+                setTotalVotes((v) => v - 1)
+            }
+            else {
+                setClickable(true)
+                setDownClickable(false)
+                setTotalVotes((v) => v - 2)
+            }
         }
         else {
             setDownClickable(true)
@@ -94,7 +115,7 @@ function ReplyFooter({ votes }) {
             {/* TODO - onClick has to implemented */}
             <ReplyIcon fontSize="large" onClick={() => { }} />
             <ReplyClickText onClick={() => { }} >Reply</ReplyClickText>
-
+            <OptionsMenu fontSize="large" />
         </CustomDiv>
     )
 }
