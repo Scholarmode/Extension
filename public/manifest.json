@@ -1,18 +1,28 @@
 {
   "short_name": "ScholarMode",
   "name": "ScholarMode",
-  "version":"1.0.0",
-  "manifest_version": 2,
+  "version":"0.1.0",
+  "manifest_version": 3,
+  "icons": {
+    "16":"./logo/logo16x16.png",
+    "32":"./logo/logo32x32.png",
+    "48":"./logo/logo48x48.png",
+    "128":"./logo/logo128x128.png"
+  },
   "description":"Turning the most entertaining social media platform into the most educational social media platform.",
-  "permissions":["storage"],
+  "permissions":[
+    "activeTab",
+    "tabs",
+    "storage",
+    "scripting"
+  ],
   "content_scripts": [
     {
-      "matches":["<all_urls>"],
+      "matches":[
+        "https://*.youtube.com/watch*"
+      ],
       "js":["./main.js"],
       "css":["/main.css"]
     }
-  ],
-  "browser_action": {
-    "default_popup": "./popup.html"
-  }
+  ]
 }

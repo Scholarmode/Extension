@@ -8,13 +8,13 @@ const activateBackground = keyframes`
         background: white;
     }
     to{
-        background: #3aa1f2;
+        background: #ff0000;
     }
 `;
 
 const deactivateBackground = keyframes`
     from{
-        background: #3aa1f2;
+        background: #ff0000;
     }
     to{
         background: white;
