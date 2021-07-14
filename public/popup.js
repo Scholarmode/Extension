@@ -22,7 +22,14 @@ const getProfileInfo = (token) => {
 
 const renderProfile = (info) => {
   console.log(info)
-  let name = document.createElement('div')
-  name.innerHTML = info.name
-  popup.appendChild(name)
+  let welcome = document.createElement('div')
+  let header = document.createElement('h1')
+  let message = document.createElement('p')
+  header.innerHTML = 'Welcome ' + info.given_name + '.'
+  message.innerHTML = "Here's a summary of what you've been up to lately..."
+  welcome.appendChild(header)
+  welcome.appendChild(message)
+  popup.appendChild(welcome)
+
+  // Retrieve user information from DB and render
 }
