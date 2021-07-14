@@ -16,8 +16,8 @@ const ReplyThread = styled.div`
    display: block;
    height: 100%;
    width: 80%;
-   margin-left: 23px;
-   padding-top: 5px;
+   margin-left: 15px;
+   /* padding-top: 5px; */
    margin-top: 5px;
    margin-bottom: 5px;
 `;
@@ -30,7 +30,7 @@ const Reply = props => {
                 <ReplyHeader userName={props.userName} timeStamp={props.timeStamp} dateUploaded={props.dateUploaded} userImageUrl={props.userImageUrl} />
                 <ReplyThread >
                     <ReplyContent reply={props.reply} />
-                    {/* <ReplyFooter votes={2} /> */}
+                    <ReplyFooter votes={2} />
                     <CustomUnorderedList>
                         {props.children.map(child => <Reply {...child} />)}
                     </CustomUnorderedList>
