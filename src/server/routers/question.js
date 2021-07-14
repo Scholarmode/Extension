@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Question = require('../models/question');
+const Replies = require('../models/reply');
 
 module.exports = {
 	getAll: (req, res) => {
@@ -27,7 +28,20 @@ module.exports = {
 		Question.findOne({ _id: req.params.id }, (err, question) => {
 			if (err) return res.status(400).json(err);
 			if (!question) return res.status(404).json();
-			res.json(question);
+
+			// Fetch replies
+			const dbFilter = req.query.direct
+				? { parentQuestion: question._id, parentReply: null }
+				: { parentQuestion: question._id };
+
+			Replies.find(dbFilter)
+				.sort({ votes: -1 })
+				.exec((err, replies) => {
+					if (err) return res.status(400).json(err);
+					question.replies = replies;
+					question.repliesCount = replies.length;
+					res.json(question);
+				});
 		});
 	},
 
@@ -45,9 +59,15 @@ module.exports = {
 	},
 
 	deleteOne: (req, res) => {
-		Question.findOneAndRemove({ _id: req.params.id }, (err) => {
+		// Delete replies of the question
+		Replies.deleteMany({ parentQuestion: req.params.id }, (err) => {
 			if (err) return res.status(400).json(err);
-			res.json();
+
+			// Delete the question itself
+			Question.findOneAndRemove({ _id: req.params.id }, (err) => {
+				if (err) return res.status(400).json(err);
+				res.json();
+			});
 		});
 	},
 
