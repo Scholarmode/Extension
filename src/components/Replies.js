@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from 'styled-components';
 import Reply from "./Reply";
+import { useContext } from 'react';
+import { QuestionContext } from './QuestionContext'
 
 const CustomDiv = styled.div`
     display: flex;
@@ -19,53 +21,14 @@ const CustomUnorderedList = styled.ul`
 
 
 function Replies({ totalReplies, listOfReplies }) {
+    
+    const {question, setQuestion} = useContext(QuestionContext)
 
     const nest = (items, id = null) =>
         items.filter(item => item.parent_id === id)
             .map(item => ({ ...item, children: nest(items, item.id) }));
 
-    const comments = [
-        {
-            id: 1, parent_id: null,
-            userName: "Random name",
-            timeStamp: "15:21",
-            dateUploaded: "3 months ago",
-            userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
-            reply: "Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. "
-        },
-        {
-            id: 2, parent_id: 1,
-            userName: "Random",
-            timeStamp: "15:21",
-            dateUploaded: "3 months ago",
-            userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
-            reply: "Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. "
-        },
-        {
-            id: 3, parent_id: 1,
-            userName: "Random",
-            timeStamp: "15:21",
-            dateUploaded: "3 months ago",
-            userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
-            reply: "Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. "
-        },
-        {
-            id: 4, parent_id: 2,
-            userName: "Random",
-            timeStamp: "15:21",
-            dateUploaded: "3 months ago",
-            userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
-            reply: "Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. "
-        },
-        {
-            id: 5, parent_id: null,
-            userName: "Random name 4",
-            timeStamp: "15:21",
-            dateUploaded: "3 months ago",
-            userImageUrl: "https://material-ui.com/static/images/avatar/1.jpg",
-            reply: "Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. "
-        },
-    ];
+    const comments = question.comments;
 
     const [nestedComments, setNestedComments] = useState(nest(comments));
 

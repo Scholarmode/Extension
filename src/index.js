@@ -4,6 +4,7 @@ import './index.css';
 // import App from './App';
 import ScholarModeButton from './components/ScholarModeButton';
 import Question from './components/Question';
+import  Discussion  from './components/Discussion';
 
 
 
@@ -36,7 +37,7 @@ ReactDOM.render(
 //render Q&A section
 ReactDOM.render(
   <React.StrictMode>
-    <Question />
+    <Discussion />
   </React.StrictMode>,
   document.getElementById('secondary')
 );
