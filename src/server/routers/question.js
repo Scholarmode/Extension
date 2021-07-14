@@ -45,28 +45,14 @@ module.exports = {
 		});
 	},
 
-	// getAuthorQuestions: (req, res) => {
-	// 	Question.find({ author: req.params.id }, (err, questions) => {
-	// 		if (err) return res.status(400).json(err);
-	// 		if (!questions) return res.status(404).json();
-
-	// 		// // Fetch replies
-	// 		// const dbFilter = req.query.direct
-	// 		// 	? { parentQuestion: question._id, parentReply: null }
-	// 		// 	: { parentQuestion: question._id };
-
-	// 		// Replies.find(dbFilter)
-	// 		// 	.sort({ votes: -1 })
-	// 		// 	.exec((err, replies) => {
-	// 		// 		if (err) return res.status(400).json(err);
-	// 		// 		question.replies = replies;
-	// 		// 		question.repliesCount = replies.length;
-	// 		// 		res.json(question);
-	// 		// 	});
-	// 		return res.json(questions);
-	// 	});
-	// }
-
+	getAuthorQuestions: (req, res) => {
+		Question.find({ author: req.params.id }, (err, questions) => {
+			if (err) return res.status(400).json(err);
+			if (!questions) return res.status(404).json();
+			return res.json(questions);
+		});
+	},
+	
 	updateOne: (req, res) => {
 		Question.findOneAndUpdate(
 			{ _id: req.params.id },

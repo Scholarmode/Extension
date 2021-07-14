@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const replySchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-	author: String,
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Account',
+	},
 	content: {
 		type: String,
 		required: true,
