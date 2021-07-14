@@ -6,13 +6,13 @@ body {
 }
 
 header {
-  height: 30px;
+  height: 36px;
   border-bottom: 2px solid #dddddd;
 }
 
 #votes {
   float: right;
-  margin: 7px 14px;
+  margin: 9px 14px;
   color: #909090;
 }
 
@@ -22,7 +22,7 @@ header {
 
 #main {
   width: 180px;
-  margin: 15px;
+  margin: 15px 25px;
 }
 
 p {
@@ -52,9 +52,50 @@ p {
   border: 2px solid #2196f3;
   color: #2196f3;
   padding: 5px;
+  font-size: 16px;
 }
 
 .stat-label {
   margin-top: 5px;
   color: #909090;
+  font-size: 14px;
+}
+
+#week-stats-container {
+  margin: 10px;
+  padding: 0 10px 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+#week-stats {
+  display: flex;
+}
+
+.stat-sm {
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 5px;
+}
+
+.stat-display-sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #2196f3;
+  color: #2196f3;
+  padding: 5px;
+  font-size: 15px;
+}
+
+.stat-label-sm {
+  margin-top: 5px;
+  color: #909090;
+  font-size: 13px;
 }

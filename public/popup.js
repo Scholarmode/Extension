@@ -52,6 +52,21 @@ const renderProfile = (info) => {
   let replies = createStatDiv(75, 'TOTAL REPLIES')
   stats.appendChild(replies)
   main.appendChild(stats)
+
+  // Render user's stats during last week
+  let container = document.getElementById('week-stats-container')
+  let h2 = document.createElement('h2')
+  h2.innerHTML = 'Since last week...'
+  container.appendChild(h2)
+  let weekStats = document.createElement('div')
+  weekStats.id = 'week-stats'
+  let posted = createSmallStatDiv(1, 'QUESTIONS POSTED')
+  weekStats.appendChild(posted)
+  let votesGained = createSmallStatDiv(-7, 'VOTES GAINED')
+  weekStats.appendChild(votesGained)
+  let newReplies = createSmallStatDiv(3, 'NEW REPLIES')
+  weekStats.appendChild(newReplies)
+  container.appendChild(weekStats)
 }
 
 const createStatDiv = (stat, label) => {
@@ -64,6 +79,20 @@ const createStatDiv = (stat, label) => {
   let labelDiv = document.createElement('div')
   labelDiv.innerHTML = label
   labelDiv.className = 'stat-label'
+  div.appendChild(labelDiv)
+  return div
+}
+
+const createSmallStatDiv = (stat, label) => {
+  let div = document.createElement('div')
+  div.className = 'stat-sm'
+  let statDiv = document.createElement('div')
+  statDiv.innerHTML = stat
+  statDiv.className = 'stat-display-sm'
+  div.append(statDiv)
+  let labelDiv = document.createElement('div')
+  labelDiv.innerHTML = label
+  labelDiv.className = 'stat-label-sm'
   div.appendChild(labelDiv)
   return div
 }
