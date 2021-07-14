@@ -59,9 +59,15 @@ module.exports = {
 	},
 
 	deleteOne: (req, res) => {
-		Question.findOneAndRemove({ _id: req.params.id }, (err) => {
+		// Delete replies of the question
+		Replies.deleteMany({ parentQuestion: req.params.id }, (err) => {
 			if (err) return res.status(400).json(err);
-			res.json();
+
+			// Delete the question itself
+			Question.findOneAndRemove({ _id: req.params.id }, (err) => {
+				if (err) return res.status(400).json(err);
+				res.json();
+			});
 		});
 	},
 
