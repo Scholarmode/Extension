@@ -26,10 +26,11 @@ const renderProfile = (info) => {
   // Add total votes to header
   let votesDiv = document.createElement('div')
   votesDiv.id = 'votes'
-  let votes = document.createElement('span')
-  votes.id = 'votes-num'
-  votes.innerHTML = '+236 '
-  votesDiv.appendChild(votes)
+  let span = document.createElement('span')
+  let votes = 236
+  span.id = votes >= 0 ? 'votes-num' : '-votes-num'
+  span.innerHTML = (votes > 0 ? '+' : '') + votes.toString() + ' '
+  votesDiv.appendChild(span)
   let text = document.createTextNode('VOTES')
   votesDiv.appendChild(text)
   header.appendChild(votesDiv)
@@ -74,7 +75,7 @@ const createStatDiv = (stat, label) => {
   div.className = 'stat'
   let statDiv = document.createElement('div')
   statDiv.innerHTML = stat
-  statDiv.className = 'stat-display'
+  statDiv.className = stat >= 0 ? 'stat-display' : '-stat-display'
   div.append(statDiv)
   let labelDiv = document.createElement('div')
   labelDiv.innerHTML = label
@@ -88,7 +89,7 @@ const createSmallStatDiv = (stat, label) => {
   div.className = 'stat-sm'
   let statDiv = document.createElement('div')
   statDiv.innerHTML = stat
-  statDiv.className = 'stat-display-sm'
+  statDiv.className = stat >= 0 ? 'stat-display-sm' : '-stat-display-sm'
   div.append(statDiv)
   let labelDiv = document.createElement('div')
   labelDiv.innerHTML = label

@@ -16,8 +16,12 @@ header {
   color: #909090;
 }
 
-#votes > span {
+#votes-num {
   color: #2196f3;
+}
+
+#-votes-num {
+  color: #da0000;
 }
 
 #main {
@@ -51,6 +55,19 @@ p {
   border-radius: 50%;
   border: 2px solid #2196f3;
   color: #2196f3;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.-stat-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #da0000;
+  color: #da0000;
   padding: 5px;
   font-size: 16px;
 }
@@ -90,6 +107,19 @@ p {
   border-radius: 50%;
   border: 2px solid #2196f3;
   color: #2196f3;
+  padding: 5px;
+  font-size: 15px;
+}
+
+.-stat-display-sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #da0000;
+  color: #da0000;
   padding: 5px;
   font-size: 15px;
 }
