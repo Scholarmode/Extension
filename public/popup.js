@@ -32,4 +32,21 @@ const renderProfile = (info) => {
   popup.appendChild(welcome)
 
   // Retrieve user information from DB and render
+  let stats = document.createElement('div')
+  let asked = createStatDiv(43, 'QUESTIONS ASKED')
+  stats.appendChild(asked)
+  let replies = createStatDiv(75, 'TOTAL REPLIES')
+  stats.appendChild(replies)
+  popup.appendChild(stats)
+}
+
+const createStatDiv = (stat, label) => {
+  let div = document.createElement('div')
+  let statDiv = document.createElement('div')
+  statDiv.innerHTML = stat
+  div.append(statDiv)
+  let labelDiv = document.createElement('div')
+  labelDiv.innerHTML = label
+  div.appendChild(labelDiv)
+  return div
 }
