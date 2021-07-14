@@ -1,0 +1,44 @@
+html,
+body {
+  width: 250px;
+  height: auto;
+}
+
+#main {
+  width: 180px;
+  margin: 10px;
+}
+
+p {
+  color: #909090;
+}
+
+#stats {
+  display: flex;
+}
+
+.stat {
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 5px;
+}
+
+.stat-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #2196f3;
+  color: #2196f3;
+  padding: 5px;
+}
+
+.stat-label {
+  margin-top: 5px;
+  color: #909090;
+}

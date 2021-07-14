@@ -1,5 +1,5 @@
 /* global chrome */
-let popup = document.getElementById('popup')
+let main = document.getElementById('main')
 
 chrome.storage.sync.get(['token'], async (result) => {
   if (result.token === 'undefined') {
@@ -12,7 +12,7 @@ chrome.storage.sync.get(['token'], async (result) => {
 const renderLogin = () => {
   let button = document.createElement('button')
   button.innerHTML = 'Sign In'
-  popup.appendChild(button)
+  main.appendChild(button)
 }
 
 const getProfileInfo = (token) => {
@@ -24,29 +24,33 @@ const renderProfile = (info) => {
   console.log(info)
   let welcome = document.createElement('div')
   let header = document.createElement('h1')
-  let message = document.createElement('p')
   header.innerHTML = 'Welcome ' + info.given_name + '.'
+  let message = document.createElement('p')
   message.innerHTML = "Here's a summary of what you've been up to lately..."
   welcome.appendChild(header)
   welcome.appendChild(message)
-  popup.appendChild(welcome)
+  main.appendChild(welcome)
 
   // Retrieve user information from DB and render
   let stats = document.createElement('div')
+  stats.id = 'stats'
   let asked = createStatDiv(43, 'QUESTIONS ASKED')
   stats.appendChild(asked)
   let replies = createStatDiv(75, 'TOTAL REPLIES')
   stats.appendChild(replies)
-  popup.appendChild(stats)
+  main.appendChild(stats)
 }
 
 const createStatDiv = (stat, label) => {
   let div = document.createElement('div')
+  div.className = 'stat'
   let statDiv = document.createElement('div')
   statDiv.innerHTML = stat
+  statDiv.className = 'stat-display'
   div.append(statDiv)
   let labelDiv = document.createElement('div')
   labelDiv.innerHTML = label
+  labelDiv.className = 'stat-label'
   div.appendChild(labelDiv)
   return div
 }
