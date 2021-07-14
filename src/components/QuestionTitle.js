@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import React from "react";
 
 const QuestionTitleText = styled.div`
     font-size: 18px;
