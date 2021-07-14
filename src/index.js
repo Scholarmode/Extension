@@ -1,8 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-import ScholarModeButton from './components/ScholarModeButton'
-import Question from './components/Question'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import ScholarModeButton from './components/ScholarModeButton';
+import  Discussion  from './components/Discussion';
+
 
 const insertionPoint = document.createElement('div')
 insertionPoint.id = 'insertion-point'
@@ -34,7 +35,7 @@ ReactDOM.render(
 //render Q&A section
 ReactDOM.render(
   <React.StrictMode>
-    <Question />
+    <Discussion />
   </React.StrictMode>,
   document.getElementById('secondary')
 )
