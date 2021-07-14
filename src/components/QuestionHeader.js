@@ -1,6 +1,7 @@
 
 import styled from 'styled-components'
 import UserImage from "./UserImage";
+import React from "react";
 
 export const CustomDiv = styled.div`
     display: flex;

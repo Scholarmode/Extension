@@ -1,6 +1,7 @@
 import { UserNameText, TimeStamp, UploadedDate, CustomDiv} from './QuestionHeader'
 import styled from 'styled-components'
 import UserImage from "./UserImage";
+import React from "react";
 
 function ReplyHeader({ userName, timeStamp, dateUploaded, userImageUrl }) {
     return (
