@@ -50,7 +50,7 @@ const DownArrow = styled.div`
     transform: rotate(90deg);
 `
 
-function ReplyFooter({ votes }) {
+function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName }) {
 
     const [totalVotes, setTotalVotes] = useState(votes);
     const [clickable, setClickable] = useState(true);
@@ -92,6 +92,14 @@ function ReplyFooter({ votes }) {
         }
     }
 
+    const changeReplyBoxState = () => {
+        console.log(replyBoxOpen)
+        setReplyBoxOpen(!replyBoxOpen)
+
+        console.log("Heyy: " + userName)
+        setReplyUserName(userName)
+    }
+
     return (
         <CustomDiv>
             {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
@@ -114,8 +122,8 @@ function ReplyFooter({ votes }) {
             }
 
             {/* TODO - onClick has to implemented */}
-            <ReplyIcon fontSize="large" onClick={() => { }} />
-            <ReplyClickText onClick={() => { }} >Reply</ReplyClickText>
+            <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
+            <ReplyClickText onClick={changeReplyBoxState} >Reply</ReplyClickText>
             <OptionsMenu fontSize="large" />
         </CustomDiv>
     )

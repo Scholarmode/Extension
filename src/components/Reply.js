@@ -4,7 +4,7 @@ import QuestionHeader from './QuestionHeader';
 import ReplyContent from './ReplyContent';
 import ReplyHeader from './ReplyHeader';
 import ReplyFooter from './ReplyFooter';
-import React from "react";
+import { useState } from "react";
 
 const CustomUnorderedList = styled.ul`
     margin-left: 10px; 
@@ -23,21 +23,37 @@ const ReplyThread = styled.div`
    margin-bottom: 5px;
 `;
 
+const TestDiv = styled.div`
+    background-color: red;
+    width: 100%;
+    height: 50px;
+`
 
-const Reply = props => {
+
+const Reply = (props) => {
+    const comment = { ...props.comment }
+    console.log(comment)
+
     return (
-        <div>
-            <li>
-                <ReplyHeader userName={props.userName} timeStamp={props.timeStamp} dateUploaded={props.dateUploaded} userImageUrl={props.userImageUrl} />
-                <ReplyThread >
-                    <ReplyContent reply={props.reply} />
-                    <ReplyFooter votes={2} />
-                    <CustomUnorderedList>
-                        {props.children.map(child => <Reply {...child} />)}
-                    </CustomUnorderedList>
-                </ReplyThread>
-            </li>
-        </div>
+        <>
+            <div>
+                <li>
+                    <ReplyHeader userName={comment.userName} timeStamp={comment.timeStamp} dateUploaded={comment.dateUploaded} userImageUrl={comment.userImageUrl} />
+                    <ReplyThread >
+                        <ReplyContent reply={comment.reply} />
+                        <ReplyFooter votes={2}
+                            replyBoxOpen={props.replyBoxOpen}
+                            setReplyBoxOpen={props.setReplyBoxOpen}
+                            setReplyUserName={props.setReplyUserName}
+                            userName={comment.userName}
+                        />
+                        <CustomUnorderedList>
+                            {comment.children.map(child => <Reply comment={child} replyBoxOpen={props.replyBoxOpen} setReplyBoxOpen={props.setReplyBoxOpen} setReplyUserName={props.setReplyUserName} />)}
+                        </CustomUnorderedList>
+                    </ReplyThread>
+                </li>
+            </div>
+        </>
     )
 }
 
