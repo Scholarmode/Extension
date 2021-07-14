@@ -1,15 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-// import App from './App';
-import ScholarModeButton from './components/ScholarModeButton';
-import Question from './components/Question';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import ScholarModeButton from './components/ScholarModeButton'
+import Question from './components/Question'
 
-
-
-
-const insertionPoint = document.createElement("div");
-insertionPoint.id = "insertion-point";
+const insertionPoint = document.createElement('div')
+insertionPoint.id = 'insertion-point'
 
 //check for pc searchbar and append scholarmode
 if (document.querySelector('#center')) {
@@ -17,13 +13,15 @@ if (document.querySelector('#center')) {
 }
 
 //check for mobile searchbar and append scholarmode !doesn't work because m.youtube.com 404 error
-else if (document.querySelector('.mobile-topbar-header-content non-search-mode cbox')) {
-  document.querySelector('.mobile-topbar-header-content non-search-mode cbox').appendChild(insertionPoint)
+else if (
+  document.querySelector('.mobile-topbar-header-content non-search-mode cbox')
+) {
+  document
+    .querySelector('.mobile-topbar-header-content non-search-mode cbox')
+    .appendChild(insertionPoint)
+} else {
+  console.log('scholarmode not rendered')
 }
-
-else { console.log("scholarmode not rendered") }
-
-
 
 //render ScholarMode
 ReactDOM.render(
@@ -31,7 +29,7 @@ ReactDOM.render(
     <ScholarModeButton />
   </React.StrictMode>,
   document.getElementById('insertion-point')
-);
+)
 
 //render Q&A section
 ReactDOM.render(
@@ -39,4 +37,4 @@ ReactDOM.render(
     <Question />
   </React.StrictMode>,
   document.getElementById('secondary')
-);
+)
