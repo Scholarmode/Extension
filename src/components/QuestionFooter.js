@@ -5,6 +5,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useState } from 'react';
 import Replies from './Replies.js'
 import ReplyBox from './ReplyBox.js';
+import React from "react";
 
 const CustomDiv = styled.div`
     display: flex;

@@ -1,6 +1,7 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import styled, { keyframes } from 'styled-components';
 import { ReactComponent as WhiteHat } from '../assets/scholarHatWhite.svg';
+import React from "react";
 
 
 const activateBackground = keyframes`
@@ -8,13 +9,13 @@ const activateBackground = keyframes`
         background: white;
     }
     to{
-        background: #3aa1f2;
+        background: #ff0000;
     }
 `;
 
 const deactivateBackground = keyframes`
     from{
-        background: #3aa1f2;
+        background: #ff0000;
     }
     to{
         background: white;
@@ -81,16 +82,16 @@ const ButtonCircle = styled.div`
 export default function ScholarModeButton() {
 
     const [active, setActive] = useState(false)
-    
+
 
     return (
-        <div className='scholarmode' onClick={()=>setActive(!active)}>
+        <div className='scholarmode' onClick={() => setActive(!active)}>
             <ButtonBackground className={active ? "active" : "deactivate"}>
                 <ButtonCircle className={active ? "active" : "deactivate"}>
-                    <WhiteHat />    
+                    <WhiteHat />
                 </ButtonCircle>
             </ButtonBackground>
         </div>
     )
 
-    }
+}
