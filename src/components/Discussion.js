@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import Question from './Question';
 import { QuestionContext } from './QuestionContext';
@@ -9,6 +10,7 @@ const Discussion = () => {
 
 	const url = 'http://localhost:8080/questions/60ec1c908678a9567cc95263';
 
+  
 	useEffect(() => {
 		fetch(url, {
 			method: 'GET',
@@ -50,7 +52,7 @@ const Discussion = () => {
 				dateUploaded: '1 year ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: 'Yup, fuck that. The solution is always run away from math with your hands in the air.',
+				reply: "[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text\"}]}]",
 			},
 			{
 				id: 2,
@@ -60,7 +62,7 @@ const Discussion = () => {
 				dateUploaded: '1 month ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: 'Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. ',
+				reply: "[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text\"}]}]",
 			},
 			{
 				id: 3,
@@ -70,7 +72,7 @@ const Discussion = () => {
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: 'Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. ',
+				reply: "[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text\"}]}]",
 			},
 			{
 				id: 4,
@@ -80,7 +82,7 @@ const Discussion = () => {
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: 'Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. ',
+				reply: "[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text\"}]}]",
 			},
 			{
 				id: 5,
@@ -90,10 +92,11 @@ const Discussion = () => {
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: 'Proident duis nostrud Lorem incididunt. Reprehenderit et anim sint nostrud exercitation sit. Duis cupidatat laborum non deserunt sit nulla officia. ',
+				reply: "[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text\"}]}]",
 			},
 		],
 	});
+
 
 	return (
 		<QuestionContext.Provider value={{ question, setQuestion }}>

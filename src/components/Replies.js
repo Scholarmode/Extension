@@ -18,10 +18,16 @@ const CustomUnorderedList = styled.ul`
    list-style-type:none;
 `;
 
+const TestDiv = styled.div`
+    background-color: blue;
+    width: 100%;
+    height: 50px;
+`
 
-function Replies({ totalReplies, listOfReplies }) {
-    
-    const {question, setQuestion} = useContext(QuestionContext)
+
+function Replies(props) {
+
+    const { question, setQuestion } = useContext(QuestionContext)
 
     const nest = (items, id = null) =>
         items.filter(item => item.parent_id === id)
@@ -46,11 +52,19 @@ function Replies({ totalReplies, listOfReplies }) {
         </ul>
     )
 
+
     return (
         <CustomDiv>
             <CustomUnorderedList>
                 {nestedComments.map(comment =>
-                    <Reply {...comment} />
+                    <>
+                        <Reply comment={comment}
+                            replyBoxOpen={props.replyBoxState}
+                            setReplyBoxOpen={props.setReplyBoxState}
+                            setReplyUserName={props.setReplyUserName}
+                        />
+
+                    </>
                 )}
             </CustomUnorderedList>
         </CustomDiv>
