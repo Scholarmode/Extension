@@ -10,7 +10,7 @@ const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
     background: #ECECEC;
-    width: 100%;
+    flex:1;
     padding: 10px; 
     align-items: center;
 `;
@@ -99,7 +99,7 @@ function ReplyFooter({ votes }) {
                 clickable ? <UpArrowNew>
                     <ForwardIcon style={{ width: 25, height: 25, color: '#909090' }} onClick={updateVotes} />
                 </UpArrowNew> : <UpArrowNew>
-                    <ForwardIcon style={{ width: 25, height: 25, color: 'red', }} onClick={updateVotes} />
+                    <ForwardIcon style={{ width: 25, height: 25, color: '#3aa1f2', }} onClick={updateVotes} />
                 </UpArrowNew>
             }
             {/* Total votes for this reply */}
@@ -109,7 +109,7 @@ function ReplyFooter({ votes }) {
                 downClickable ? <DownArrow>
                     <ForwardIcon style={{ width: 25, height: 25, color: '#909090' }} onClick={updateDownVotes} />
                 </DownArrow> : <DownArrow>
-                    <ForwardIcon style={{ width: 25, height: 25, color: '#3aa1f2' }} onClick={updateDownVotes} />
+                    <ForwardIcon style={{ width: 25, height: 25, color: 'red' }} onClick={updateDownVotes} />
                 </DownArrow>
             }
 

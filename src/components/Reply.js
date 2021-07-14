@@ -13,14 +13,13 @@ const CustomUnorderedList = styled.ul`
 `;
 
 const ReplyThread = styled.div`
-   border-left: 2px solid #909090;
-   display: block;
-   height: 100%;
-   width: 80%;
-   margin-left: 15px;
-   /* padding-top: 5px; */
-   margin-top: 5px;
-   margin-bottom: 5px;
+   border-left: 2px solid rgb(144, 144, 144);
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px;
 `;
 
 

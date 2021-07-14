@@ -11,7 +11,7 @@ const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
     background: #ECECEC;
-    width: 100%;
+    flex:1;
     padding: 10px; 
     align-items: center;
 `;
