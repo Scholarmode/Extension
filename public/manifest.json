@@ -1,6 +1,7 @@
 {
   "short_name": "ScholarMode",
   "name": "ScholarMode",
+
   "version":"0.1.0",
   "manifest_version": 3,
   "icons": {
@@ -11,10 +12,8 @@
   },
   "description":"Turning the most entertaining social media platform into the most educational social media platform.",
   "permissions":[
-    "activeTab",
-    "tabs",
     "storage",
-    "scripting"
+    "identity",
   ],
   "content_scripts": [
     {
@@ -24,5 +23,16 @@
       "js":["./main.js"],
       "css":["/main.css"]
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqTMT8ZB/AbAwVZBPqUnnv0j6sD+ejWZFPW7F5vyx8O4N/CDse+7XS4DMQindh3Vginyahu43Zt9XjBQdDPwavefaVu6Oi6EU7x7bULDRRENiwHRuC94ZErxNy9ro72hqnrOZ08P4Lp2YZosD88RfavXvjdUSlIO7A+tEPob79P1Htf6DOn91znoKMYR7LbfByryt3nNyhIDKP38zDa4k8+evLtcFfTh5GgorS6aDjzGKWzzYy2XOe+IjkdKuGPu/YxhNhKESHbMVszqAsAREP4WvegeAVToNz7PAZ5gTBE3p2fpiaspqyR67EQ3J+F3uga6TwYQDoOLfu2ZPwBVu2QIDAQAB",
+  "oauth2": {
+    "client_id": "708218095522-rho1gnbvtf57phbhjf8agsf44dt6tgm4.apps.googleusercontent.com",
+    "scopes":["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
+  }
 }

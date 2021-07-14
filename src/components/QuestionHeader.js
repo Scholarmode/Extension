@@ -1,38 +1,36 @@
-import { Avatar } from "@material-ui/core";
+
 import styled from 'styled-components'
 import UserImage from "./UserImage";
 
-const CustomDiv = styled.div`
+export const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
     background: #ECECEC;
     width: 100%;
-    padding: 10px; 
-    padding-bottom: 0px;
     align-items: center;
 `;
 
-const UserNameText = styled.p`
+export const UserNameText = styled.p`
      text-align: center;
-     font-size: 18px;
+     font-size: 14px;
      color: black;
-     margin-left: 10px;
-     margin-right: 10px;
+     margin-left: 0px;
+     margin-right: 5px;
 `;
 
-const TimeStamp = styled.div`
-   font-size: 18px;
+export const TimeStamp = styled.div`
+   font-size: 14px;
    color: #2196F3;
    text-decoration: underline;
-   margin-left: 10px;
-   margin-right: 10px;
+   margin-left: 5px;
+   margin-right: 5px;
 `;
 
-const UploadedDate = styled.div`
-     font-size: 18px;
+export const UploadedDate = styled.div`
+     font-size: 14px;
      color: #979797;
-     margin-left: 10px;
-     margin-right: 10px;
+     margin-left: 5px;
+     margin-right: 5px;
 `;
 
 
