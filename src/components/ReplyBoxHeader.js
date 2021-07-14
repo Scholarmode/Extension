@@ -6,7 +6,6 @@ flex-direction: row;
 background: #ECECEC;
 width: 100%;
 font-size: 16px;
-margin-left: 10px;
 
 `;
 
@@ -14,10 +13,14 @@ const LinkSpan = styled.span`
     color: #2196F3;
 `
 
+const CustomReplyText = styled.p`
+    margin-left: 10px;
+`;
+
 function ReplyBoxHeader({ userName }) {
     return (
         <CustomDiv>
-            <p>Reply to @<LinkSpan>{userName}</LinkSpan></p>
+            <CustomReplyText>Reply to @<LinkSpan>{userName}</LinkSpan></CustomReplyText>
         </CustomDiv>
     )
 }
