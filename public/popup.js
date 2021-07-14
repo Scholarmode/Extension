@@ -1,4 +1,5 @@
 /* global chrome */
+let header = document.getElementsByTagName('header')[0]
 let main = document.getElementById('main')
 
 chrome.storage.sync.get(['token'], async (result) => {
@@ -22,16 +23,28 @@ const getProfileInfo = (token) => {
 
 const renderProfile = (info) => {
   console.log(info)
+  // Add total votes to header
+  let votesDiv = document.createElement('div')
+  votesDiv.id = 'votes'
+  let votes = document.createElement('span')
+  votes.id = 'votes-num'
+  votes.innerHTML = '+236 '
+  votesDiv.appendChild(votes)
+  let text = document.createTextNode('VOTES')
+  votesDiv.appendChild(text)
+  header.appendChild(votesDiv)
+
+  // Render welcome message
   let welcome = document.createElement('div')
-  let header = document.createElement('h1')
-  header.innerHTML = 'Welcome ' + info.given_name + '.'
+  let h1 = document.createElement('h1')
+  h1.innerHTML = 'Welcome ' + info.given_name + '.'
   let message = document.createElement('p')
   message.innerHTML = "Here's a summary of what you've been up to lately..."
-  welcome.appendChild(header)
+  welcome.appendChild(h1)
   welcome.appendChild(message)
   main.appendChild(welcome)
 
-  // Retrieve user information from DB and render
+  // Render user's stats
   let stats = document.createElement('div')
   stats.id = 'stats'
   let asked = createStatDiv(43, 'QUESTIONS ASKED')

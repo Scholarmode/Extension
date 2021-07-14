@@ -2,11 +2,27 @@ html,
 body {
   width: 250px;
   height: auto;
+  margin: 0;
+}
+
+header {
+  height: 30px;
+  border-bottom: 2px solid #dddddd;
+}
+
+#votes {
+  float: right;
+  margin: 7px 14px;
+  color: #909090;
+}
+
+#votes > span {
+  color: #2196f3;
 }
 
 #main {
   width: 180px;
-  margin: 10px;
+  margin: 15px;
 }
 
 p {
