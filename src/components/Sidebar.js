@@ -1,35 +1,28 @@
-
-import Arrow from '@material-ui/icons/Forward';
+import { useContext } from 'react';
 import styled from 'styled-components';
-import React from "react";
+import { QuestionContext } from './QuestionContext';
+import ArrowDown from '@material-ui/icons/ArrowDropDown';
+import ArrowUp from '@material-ui/icons/ArrowDropUp';
 
 const SidebarBackground = styled.div`
-    width:50px;
-    height:100px;
-    margin-top: auto;
+    padding: 10px 10px 0px;
+    height: 100%;
     background: #DADADA;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    font-size: 14px;
 `;
 
-const UpArrow = styled.div`
-    transform: rotate(90deg);
-`
-const DownArrow = styled.div`
-    transform: rotate(-90deg);
-`
-
 export const Sidebar = (props) => {
+
+    const {question} =  useContext(QuestionContext)
+
     return (
         <SidebarBackground>
-            <UpArrow>
-                <Arrow />
-            </UpArrow>
-            <DownArrow>
-                <Arrow />
-            </DownArrow>
+            <ArrowUp fontSize='large'/>
+                {question.votes}
+            <ArrowDown fontSize='large'/>
         </SidebarBackground>
     )
 }

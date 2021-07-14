@@ -17,8 +17,8 @@ const ReplyThread = styled.div`
    display: block;
    height: 100%;
    width: 80%;
-   margin-left: 23px;
-   padding-top: 5px;
+   margin-left: 15px;
+   /* padding-top: 5px; */
    margin-top: 5px;
    margin-bottom: 5px;
 `;

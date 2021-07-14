@@ -6,11 +6,14 @@ const CustomDiv = styled.div`
     flex-direction: row;
     background: #ECECEC;
     width: 100%;
-    padding: 10px; 
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 0;
 `;
 
 const QuestionContentText = styled.div`
-     font-size: 16px;
+     font-size: 14px;
 `;
 
 function QuestionContent({ question }) {

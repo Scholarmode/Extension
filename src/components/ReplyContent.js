@@ -6,11 +6,11 @@ const CustomDiv = styled.div`
     flex-direction: row;
     background: #ECECEC;
     width: auto;
-    padding-left: 15px;
+    padding-left: 10px;
 `;
 
 const QuestionContentText = styled.div`
-     font-size: 16px;
+     font-size: 14px;
 `;
 
 // const ReplyThread = styled.div`
