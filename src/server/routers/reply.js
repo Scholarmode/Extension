@@ -27,7 +27,16 @@ module.exports = {
 		Reply.findOne({ _id: req.params.id }, (err, reply) => {
 			if (err) return res.status(400).json(err);
 			if (!reply) return res.status(404).json();
-			res.json(reply);
+
+			// Fetch replies
+			Reply.find({ parentReply: reply._id })
+				.sort({ votes: -1 })
+				.exec((err, replies) => {
+					if (err) return res.status(400).json(err);
+					reply.replies = replies;
+					reply.repliesCount = replies.length;
+					res.json(reply);
+				});
 		});
 	},
 
@@ -45,9 +54,15 @@ module.exports = {
 	},
 
 	deleteOne: (req, res) => {
-		Reply.findOneAndRemove({ _id: req.params.id }, (err) => {
+		// Delete replies of the reply
+		Reply.deleteMany({ parentReply: req.params.id }, (err) => {
 			if (err) return res.status(400).json(err);
-			res.json();
+
+			// Delete the reply itself
+			Reply.findOneAndRemove({ _id: req.params.id }, (err) => {
+				if (err) return res.status(400).json(err);
+				res.json();
+			});
 		});
 	},
 

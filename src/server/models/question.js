@@ -15,9 +15,10 @@ const questionSchema = new mongoose.Schema({
 	replies: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Question',
+			ref: 'Reply',
 		},
 	],
+	repliesCount: Number,
 	reports: [String],
 	timestamp: Date,
 	title: {

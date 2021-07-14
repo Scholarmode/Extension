@@ -18,6 +18,13 @@ const replySchema = new mongoose.Schema({
 		ref: 'Reply',
 	},
 	reports: [String],
+	replies: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Reply',
+		},
+	],
+	repliesCount: Number,
 	timestamp: Date,
 	votes: Number,
 });
