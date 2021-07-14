@@ -24,15 +24,15 @@ function Question() {
                 <Sidebar />
                 <div className='questionMain'>
                     <QuestionHeader
-                        userName={question.userName}
-                        timeStamp={question.timeStamp}
-                        dateUploaded={question.dateUploaded}
-                        userImageUrl={question.userImageUrl} />
+                        userName={question.author}
+                        timeStamp={question.timestamp}
+                        dateUploaded={question.dateCreated}
+                        userImageUrl={question.author} />
                     <QuestionTitle questionTitle={question.title} />
                     <QuestionContent
-                        question={question.description}
+                        question={question.content}
                     />
-                    <QuestionFooter totalReplies={question.totalReplies} />
+                    <QuestionFooter totalReplies={question.repliesCount} />
                 </div>
             </CustomDiv>
     )
