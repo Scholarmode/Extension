@@ -52,7 +52,7 @@ module.exports = {
 			return res.json(questions);
 		});
 	},
-	
+
 	updateOne: (req, res) => {
 		Question.findOneAndUpdate(
 			{ _id: req.params.id },

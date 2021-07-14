@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Reply = require('../models/reply');
+const Question = require('../models/question');
 
 module.exports = {
 	getAll: (req, res) => {
@@ -19,7 +20,36 @@ module.exports = {
 
 		let reply = new Reply(newReplyDetails);
 		reply.save((err) => {
-			res.json(reply);
+			if (!err) {
+				// Add reply to parent reply / question
+				if (newReplyDetails.parentReply) {
+					Reply.findOne(
+						{ _id: newReplyDetails.parentReply },
+						(err, reply) => {
+							if (err) return res.status(400).json(err);
+							if (!reply) return res.status(404).json();
+
+							reply.replies.push(newReplyDetails._id);
+							reply.save((err) => {
+								res.json(reply);
+							});
+						}
+					);
+				} else if (newReplyDetails.parentQuestion) {
+					Question.findOne(
+						{ _id: newReplyDetails.parentQuestion },
+						(err, question) => {
+							if (err) return res.status(400).json(err);
+							if (!question) return res.status(404).json();
+
+							question.replies.push(newReplyDetails._id);
+							question.save((err) => {
+								res.json(question);
+							});
+						}
+					);
+				}
+			}
 		});
 	},
 

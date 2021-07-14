@@ -98,7 +98,7 @@ app.delete('/accounts/:id', accounts.deleteOne);
 // Question RESTFul endpoints
 app.get('/questions', questions.getAll);
 app.get('/questions/:id', questions.getOne);
-// app.get('/questions/author/:id', questions.getAuthorQuestions);
+app.get('/questions/author/:id', questions.getAuthorQuestions);
 app.post('/questions', questions.createOne);
 app.put('/questions/:id', questions.updateOne);
 app.delete('/questions/:id', questions.deleteOne);

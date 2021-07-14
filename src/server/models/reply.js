@@ -6,10 +6,7 @@ const replySchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Account',
 	},
-	content: {
-		type: String,
-		required: true,
-	},
+	content: String,
 	dateCreated: Date,
 	flagged: Boolean,
 	parentQuestion: {
