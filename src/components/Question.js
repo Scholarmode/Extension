@@ -4,7 +4,7 @@ import { Sidebar } from './Sidebar'
 import styled from 'styled-components';
 import QuestionContent from './QuestionContent'
 import QuestionFooter from './QuestionFooter'
-
+import React from "react";
 
 const QBlock = styled.div`
     display: flex;

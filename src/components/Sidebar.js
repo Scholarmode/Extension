@@ -1,6 +1,7 @@
 
 import Arrow from '@material-ui/icons/Forward';
 import styled from 'styled-components';
+import React from "react";
 
 const SidebarBackground = styled.div`
     width:50px;

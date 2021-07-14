@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from 'styled-components';
 import Reply from "./Reply";
+import React from "react";
 
 const CustomDiv = styled.div`
     display: flex;

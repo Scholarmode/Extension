@@ -4,6 +4,7 @@ import QuestionHeader from './QuestionHeader';
 import ReplyContent from './ReplyContent';
 import ReplyHeader from './ReplyHeader';
 import ReplyFooter from './ReplyFooter';
+import React from "react";
 
 const CustomUnorderedList = styled.ul`
     margin-left: 10px; 
