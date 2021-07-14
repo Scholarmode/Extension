@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const accountSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
+	googleId: String,
 	email: {
 		type: String,
 		required: true,
@@ -15,4 +16,3 @@ const accountSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Account', accountSchema);
-
