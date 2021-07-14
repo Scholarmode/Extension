@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const QuestionTitleText = styled.div`
-    font-size: 22px;
+    font-size: 18px;
     width: 100%;
     font-weight: bold;
 `;

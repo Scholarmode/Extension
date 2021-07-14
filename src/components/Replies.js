@@ -9,7 +9,6 @@ const CustomDiv = styled.div`
     flex-direction: row;
     background: #ECECEC;
     width: 100%;
-    padding: 10px; 
     align-items: center;
 `;
 

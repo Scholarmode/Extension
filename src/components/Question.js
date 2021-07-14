@@ -7,7 +7,7 @@ import QuestionFooter from './QuestionFooter'
 import { useContext } from 'react';
 import { QuestionContext } from './QuestionContext'
 
-const QBlock = styled.div`
+const CustomDiv = styled.div`
     display: flex;
     flex-direction:row;
 `
@@ -19,10 +19,8 @@ function Question() {
 
 
     return (
-        <div>
-                <div className='sidebar'>
-                    {/* <Sidebar /> */}
-                </div>
+            <CustomDiv>
+                <Sidebar />
                 <div className='questionMain'>
                     <QuestionHeader
                         userName={question.userName}
@@ -35,7 +33,7 @@ function Question() {
                     />
                     <QuestionFooter totalReplies={question.totalReplies} />
                 </div>
-        </div>
+            </CustomDiv>
     )
 }
 
