@@ -25,7 +25,7 @@ const replySchema = new mongoose.Schema({
 		},
 	],
 	repliesCount: Number,
-	timestamp: Date,
+	timestamp: String,
 	votes: Number,
 });
 
