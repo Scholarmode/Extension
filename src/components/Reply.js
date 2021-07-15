@@ -33,13 +33,15 @@ const Reply = (props) => {
     const comment = { ...props.comment }
     console.log(comment)
 
+    let userNameUrl = "https://material-ui.com/static/images/avatar/1.jpg";
+
     return (
         <>
             <div>
                 <li>
-                    <ReplyHeader userName={comment.userName} timeStamp={comment.timeStamp} dateUploaded={comment.dateUploaded} userImageUrl={comment.userImageUrl} />
+                    <ReplyHeader userName={comment.author} timeStamp={comment.timestamp} dateUploaded={comment.dateCreated} userImageUrl={userNameUrl} />
                     <ReplyThread >
-                        <ReplyContent reply={comment.reply} />
+                        <ReplyContent reply={comment.content} />
                         <ReplyFooter votes={2}
                             replyBoxOpen={props.replyBoxOpen}
                             setReplyBoxOpen={props.setReplyBoxOpen}
@@ -47,7 +49,7 @@ const Reply = (props) => {
                             userName={comment.userName}
                         />
                         <CustomUnorderedList>
-                            {comment.children.map(child => <Reply comment={child} replyBoxOpen={props.replyBoxOpen} setReplyBoxOpen={props.setReplyBoxOpen} setReplyUserName={props.setReplyUserName} />)}
+                            {comment.replies.map(child => <Reply comment={child} replyBoxOpen={props.replyBoxOpen} setReplyBoxOpen={props.setReplyBoxOpen} setReplyUserName={props.setReplyUserName} />)}
                         </CustomUnorderedList>
                     </ReplyThread>
                 </li>

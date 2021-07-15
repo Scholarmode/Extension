@@ -27,9 +27,9 @@ const TestDiv = styled.div`
 function Replies(props) {
 	const { question, setQuestion } = useContext(QuestionContext);
 
-	const nest = (items, id = null) =>
-		items.filter(item => item.parentReply === id)
-			.map(item => ({ ...item, children: nest(items.replies, item._id) }));
+	// const nest = (items, id = null) =>
+	// 	items.filter(item => item.parentReply === id)
+	// 		.map(item => ({ ...item, children: nest(items.replies, item._id) }));
 
 	// const nest = (items, id = null) => {
 	// 	console.log(items);
@@ -42,26 +42,26 @@ function Replies(props) {
 	const comments = question.replies;
 	console.log(`comments: ${comments}`);
 
-	const [nestedComments, setNestedComments] = useState(nest(comments));
+	const [nestedComments, setNestedComments] = useState(comments);
 
-	const Comment = (props) => (
-		<li>
-			{props.id}
-			<ul>
-				{props.children.map((child) => (
-					<Comment {...child} />
-				))}
-			</ul>
-		</li>
-	);
+	// const Comment = (props) => (
+	// 	<li>
+	// 		{props.id}
+	// 		<ul>
+	// 			{props.children.map((child) => (
+	// 				<Comment {...child} />
+	// 			))}
+	// 		</ul>
+	// 	</li>
+	// );
 
-	const List = ({ comments }) => (
-		<ul>
-			{comments.map((comment) => (
-				<Comment {...comment} />
-			))}
-		</ul>
-	);
+	// const List = ({ comments }) => (
+	// 	<ul>
+	// 		{comments.map((comment) => (
+	// 			<Comment {...comment} />
+	// 		))}
+	// 	</ul>
+	// );
 
 	return (
 		<CustomDiv>

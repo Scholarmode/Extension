@@ -17,7 +17,7 @@ const Discussion = () => {
 	const [error, setError] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
+	const url = 'http://localhost:8080/questions/60efb101458fe615aaa2786b';
 
 
 	useEffect(() => {
@@ -74,7 +74,7 @@ const Discussion = () => {
 				dateUploaded: '1 year ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
+				content: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
 			},
 			{
 				id: 2,
@@ -84,7 +84,7 @@ const Discussion = () => {
 				dateUploaded: '1 month ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
+				content: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
 			},
 			{
 				id: 3,
@@ -94,7 +94,7 @@ const Discussion = () => {
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
+				content: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
 			},
 			{
 				id: 4,
@@ -104,7 +104,7 @@ const Discussion = () => {
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
+				content: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
 			},
 			{
 				id: 5,
@@ -114,7 +114,7 @@ const Discussion = () => {
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
-				reply: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
+				content: '[{"type":"paragraph","children":[{"text":"This is editable "},{"text":"rich","bold":true},{"text":" text, "},{"text":"much","italic":true},{"text":" better than a "},{"text":"<textarea>","code":true},{"text":"!"}]},{"type":"paragraph","children":[{"text":"Since it\'s rich text"}]}]',
 			},
 		],
 	});
