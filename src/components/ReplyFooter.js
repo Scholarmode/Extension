@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useState } from 'react'
-import { ReactComponent as UpArrow } from '../assets/questionCardVoteArrow.svg'
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';

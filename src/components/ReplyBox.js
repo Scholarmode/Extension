@@ -8,8 +8,9 @@ const CustomDiv = styled.div`
   min-height: 100px;
   border: 1px solid gray;
   border-radius: 5px;
-  padding: 10px;
-  margin-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
 `;
 
 const SubmitButton = styled.button`

@@ -47,6 +47,12 @@ const ClockIcon = styled(AccessTimeIcon)`
   color: #eee;
 `;
 
+const FontBigDiv = styled.div`
+    font-size: 16px;
+`;
+
+
+
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
 const TextEditor = ({ value, setValue }) => {

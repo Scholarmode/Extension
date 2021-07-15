@@ -18,14 +18,8 @@ const CustomUnorderedList = styled.ul`
    list-style-type:none;
 `;
 
-const TestDiv = styled.div`
-    background-color: blue;
-    width: 100%;
-    height: 50px;
-`
 
-
-function Replies(props) {
+function Replies({ totalReplies, listOfReplies }) {
 
     const { question, setQuestion } = useContext(QuestionContext)
 
@@ -52,19 +46,11 @@ function Replies(props) {
         </ul>
     )
 
-
     return (
         <CustomDiv>
             <CustomUnorderedList>
                 {nestedComments.map(comment =>
-                    <>
-                        <Reply comment={comment}
-                            replyBoxOpen={props.replyBoxState}
-                            setReplyBoxOpen={props.setReplyBoxState}
-                            setReplyUserName={props.setReplyUserName}
-                        />
-
-                    </>
+                    <Reply {...comment} />
                 )}
             </CustomUnorderedList>
         </CustomDiv>
