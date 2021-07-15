@@ -20,10 +20,8 @@ passport.use(
 			clientSecret: process.env.G_CLIENT_SECRET,
 		},
 		(accessToken, refreshToken, profile, done) => {
-			console.log(accessToken);
 			Account.findOne({ googleId: profile.id }).then((currentUser) => {
 				if (currentUser) {
-					console.log(profile._json);
 					done(null, currentUser);
 				} else {
 					// Save to the account collection
@@ -116,6 +114,5 @@ app.put('/replies/:id/downvote', replies.downvote);
 
 // Google AUTH endpoints
 app.get('/auth/chrome', passport.authenticate('google-token'), (req, res) => {
-	console.log(req.params);
 	res.json(req.user);
 });
