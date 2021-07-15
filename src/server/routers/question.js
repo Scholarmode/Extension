@@ -20,6 +20,9 @@ module.exports = {
 
 		let question = new Question(newQuestionDetails);
 		question.save((err) => {
+			console.log(req.body);
+			console.log(err);
+			if (err) return res.status(400).json(err);
 			res.json(question);
 		});
 	},

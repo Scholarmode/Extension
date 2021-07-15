@@ -1,20 +1,21 @@
+
 import styled from 'styled-components'
 import React from "react";
 import ReplyContent from './ReplyContent';
 
 const CustomDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    background: #ECECEC;
-    flex:1;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 0;
+	display: flex;
+	flex-direction: row;
+	background: #ececec;
+	flex: 1;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 0;
 `;
 
 const QuestionContentText = styled.div`
-     font-size: 14px;
+	font-size: 14px;
 `;
 
 function QuestionContent({ question }) {
@@ -29,4 +30,4 @@ function QuestionContent({ question }) {
     )
 }
 
-export default QuestionContent
+export default QuestionContent;
