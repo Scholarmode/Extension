@@ -22,19 +22,6 @@ const getProfileInfo = (token) => {
 };
 
 const renderProfile = (info) => {
-<<<<<<< HEAD
-	console.log(info);
-	// Add total votes to header
-	let votesDiv = document.createElement('div');
-	votesDiv.id = 'votes';
-	let votes = document.createElement('span');
-	votes.id = 'votes-num';
-	votes.innerHTML = '+236 ';
-	votesDiv.appendChild(votes);
-	let text = document.createTextNode('VOTES');
-	votesDiv.appendChild(text);
-	header.appendChild(votesDiv);
-=======
   console.log(info)
   // Add total votes to header
   let votesDiv = document.createElement('div')
@@ -47,7 +34,6 @@ const renderProfile = (info) => {
   let text = document.createTextNode('VOTES')
   votesDiv.appendChild(text)
   header.appendChild(votesDiv)
->>>>>>> main
 
 	// Render welcome message
 	let welcome = document.createElement('div');
