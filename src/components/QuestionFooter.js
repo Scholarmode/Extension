@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Replies from './Replies.js'
 import ReplyBox from './ReplyBox.js';
 import React from "react";
+import ReplyBoxHeader from "./ReplyBoxHeader.js"
 
 const CustomDiv = styled.div`
     display: flex;
@@ -83,6 +84,11 @@ function QuestionFooter({ totalReplies }) {
         setReplyBoxOpen(!isReplyBoxOpen)
     }
 
+    const [replyBoxState, setReplyBoxState] = useState(false)
+
+    // State for UserName
+    const [replyUserName, setReplyUserName] = useState("")
+
     return (
         <div>
             <CustomDiv>
@@ -99,7 +105,21 @@ function QuestionFooter({ totalReplies }) {
                 <OptionsMenu fontSize="large" />
             </CustomDiv>
             {isReplyBoxOpen && <ReplyBox />}
-            {isReplyOpen && <Replies />}
+            {replyBoxState &&
+                <>
+                    <ReplyBoxHeader userName={replyUserName} />
+                    <ReplyBox />
+                </>
+            }
+            {isReplyOpen &&
+                <Replies
+                    replyBoxState={replyBoxState}
+                    setReplyBoxState={setReplyBoxState}
+                    replyUserName={replyUserName}
+                    setReplyUserName={setReplyUserName}
+                />
+
+            }
         </div>
     )
 }

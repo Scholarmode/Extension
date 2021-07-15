@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-	author: String,
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Account',
+	},
 	content: {
 		type: String,
 		required: true,
@@ -20,7 +23,7 @@ const questionSchema = new mongoose.Schema({
 	],
 	repliesCount: Number,
 	reports: [String],
-	timestamp: Date,
+	timestamp: String,
 	title: {
 		type: String,
 		required: true,

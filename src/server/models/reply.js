@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const replySchema = new mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-	author: String,
-	content: {
-		type: String,
-		required: true,
+	author: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Account',
 	},
+	content: String,
 	dateCreated: Date,
 	flagged: Boolean,
 	parentQuestion: {
@@ -25,7 +25,7 @@ const replySchema = new mongoose.Schema({
 		},
 	],
 	repliesCount: Number,
-	timestamp: Date,
+	timestamp: String,
 	votes: Number,
 });
 
