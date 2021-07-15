@@ -27,17 +27,17 @@ const TestDiv = styled.div`
 function Replies(props) {
 	const { question, setQuestion } = useContext(QuestionContext);
 
-	// const nest = (items, id = null) =>
-	//     items.filter(item => item.parent_id === id)
-	//         .map(item => ({ ...item, children: nest(items, item.id) }));
+	const nest = (items, id = null) =>
+		items.filter(item => item.parentReply === id)
+			.map(item => ({ ...item, children: nest(items.replies, item._id) }));
 
-	const nest = (items, id = null) => {
-		console.log(items);
-		console.log(id);
-		items
-			.filter((item) => item.parentReply === id)
-			.map((item) => ({ ...item, children: nest(items, item.id) }));
-	};
+	// const nest = (items, id = null) => {
+	// 	console.log(items);
+	// 	console.log(id);
+	// 	items
+	// 		.filter((item) => item.parentReply === id)
+	// 		.map((item) => ({ ...item, children: nest(items, item.id) }));
+	// };
 
 	const comments = question.replies;
 	console.log(`comments: ${comments}`);
