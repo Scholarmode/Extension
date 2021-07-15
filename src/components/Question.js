@@ -7,6 +7,7 @@ import QuestionFooter from './QuestionFooter';
 
 import { useContext } from 'react';
 import { QuestionContext } from './QuestionContext';
+import moment from 'moment';
 
 const CustomDiv = styled.div`
 	display: flex;
@@ -15,7 +16,6 @@ const CustomDiv = styled.div`
 
 function Question() {
 	const { question, setQuestion } = useContext(QuestionContext);
-	console.log('Replies count', question.replies.length);
 	return (
 		<CustomDiv>
 			<Sidebar />
@@ -23,7 +23,7 @@ function Question() {
 				<QuestionHeader
 					userName={question.author.given_name}
 					timeStamp={question.timestamp}
-					dateUploaded={question.dateCreated}
+					dateUploaded={moment(question.dateCreated).fromNow()}
 					userImageUrl={question.author.picture}
 				/>
 				<QuestionTitle questionTitle={question.title} />
