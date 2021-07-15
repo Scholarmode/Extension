@@ -23,7 +23,7 @@ const questionSchema = new mongoose.Schema({
 	],
 	repliesCount: Number,
 	reports: [String],
-	timestamp: Date,
+	timestamp: String,
 	title: {
 		type: String,
 		required: true,
