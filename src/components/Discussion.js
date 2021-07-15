@@ -54,7 +54,7 @@ const Discussion = () => {
 		userImageUrl: 'https://material-ui.com/static/images/avatar/2.jpg',
 		totalReplies: 5,
 		title: 'Why is the squareroot of pi an odd number?',
-		description:
+		content:
 			'So pi has a value of 3.14... but what about the square root? Do decimal places count? Like how about 1.5 is that even or odd.',
 		replies: [
 			{
