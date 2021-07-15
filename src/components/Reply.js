@@ -39,14 +39,14 @@ const Reply = (props) => {
         <>
             <div>
                 <li>
-                    <ReplyHeader userName={comment.author} timeStamp={comment.timestamp} dateUploaded={comment.dateCreated} userImageUrl={userNameUrl} />
+                    <ReplyHeader userName={comment.author.given_name} timeStamp={comment.timestamp} dateUploaded={comment.dateCreated} userImageUrl={comment.author.picture} />
                     <ReplyThread >
                         <ReplyContent reply={comment.content} />
                         <ReplyFooter votes={2}
                             replyBoxOpen={props.replyBoxOpen}
                             setReplyBoxOpen={props.setReplyBoxOpen}
                             setReplyUserName={props.setReplyUserName}
-                            userName={comment.userName}
+                            userName={comment.author.given_name}
                         />
                         <CustomUnorderedList>
                             {comment.replies.map(child => <Reply comment={child} replyBoxOpen={props.replyBoxOpen} setReplyBoxOpen={props.setReplyBoxOpen} setReplyUserName={props.setReplyUserName} />)}
