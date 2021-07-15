@@ -17,8 +17,8 @@ const Discussion = () => {
 	const [error, setError] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	// const url = 'http://localhost:8080/questions/60efb101458fe615aaa2786b';
-	const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
+	const url = 'http://localhost:8080/questions/60efb101458fe615aaa2786b';
+	// const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
 	// const url = 'http://localhost:8080/questions/author/60eec4b4ca5eb79cc28d3e94';
 
 
