@@ -17,7 +17,7 @@ const Discussion = () => {
 	const [error, setError] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	const url = 'http://localhost:8080/questions/60efb101458fe615aaa2786b';
+	const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
 
 
 	useEffect(() => {
@@ -62,8 +62,8 @@ const Discussion = () => {
 		userImageUrl: 'https://material-ui.com/static/images/avatar/2.jpg',
 		totalReplies: 5,
 		title: 'Why is the squareroot of pi an odd number?',
-		description:
-			'So pi has a value of 3.14... but what about the square root? Do decimal places count? Like how about 1.5 is that even or odd.',
+		content:
+			"[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text, you can do things like turn a selection of text \"},{\"text\":\"bold\",\"bold\":true},{\"text\":\", or add a semantically rendered block quote in the middle of the page, like this:\"}]},{\"type\":\"block-quote\",\"children\":[{\"text\":\"A wise quote.\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Try it out for yourself!\"}]}]",
 		replies: [
 			{
 				id: 1,
