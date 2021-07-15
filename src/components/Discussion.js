@@ -56,7 +56,7 @@ const Discussion = () => {
 		title: 'Why is the squareroot of pi an odd number?',
 		description:
 			'So pi has a value of 3.14... but what about the square root? Do decimal places count? Like how about 1.5 is that even or odd.',
-		comments: [
+		replies: [
 			{
 				id: 1,
 				parent_id: null,
