@@ -14,24 +14,26 @@ const CustomDiv = styled.div`
 `;
 
 function Question() {
-	const { question, setQuestion } = useContext(QuestionContext);
-
-	return (
-		<CustomDiv>
-			<Sidebar />
-			<div className="questionMain">
-				<QuestionHeader
-					userName={question.author.given_name}
-					timeStamp={question.timestamp}
-					dateUploaded={question.dateCreated}
-					userImageUrl={question.author.picture}
-				/>
-				<QuestionTitle questionTitle={question.title} />
-				<QuestionContent question={question.content} />
-				<QuestionFooter totalReplies={4} />
-			</div>
-		</CustomDiv>
-	);
+    const { question, setQuestion } = useContext(QuestionContext);
+    console.log("Question 1 Content: " + question.content)
+    return (
+        <CustomDiv>
+            <Sidebar />
+            <div className="questionMain">
+                <QuestionHeader
+                    userName={question.author.given_name}
+                    timeStamp={question.timestamp}
+                    dateUploaded={question.dateCreated}
+                    userImageUrl={question.author.picture}
+                />
+                <QuestionTitle questionTitle={question.title} />
+                <QuestionContent question={question.content} />
+                <QuestionFooter totalReplies={4} />
+            </div>
+        </CustomDiv>
+    );
 }
 
 export default Question;
+
+
