@@ -61,7 +61,7 @@ const Discussion = () => {
 		},
 		userName: 'Ansh',
 		votes: 24,
-		timeStamp: '15:21',
+		timestamp: '15:21',
 		dateUploaded: '3 months ago',
 		userImageUrl: 'https://material-ui.com/static/images/avatar/2.jpg',
 		totalReplies: 5,
@@ -74,7 +74,7 @@ const Discussion = () => {
 				id: 1,
 				parent_id: null,
 				userName: 'exbus67',
-				timeStamp: '47:21',
+				timestamp: '47:21',
 				dateUploaded: '1 year ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
@@ -84,7 +84,7 @@ const Discussion = () => {
 				id: 2,
 				parent_id: 1,
 				userName: 'Random',
-				timeStamp: '6:21',
+				timestamp: '6:21',
 				dateUploaded: '1 month ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
@@ -94,7 +94,7 @@ const Discussion = () => {
 				id: 3,
 				parent_id: 1,
 				userName: 'Random',
-				timeStamp: '15:21',
+				timestamp: '15:21',
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
@@ -104,7 +104,7 @@ const Discussion = () => {
 				id: 4,
 				parent_id: 2,
 				userName: 'Random',
-				timeStamp: '15:21',
+				timestamp: '15:21',
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
@@ -114,7 +114,7 @@ const Discussion = () => {
 				id: 5,
 				parent_id: null,
 				userName: 'Random name 4',
-				timeStamp: '15:21',
+				timestamp: '15:21',
 				dateUploaded: '3 months ago',
 				userImageUrl:
 					'https://material-ui.com/static/images/avatar/1.jpg',
