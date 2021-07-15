@@ -3,7 +3,15 @@ import Question from './Question';
 import { QuestionContext } from './QuestionContext';
 import { useEffect } from 'react';
 import AskQuestionButton from './AskQuestionButton';
+import styled from 'styled-components';
 import ReplyBox from './ReplyBox';
+import TitleInput from './TitleInput';
+
+const CustomDiv = styled.div`
+	margin: 10px;
+	margin-top: 0px;
+	margin-left: 0px;
+`;
 
 const Discussion = () => {
 	const [error, setError] = useState(null);
@@ -112,10 +120,17 @@ const Discussion = () => {
 
 	const [askButtonState, setAskButtonState] = useState(false)
 
+	const [title, setTitle] = useState("")
+
 	return (
 		<QuestionContext.Provider value={{ question, setQuestion }}>
 			<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />
-			{askButtonState && <ReplyBox />}
+			{askButtonState &&
+				<CustomDiv>
+					<TitleInput title={title} setTitle={setTitle} />
+					<ReplyBox />
+				</CustomDiv>
+			}
 			<Question />
 		</QuestionContext.Provider>
 	);
