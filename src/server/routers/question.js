@@ -38,11 +38,22 @@ module.exports = {
 	},
 
 	getAuthorQuestions: (req, res) => {
-		Question.find({ author: req.params.id }, (err, questions) => {
-			if (err) return res.status(400).json(err);
-			if (!questions) return res.status(404).json();
-			return res.json(questions);
-		});
+		// Question.find({ author: req.params.id }, (err, questions) => {
+		// 	if (err) return res.status(400).json(err);
+		// 	if (!questions) return res.status(404).json();
+		// 	return res.json(questions);
+		// });
+		Question.find({ author: req.params.id })
+			.populate('author')
+			.populate({
+				path: 'replies',
+				populate: { path: 'replies' },
+			})
+			.exec((err, questions) => {
+				if (err) return res.status(400).json(err);
+				if (!questions) return res.status(404).json();
+				return res.json(questions);
+			});
 	},
 
 	updateOne: (req, res) => {

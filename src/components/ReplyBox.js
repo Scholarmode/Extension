@@ -58,7 +58,7 @@ function ReplyBox() {
 			getProfileInfo(result.token).then((info) => {
 				const reqBody = {
 					author: info._id,
-					content: JSON.stringify(newValue),
+					content: newValue,
 					dateCreated: new Date(),
 					flagged: false,
 					replies: [],
