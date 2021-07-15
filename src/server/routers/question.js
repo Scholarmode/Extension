@@ -30,7 +30,16 @@ module.exports = {
 	getOne: (req, res) => {
 		Question.findOne({ _id: req.params.id })
 			.populate('author')
-			.populate({ path: 'replies', populate: { path: 'replies' } })
+			.populate({
+				path: 'replies',
+				populate: [
+					{ path: 'author' },
+					{
+						path: 'replies',
+						populate: [{ path: 'author' }, { path: 'replies' }],
+					},
+				],
+			})
 			.exec((err, question) => {
 				if (err) return res.status(400).json(err);
 				res.json(question);
@@ -47,7 +56,7 @@ module.exports = {
 			.populate('author')
 			.populate({
 				path: 'replies',
-				populate: { path: 'replies' },
+				populate: [{ path: 'replies' }],
 			})
 			.exec((err, questions) => {
 				if (err) return res.status(400).json(err);
