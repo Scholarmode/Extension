@@ -28,7 +28,7 @@ function Question() {
 				/>
 				<QuestionTitle questionTitle={question.title} />
 				<QuestionContent question={question.content} />
-				<QuestionFooter totalReplies={question.content} />
+				<QuestionFooter totalReplies={4} />
 			</div>
 		</CustomDiv>
 	);
