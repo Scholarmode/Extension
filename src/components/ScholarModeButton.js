@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components';
 import { ReactComponent as WhiteHat } from '../assets/scholarHatWhite.svg';
 import React from "react";
@@ -78,14 +78,19 @@ const ButtonCircle = styled.div`
   }
 `;
 
-
 export default function ScholarModeButton() {
 
     const [active, setActive] = useState(false)
 
+    useEffect(() => {
+        setActive(localStorage.getItem('activated'))
+    }, [])
 
     return (
-        <div className='scholarmode' onClick={() => setActive(!active)}>
+        <div className='scholarmode' onClick={() => {
+            active ? localStorage.setItem('active', 'true') : localStorage.setItem('active', 'false')
+            setActive(!active)
+            }}>
             <ButtonBackground className={active ? "active" : "deactivate"}>
                 <ButtonCircle className={active ? "active" : "deactivate"}>
                     <WhiteHat />

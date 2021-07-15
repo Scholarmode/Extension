@@ -24,6 +24,7 @@ else if (
   console.log('scholarmode not rendered')
 }
 
+
 //render ScholarMode
 ReactDOM.render(
   <React.StrictMode>
@@ -32,10 +33,46 @@ ReactDOM.render(
   document.getElementById('insertion-point')
 )
 
-//render Q&A section
+let activated = localStorage.getItem('active')
+
+if(activated){console.log('this is the beginning....')}
+
+//find and store recommended videos in localStorage
+if (document.getElementById('secondary-inner')){
+  var recommendedVideos = document.getElementById('secondary-inner')
+  console.log(recommendedVideos)
+  localStorage.setItem('recommendedvideos', document.getElementById('secondary-inner').innerHTML )
+}else{
+  console.log(
+    'no videos here'
+  );
+}
+
+
+document.getElementById('insertion-point').addEventListener('click', () => {
+  activated = !activated
+  console.log(activated)
+})
+
+
+//render Q&A section when we've retrieved the videos
+if (recommendedVideos && activated){
 ReactDOM.render(
   <React.StrictMode>
     <Discussion />
   </React.StrictMode>,
-  document.getElementById('secondary')
-)
+  document.getElementById('secondary'))
+}else{
+  // render videos 
+}
+
+// render videos
+if (recommendedVideos && !activated){
+  var tpl = document.createElement('template');
+  tpl.innerHTML = recommendedVideos;
+  document.getElementById('secondary').appendChild(tpl.content);
+
+  console.log(tpl)
+
+  // while(document.getElementById('secondary').firstChild){Element.appendChild(document.getElementById('secondary').firstChild)}
+}
