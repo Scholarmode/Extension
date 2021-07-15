@@ -83,7 +83,7 @@ export default function ScholarModeButton() {
     const [active, setActive] = useState(false)
 
     useEffect(() => {
-        setActive(localStorage.getItem('activated'))
+        setActive(localStorage.getItem('active'))
     }, [])
 
     return (
