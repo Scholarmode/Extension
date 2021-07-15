@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Question from './Question';
 import { QuestionContext } from './QuestionContext';
 import { useEffect } from 'react';
+import AskQuestionButton from './AskQuestionButton';
+import ReplyBox from './ReplyBox';
 
 const Discussion = () => {
 	const [error, setError] = useState(null);
@@ -108,8 +110,12 @@ const Discussion = () => {
 		],
 	});
 
+	const [askButtonState, setAskButtonState] = useState(false)
+
 	return (
 		<QuestionContext.Provider value={{ question, setQuestion }}>
+			<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />
+			{askButtonState && <ReplyBox />}
 			<Question />
 		</QuestionContext.Provider>
 	);
