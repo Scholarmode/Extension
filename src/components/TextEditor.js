@@ -47,10 +47,16 @@ const ClockIcon = styled(AccessTimeIcon)`
   color: #eee;
 `;
 
+const FontBigDiv = styled.div`
+    font-size: 16px;
+`;
+
+
+
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const TextEditor = () => {
-    const [value, setValue] = useState(initialValue);
+const TextEditor = ({ value, setValue }) => {
+    // const [value, setValue] = useState(initialValue);
     const renderElement = useCallback((props) => <Element {...props} />, []);
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);

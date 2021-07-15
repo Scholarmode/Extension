@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import styled, { keyframes } from 'styled-components';
-import { ReactComponent as WhiteHat } from '../assets/scholarHatWhite.svg';
-import React from "react";
-
+/* global chrome */
+import { useState, useEffect } from 'react'
+import styled, { keyframes } from 'styled-components'
+import { ReactComponent as WhiteHat } from '../assets/scholarHatWhite.svg'
+import React from 'react'
 
 const activateBackground = keyframes`
     from{
@@ -11,7 +11,7 @@ const activateBackground = keyframes`
     to{
         background: #ff0000;
     }
-`;
+`
 
 const deactivateBackground = keyframes`
     from{
@@ -20,7 +20,7 @@ const deactivateBackground = keyframes`
     to{
         background: white;
     }
-`;
+`
 
 const ButtonBackground = styled.div`
   background: white;
@@ -33,13 +33,13 @@ const ButtonBackground = styled.div`
   display: flex;
   align-items: center;
 
-  &.active{
-      animation: ${activateBackground} 0.2s ease-in-out forwards;
+  &.active {
+    animation: ${activateBackground} 0.2s ease-in-out forwards;
   }
-  &.deactivate{
+  &.deactivate {
     animation: ${deactivateBackground} 0.2s ease-in-out forwards;
   }
-`;
+`
 
 const activateCircle = keyframes`
     from{
@@ -48,7 +48,7 @@ const activateCircle = keyframes`
     to{
         transform: translateX(38px)
     }
-`;
+`
 
 const deactivateCircle = keyframes`
     from{
@@ -57,7 +57,7 @@ const deactivateCircle = keyframes`
     to{
         transform: translateX(0px)
     }
-`;
+`
 
 const ButtonCircle = styled.div`
   height: 27px;
@@ -69,29 +69,39 @@ const ButtonCircle = styled.div`
   margin-left: 2px;
   border-radius: 50%;
 
-  &.active{
+  &.active {
     animation: ${activateCircle} 0.2s ease-in forwards;
   }
 
-  &.deactivate{
+  &.deactivate {
     animation: ${deactivateCircle} 0.2s ease-in forwards;
   }
-`;
-
+`
 
 export default function ScholarModeButton() {
+  const [active, setActive] = useState(false)
 
-    const [active, setActive] = useState(false)
+  useEffect(() => {
+    chrome.storage.sync.get(['active'], (result) => {
+      setActive(result.active)
+    })
+  }, [])
 
-
-    return (
-        <div className='scholarmode' onClick={() => setActive(!active)}>
-            <ButtonBackground className={active ? "active" : "deactivate"}>
-                <ButtonCircle className={active ? "active" : "deactivate"}>
-                    <WhiteHat />
-                </ButtonCircle>
-            </ButtonBackground>
-        </div>
-    )
-
+  return (
+    <div
+      className="scholarmode"
+      onClick={() => {
+        active
+          ? chrome.storage.sync.set({ active: false })
+          : chrome.storage.sync.set({ active: true })
+        setActive(!active)
+      }}
+    >
+      <ButtonBackground className={active ? 'active' : 'deactivate'}>
+        <ButtonCircle className={active ? 'active' : 'deactivate'}>
+          <WhiteHat />
+        </ButtonCircle>
+      </ButtonBackground>
+    </div>
+  )
 }

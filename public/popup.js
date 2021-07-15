@@ -1,25 +1,25 @@
 /* global chrome */
-let header = document.getElementsByTagName('header')[0]
-let main = document.getElementById('main')
+let header = document.getElementsByTagName('header')[0];
+let main = document.getElementById('main');
 
 chrome.storage.sync.get(['token'], async (result) => {
-  if (result.token === 'undefined') {
-    renderLogin()
-  } else {
-    getProfileInfo(result.token).then((info) => renderProfile(info))
-  }
-})
+	if (result.token === 'undefined') {
+		renderLogin();
+	} else {
+		getProfileInfo(result.token).then((info) => renderProfile(info));
+	}
+});
 
 const renderLogin = () => {
-  let button = document.createElement('button')
-  button.innerHTML = 'Sign In'
-  main.appendChild(button)
-}
+	let button = document.createElement('button');
+	button.innerHTML = 'Sign In';
+	main.appendChild(button);
+};
 
 const getProfileInfo = (token) => {
-  const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${token}`
-  return fetch(url).then((response) => response.json())
-}
+  const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+	return fetch(url).then((response) => response.json());
+};
 
 const renderProfile = (info) => {
   console.log(info)
@@ -35,15 +35,15 @@ const renderProfile = (info) => {
   votesDiv.appendChild(text)
   header.appendChild(votesDiv)
 
-  // Render welcome message
-  let welcome = document.createElement('div')
-  let h1 = document.createElement('h1')
-  h1.innerHTML = 'Welcome ' + info.given_name + '.'
-  let message = document.createElement('p')
-  message.innerHTML = "Here's a summary of what you've been up to lately..."
-  welcome.appendChild(h1)
-  welcome.appendChild(message)
-  main.appendChild(welcome)
+	// Render welcome message
+	let welcome = document.createElement('div');
+	let h1 = document.createElement('h1');
+	h1.innerHTML = 'Welcome ' + info.given_name + '.';
+	let message = document.createElement('p');
+	message.innerHTML = "Here's a summary of what you've been up to lately...";
+	welcome.appendChild(h1);
+	welcome.appendChild(message);
+	main.appendChild(welcome);
 
   // Render user's stats
   let stats = document.createElement('div')
