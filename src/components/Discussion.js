@@ -17,13 +17,9 @@ const Discussion = () => {
 	const [error, setError] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-<<<<<<< HEAD
 	// const url = 'http://localhost:8080/questions/60efb101458fe615aaa2786b';
 	const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
 	// const url = 'http://localhost:8080/questions/author/60eec4b4ca5eb79cc28d3e94';
-=======
-	const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
->>>>>>> ae43b3a6c68ff2042f0ded8b411346ab7be698d0
 
 
 	useEffect(() => {
