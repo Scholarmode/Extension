@@ -10,10 +10,9 @@ const QuestionTitleText = styled.div`
 const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
+    flex: 1;
     background: #ECECEC;
-    width: 100%;
-    padding: 10px; 
-    padding-bottom: 0px;
+    padding: 0px 10px; 
 `;
 
 function QuestionTitle({ questionTitle }) {

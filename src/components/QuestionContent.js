@@ -5,7 +5,7 @@ const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
     background: #ECECEC;
-    width: 100%;
+    flex:1;
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
