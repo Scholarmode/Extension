@@ -67,7 +67,7 @@ const Discussion = () => {
 		totalReplies: 5,
 		title: 'Why is the squareroot of pi an odd number?',
 		content:
-			"[{\"type\":\"paragraph\",\"children\":[{\"text\":\"This is editable \"},{\"text\":\"rich\",\"bold\":true},{\"text\":\" text, \"},{\"text\":\"much\",\"italic\":true},{\"text\":\" better than a \"},{\"text\":\"<textarea>\",\"code\":true},{\"text\":\"!\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Since it's rich text, you can do things like turn a selection of text \"},{\"text\":\"bold\",\"bold\":true},{\"text\":\", or add a semantically rendered block quote in the middle of the page, like this:\"}]},{\"type\":\"block-quote\",\"children\":[{\"text\":\"A wise quote.\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"Try it out for yourself!\"}]}]",
+			"[{\"type\":\"paragraph\",\"children\":[{\"text\":\"I'm trying to find a way to  \"},{\"text\":\"verify if a user has logged in\",\"underline\":true},{\"text\":\" and then return their account data. What's the  \"},{\"text\":\"easiest\",\"italic\":true},{\"text\":\"  and  \"},{\"text\":\"safest\",\"bold\":true},{\"text\":\"  way to use authentication?\"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"so far I believe I can follow the following steps: \"}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]},{\"type\":\"bulleted - list\",\"children\":[{\"type\":\"list - item\",\"children\":[{\"text\":\"Request an access token from Google using OAuth2\"}]},{\"type\":\"list - item\",\"children\":[{\"text\":\"Pass the token to Passport JS to authenticate\"}]},{\"type\":\"list - item\",\"children\":[{\"text\":\"If a user does not exist in the DB, register them.Else, return their user profile\",\"code\":true}]}]},{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]",
 
 		replies: [
 			{
@@ -129,14 +129,15 @@ const Discussion = () => {
 
 	return (
 		<QuestionContext.Provider value={{ question, setQuestion }}>
-			<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />
+			{question != null &&
+				<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />}
 			{askButtonState &&
 				<CustomDiv>
 					<TitleInput title={title} setTitle={setTitle} />
 					<ReplyBox />
 				</CustomDiv>
 			}
-			<Question />
+			{question != null && <Question />}
 		</QuestionContext.Provider>
 	);
 };
