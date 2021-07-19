@@ -1,7 +1,7 @@
 # ScholarMode
 A learning platform for YouTube
 
-We've created a chrome-extension that enables students to ask and answer questions right next to the video.
+We've created a chrome-extension that enables students to ask and answer questions right on Youtube.
 
 ## Tech stack
 The extension is built with the MERN stack
