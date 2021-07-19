@@ -69,11 +69,11 @@ export const Sidebar = () => {
                     : 
                     <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#3aa1f2', }} onClick={updateVotes} />
             }
-                {question.votes}
+                {totalVotes}
             {
                 downClickable ? 
                     <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: '#909090' }} onClick={updateDownVotes} />
-                : 
+                    : 
                     <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: 'red' }} onClick={updateDownVotes} />
             }
         </SidebarBackground>
