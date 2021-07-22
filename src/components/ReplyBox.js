@@ -42,100 +42,111 @@ const ButtonDiv = styled.div`
 `;
 
 const getProfileInfo = (token) => {
-    const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
-    return fetch(url).then((response) => response.json());
+	const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+	return fetch(url).then((response) => response.json());
 };
+
+const linkifyYouTubeURLs = (text) => {
+	const re =
+		/https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
+	return text.replace(re, '$1');
+};
+
 function ReplyBox() {
-    const [textValue, setTextValue] = useState(initialValue);
+	const [textValue, setTextValue] = useState(initialValue);
 
-    const storeValue = () => {
-        const newValue = JSON.stringify(textValue);
-        console.log(newValue);
-        console.log('Hey String Here');
-        console.log(JSON.stringify(newValue));
+	const storeValue = () => {
+		const newValue = JSON.stringify(textValue);
+		console.log(newValue);
+		console.log('Hey String Here');
+		console.log(JSON.stringify(newValue));
 
-        chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                const reqBody = {
-                    author: info._id,
-                    content: newValue,
-                    dateCreated: new Date(),
-                    flagged: false,
-                    replies: [],
-                    reports: [],
-                    timestamp: new Date(),
-                    title: 'Title',
-                    video: 'Video',
-                    votes: 0,
-                };
+		chrome.storage.sync.get(['token'], async (result) => {
+			getProfileInfo(result.token).then((info) => {
+				const reqBody = {
+					author: info._id,
+					content: newValue,
+					dateCreated: new Date(),
+					flagged: false,
+					replies: [],
+					reports: [],
+					timestamp: new Date(),
+					title: 'Title',
+					video: linkifyYouTubeURLs(window.location.href),
+					votes: 0,
+				};
 
-                fetch('http://localhost:8080/questions/', {
-                    method: 'post',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(reqBody),
-                })
-                    .then((response) => response.json)
-                    .then((data) => { })
-                    .catch((err) => console.log('Request failed', err));
-            });
-        });
-    };
+				fetch('http://localhost:8080/questions/', {
+					method: 'post',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(reqBody),
+				})
+					.then((response) => response.json)
+					.then((data) => {})
+					.catch((err) => console.log('Request failed', err));
+			});
+		});
+	};
 
-    const serialize = (value) => {
-        return (
-            value
-                // Return the string content of each paragraph in the value's children.
-                .map((n) => Node.string(n))
-                // Join them all with line breaks denoting paragraphs.
-                .join('\n')
-        );
-    };
+	const serialize = (value) => {
+		return (
+			value
+				// Return the string content of each paragraph in the value's children.
+				.map((n) => Node.string(n))
+				// Join them all with line breaks denoting paragraphs.
+				.join('\n')
+		);
+	};
 
-    return (
-        <div>
-            <CustomDiv>
-                <TextEditor value={textValue} setValue={setTextValue} />
-                <ButtonDiv>
-                    <SubmitButton onClick={storeValue}>Submit</SubmitButton>
-                    <CancelButton>Cancel</CancelButton>
-                </ButtonDiv>
-            </CustomDiv>
-        </div>
-    );
+	return (
+		<div>
+			<CustomDiv>
+				<TextEditor value={textValue} setValue={setTextValue} />
+				<ButtonDiv>
+					<SubmitButton onClick={storeValue}>Submit</SubmitButton>
+					<CancelButton>Cancel</CancelButton>
+				</ButtonDiv>
+			</CustomDiv>
+		</div>
+	);
 }
 
 const initialValue = [
-    {
-        type: 'paragraph',
-        children: [
-            { text: 'This is editable ' },
-            { text: 'rich', bold: true },
-            { text: ' text, ' },
-            { text: 'much', italic: true },
-            { text: ' better than a ' },
-            { text: '<textarea>', code: true },
-            { text: '!' },
-        ],
-    },
-    {
-        type: 'paragraph',
-        children: [
-            {
-                text: "Since it's rich text, you can do things like turn a selection of text ",
-            },
-            { text: 'bold', bold: true },
-            {
-                text: ', or add a semantically rendered block quote in the middle of the page, like this:',
-            },
-        ],
-    },
-    {
-        type: 'block-quote',
-        children: [{ text: 'A wise quote.' }],
-    },
+	{
+		type: 'paragraph',
+		children: [
+			{ text: 'This is editable ' },
+			{ text: 'rich', bold: true },
+			{ text: ' text, ' },
+			{ text: 'much', italic: true },
+			{ text: ' better than a ' },
+			{ text: '<textarea>', code: true },
+			{ text: '!' },
+		],
+	},
+	{
+		type: 'paragraph',
+		children: [
+			{
+				text: "Since it's rich text, you can do things like turn a selection of text ",
+			},
+			{ text: 'bold', bold: true },
+			{
+				text: ', or add a semantically rendered block quote in the middle of the page, like this:',
+			},
+		],
+	},
+	{
+		type: 'block-quote',
+		children: [{ text: 'A wise quote.' }],
+	},
+	{
+		type: 'paragraph',
+		children: [{ text: 'Try it out for yourself!' }],
+	},
 ];
 
 export default ReplyBox;
