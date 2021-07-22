@@ -61,6 +61,25 @@ const TextEditor = ({ value, setValue }) => {
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
+    function removeYoutubeHotkeys(){    
+        var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        if(x){
+             var clone = x.cloneNode(false)
+            x.parentNode.replaceChild(clone,x)
+            clone.parentNode.removeChild(clone)         
+        }
+    }
+
+    
+    
+    function addYouTubeHotkeys(){
+        let hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        let hotkeysParent = hotkeys?hotkeys.parentNode:false;
+            if(hotkeysParent){
+                hotkeysParent.appendChild(hotkeys);
+            }
+    }
+
     return (
         <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
             <Toolbar>
@@ -80,6 +99,8 @@ const TextEditor = ({ value, setValue }) => {
                 placeholder="Enter some rich text…"
                 spellCheck
                 autoFocus
+                onFocus={() => {removeYoutubeHotkeys()}}
+                onBlur={() => {addYouTubeHotkeys()}}
                 onKeyDown={(event) => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event)) {
@@ -227,41 +248,6 @@ const MarkButton = ({ format, icon }) => {
     );
 };
 
-const initialValue = [
-    {
-        type: "paragraph",
-        children: [
-            { text: "This is editable " },
-            { text: "rich", bold: true },
-            { text: " text, " },
-            { text: "much", italic: true },
-            { text: " better than a " },
-            { text: "<textarea>", code: true },
-            { text: "!" }
-        ]
-    },
-    {
-        type: "paragraph",
-        children: [
-            {
-                text:
-                    "Since it's rich text, you can do things like turn a selection of text "
-            },
-            { text: "bold", bold: true },
-            {
-                text:
-                    ", or add a semantically rendered block quote in the middle of the page, like this:"
-            }
-        ]
-    },
-    {
-        type: "block-quote",
-        children: [{ text: "A wise quote." }]
-    },
-    {
-        type: "paragraph",
-        children: [{ text: "Try it out for yourself!" }]
-    }
-];
+const initialValue = [];
 
 export default TextEditor;
