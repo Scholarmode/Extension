@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import isHotkey from "is-hotkey";
 import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { Editor, Transforms, createEditor } from "slate";
@@ -61,24 +61,35 @@ const TextEditor = ({ value, setValue }) => {
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
-    function removeYoutubeHotkeys(){    
-        var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
-        if(x){
-             var clone = x.cloneNode(false)
-            x.parentNode.replaceChild(clone,x)
-            clone.parentNode.removeChild(clone)         
-        }
+    const [focus, setFocus] = useState(false)
+    
+    
+    var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+    var hotkeysParent = hotkeys?hotkeys.parentNode:false;
+
+    function addYouTubeHotkeys(){
+        if(hotkeysParent)
+        hotkeysParent.appendChild(hotkeys);
     }
 
-    
-    
-    function addYouTubeHotkeys(){
-        let hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
-        let hotkeysParent = hotkeys?hotkeys.parentNode:false;
-            if(hotkeysParent){
-                hotkeysParent.appendChild(hotkeys);
+    function removeYoutubeHotkeys(){    
+            var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+            if(x){
+                var clone = x.cloneNode(false)
+                x.parentNode.replaceChild(clone,x)
+                clone.parentNode.removeChild(clone)         
             }
-    }
+        }
+    
+    useEffect(() => {
+        if(focus){
+                removeYoutubeHotkeys()
+            }
+            else{
+                addYouTubeHotkeys()
+            }  
+    })
+    
 
     return (
         <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
@@ -99,8 +110,12 @@ const TextEditor = ({ value, setValue }) => {
                 placeholder="Enter some rich text…"
                 spellCheck
                 autoFocus
-                onFocus={() => {removeYoutubeHotkeys()}}
-                onBlur={() => {addYouTubeHotkeys()}}
+                onFocus={() => {
+                    setFocus(true)
+                }}
+                onBlur={() => {
+                    setFocus(false)
+                }}
                 onKeyDown={(event) => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event)) {
