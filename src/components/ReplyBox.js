@@ -57,9 +57,6 @@ function ReplyBox() {
 
 	const storeValue = () => {
 		const newValue = JSON.stringify(textValue);
-		console.log(newValue);
-		console.log('Hey String Here');
-		console.log(JSON.stringify(newValue));
 
 		chrome.storage.sync.get(['token'], async (result) => {
 			getProfileInfo(result.token).then((info) => {

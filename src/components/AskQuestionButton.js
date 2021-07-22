@@ -23,7 +23,6 @@ const CustomDiv = styled.div`
 function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
 
     const setAskButtonState = () => {
-        console.log(askButtonOpen)
         setAskButtonOpen(!askButtonOpen)
     }
 
