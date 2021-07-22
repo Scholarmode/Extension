@@ -52,6 +52,15 @@ const linkifyYouTubeURLs = (text) => {
 	return text.replace(re, '$1');
 };
 
+const getTimestamp = () => {
+	const htmlVideoPlayer = document.getElementsByTagName('video')[0];
+	const formatTime = (s) => {
+		return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + ~~s;
+	};
+
+	return formatTime(htmlVideoPlayer.currentTime);
+};
+
 function ReplyBox() {
 	const [textValue, setTextValue] = useState(initialValue);
 
@@ -67,23 +76,25 @@ function ReplyBox() {
 					flagged: false,
 					replies: [],
 					reports: [],
-					timestamp: new Date(),
+					timestamp: getTimestamp(),
 					title: 'Title',
 					video: linkifyYouTubeURLs(window.location.href),
 					votes: 0,
 				};
 
-				fetch('http://localhost:8080/questions/', {
-					method: 'post',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(reqBody),
-				})
-					.then((response) => response.json)
-					.then((data) => {})
-					.catch((err) => console.log('Request failed', err));
+				console.log(reqBody);
+
+				// fetch('http://localhost:8080/questions/', {
+				// 	method: 'post',
+				// 	headers: {
+				// 		Accept: 'application/json',
+				// 		'Content-Type': 'application/json',
+				// 	},
+				// 	body: JSON.stringify(reqBody),
+				// })
+				// 	.then((response) => response.json)
+				// 	.then((data) => {})
+				// 	.catch((err) => console.log('Request failed', err));
 			});
 		});
 	};
