@@ -42,6 +42,10 @@ const CustomTimeInput = styled.input`
   }
 `;
 
+const CustomFont = styled.p`
+    font-size: 15px;
+`;
+
 const ClockIcon = styled(AccessTimeIcon)`
   margin-top: -10px;
   color: #eee;
@@ -206,7 +210,7 @@ const Element = ({ attributes, children, element }) => {
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:
-            return <h2 {...attributes}>{children}</h2>;
+            return <CustomFont {...attributes}>{children}</CustomFont>;
     }
 };
 
