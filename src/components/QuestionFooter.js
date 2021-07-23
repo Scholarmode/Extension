@@ -7,6 +7,10 @@ import Replies from './Replies.js'
 import ReplyBox from './ReplyBox.js';
 import React from "react";
 import ReplyBoxHeader from "./ReplyBoxHeader.js"
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import FlagIcon from '@material-ui/icons/Flag';
+import '../styles/reply-footer.css'
 
 const CustomDiv = styled.div`
     display: flex;
@@ -15,6 +19,13 @@ const CustomDiv = styled.div`
     flex:1;
     padding: 10px; 
     align-items: center;
+`;
+
+const ReportDiv = styled.div`
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 `;
 
 const RepliesTextLink = styled.div`
@@ -102,7 +113,12 @@ function QuestionFooter({ totalReplies }) {
 
                 <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
-                <OptionsMenu fontSize="large" />
+                <Popup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
+                    <ReportDiv>
+                        <FlagIcon />
+                        <p>Report</p>
+                    </ReportDiv>
+                </Popup>
             </CustomDiv>
             {isReplyBoxOpen && <ReplyBox />}
             {replyBoxState &&
