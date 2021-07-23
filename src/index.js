@@ -61,6 +61,34 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   }
 })
 
+
+window.onload = () => {
+  chrome.storage.sync.get(['active'], (response) => {
+    if (response.active) {
+      ReactDOM.render(
+        <React.StrictMode>
+          <Discussion />
+        </React.StrictMode>,
+        document.getElementById('secondary')
+      )
+    } else {
+      chrome.storage.sync.get(['recommendedVideos'], (response) => {
+        let secondaryInner = document.createElement('div')
+        secondaryInner.id = 'secondary-inner'
+        secondaryInner.className = 'style-scope ytd-watch-flexy'
+        secondaryInner.innerHTML = response.recommendedVideos
+        let discussion = document.getElementById('discussion')
+        discussion.remove()
+        let secondary = document.getElementById('secondary')
+        secondary.appendChild(secondaryInner)
+      })
+    }
+  })
+}
+
+
+
+
 //find and store recommended videos in localStorage
 if (document.getElementById('secondary-inner')) {
   chrome.storage.sync.set({
