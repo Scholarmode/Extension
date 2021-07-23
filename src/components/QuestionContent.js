@@ -25,7 +25,7 @@ function QuestionContent({ question }) {
     console.log("New Question: " + newQuestion)
     return (
         <CustomDiv>
-            <ReplyContent reply={newQuestion} />
+            <ReplyContent reply={newQuestion} hasMargin={false} />
             {/* <p>{question}</p> */}
         </CustomDiv>
     )

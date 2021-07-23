@@ -9,11 +9,14 @@ const CustomDiv = styled.div`
     flex-direction: row;
     background: #ECECEC;
     width: auto;
-    padding-left: 10px;
 `;
 
 const QuestionContentText = styled.div`
      font-size: 14px;
+`;
+
+const CustomFont = styled.p`
+    font-size: 15px;
 `;
 
 // const ReplyThread = styled.div`
@@ -32,7 +35,7 @@ const QuestionContentText = styled.div`
 //     })
 //   }
 
-function ReplyContent({ reply }) {
+function ReplyContent({ reply, hasMargin }) {
     let jsonReplyObj = JSON.parse(reply)
     const [value, setValue] = useState(jsonReplyObj)
     const renderElement = useCallback((props) => <Element {...props} />, []);
@@ -40,7 +43,7 @@ function ReplyContent({ reply }) {
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
     return (
         <div>
-            <CustomDiv>
+            <CustomDiv style={hasMargin ? ({ paddingLeft: '10px' }) : ({ paddingLeft: '0px' })}>
                 <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
                     <Editable
                         renderElement={renderElement}
@@ -69,7 +72,7 @@ const Element = ({ attributes, children, element }) => {
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:
-            return <p {...attributes}>{children}</p>;
+            return <CustomFont {...attributes}>{children}</CustomFont>;
     }
 };
 

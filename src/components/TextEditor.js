@@ -206,7 +206,7 @@ const Element = ({ attributes, children, element }) => {
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:
-            return <p {...attributes}>{children}</p>;
+            return <h2 {...attributes}>{children}</h2>;
     }
 };
 

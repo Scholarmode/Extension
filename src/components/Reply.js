@@ -45,7 +45,7 @@ const Reply = (props) => {
 						userImageUrl={comment.author.picture}
 					/>
 					<ReplyThread>
-						<ReplyContent reply={comment.content} />
+						<ReplyContent reply={comment.content} hasMargin={true} />
 						<ReplyFooter
 							votes={2}
 							replyBoxOpen={props.replyBoxOpen}
