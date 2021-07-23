@@ -46,22 +46,19 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
           )
         } else {
           chrome.storage.sync.get(['recommendedVideos'], (response) => {
-            let secondaryInner = document.createElement('div')
-            secondaryInner.id = 'secondary-inner'
-            secondaryInner.className = 'style-scope ytd-watch-flexy'
-            secondaryInner.innerHTML = response.recommendedVideos
-            let discussion = document.getElementById('discussion')
-            discussion.remove()
-            let secondary = document.getElementById('secondary')
-            secondary.appendChild(secondaryInner)
+            document.getElementById('secondary').innerHTML = response.recommendedVideos
           })
         }
       })
     }
   }
 })
+          
+    
+  
 
 
+// update recommended videos on first YouTube load or any refresh
 window.onload = () => {
   chrome.storage.sync.get(['active'], (response) => {
     if (response.active) {
@@ -73,14 +70,7 @@ window.onload = () => {
       )
     } else {
       chrome.storage.sync.get(['recommendedVideos'], (response) => {
-        let secondaryInner = document.createElement('div')
-        secondaryInner.id = 'secondary-inner'
-        secondaryInner.className = 'style-scope ytd-watch-flexy'
-        secondaryInner.innerHTML = response.recommendedVideos
-        let discussion = document.getElementById('discussion')
-        discussion.remove()
-        let secondary = document.getElementById('secondary')
-        secondary.appendChild(secondaryInner)
+        document.getElementById('secondary').innerHTML = response.recommendedVideos
       })
     }
   })
@@ -90,33 +80,10 @@ window.onload = () => {
 
 
 //find and store recommended videos in localStorage
-if (document.getElementById('secondary-inner')) {
-  chrome.storage.sync.set({
-    recommendedVideos: document.getElementById('secondary-inner').innerHTML
-  })
+if (document.getElementById('secondary')) {
+    chrome.storage.sync.set({
+    recommendedVideos: document.getElementById('secondary').innerHTML
+    })
 } else {
   console.log('no videos here')
 }
-
-//render Q&A section when we've retrieved the videos
-// if (recommendedVideos && activated) {
-//   ReactDOM.render(
-//     <React.StrictMode>
-//       <Discussion />
-//     </React.StrictMode>,
-//     document.getElementById('secondary')
-//   )
-// } else {
-//   // render videos
-// }
-
-// // render videos
-// if (recommendedVideos && !activated) {
-//   var tpl = document.createElement('template')
-//   tpl.innerHTML = recommendedVideos
-//   document.getElementById('secondary').appendChild(tpl.content)
-
-//   console.log(tpl)
-
-// while(document.getElementById('secondary').firstChild){Element.appendChild(document.getElementById('secondary').firstChild)}
-// }
