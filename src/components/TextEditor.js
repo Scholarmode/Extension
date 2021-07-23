@@ -62,34 +62,53 @@ const TextEditor = ({ value, setValue }) => {
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
     const [focus, setFocus] = useState(false)
-    
-    
-    var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
-    var hotkeysParent = hotkeys?hotkeys.parentNode:false;
+    const [originalChild, setOriginalChild] = useState(null)
+    const [parentNode, setParentNode] = useState(null)
 
-    function addYouTubeHotkeys(){
-        if(hotkeysParent)
-        hotkeysParent.appendChild(hotkeys);
+
+
+    // var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0] ? originalChild
+    // var hotkeysParent = hotkeys ? hotkeys.parentNode : false;
+
+    function addYouTubeHotkeys() {
+        let hotkeys;
+        let hotkeysParent;
+        if (originalChild == null) {
+            hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        } else {
+            hotkeys = originalChild
+        }
+        if (parentNode == null) {
+            hotkeysParent = hotkeys ? hotkeys.parentNode : false;
+        }
+        else {
+            hotkeysParent = parentNode
+        }
+        if (hotkeysParent) {
+            hotkeysParent.appendChild(hotkeys);
+        }
     }
 
-    function removeYoutubeHotkeys(){    
-            var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
-            if(x){
-                var clone = x.cloneNode(false)
-                x.parentNode.replaceChild(clone,x)
-                clone.parentNode.removeChild(clone)         
-            }
+    function removeYoutubeHotkeys() {
+        var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        if (x) {
+            setOriginalChild(x.cloneNode(false))
+            setParentNode(x.parentNode)
+            var clone = x.cloneNode(false)
+            x.parentNode.replaceChild(clone, x)
+            clone.parentNode.removeChild(clone)
         }
-    
+    }
+
     useEffect(() => {
-        if(focus){
-                removeYoutubeHotkeys()
-            }
-            else{
-                addYouTubeHotkeys()
-            }  
-    })
-    
+        if (focus) {
+            removeYoutubeHotkeys()
+        }
+        else {
+            addYouTubeHotkeys()
+        }
+    }, [focus])
+
 
     return (
         <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
