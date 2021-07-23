@@ -64,7 +64,17 @@ const ReportDiv = styled.div`
     flex-direction: column;
 `;
 
-function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName }) {
+function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
+
+    const baseUrl = "localhost:8080/"
+    let raw = "";
+
+    let requestOptions = {
+        method: 'PUT',
+        body: raw,
+        redirect: 'follow'
+    };
+
 
     const [totalVotes, setTotalVotes] = useState(votes);
     const [clickable, setClickable] = useState(true);
@@ -75,17 +85,37 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             if (downClickable) {
                 setClickable(false)
                 setTotalVotes((v) => v + 1)
+                upvotePutRequest()
             }
             else {
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
+                upvotePutRequest()
+                upvotePutRequest()
             }
         }
         else {
             setClickable(true)
             setTotalVotes((v) => v - 1)
+            downvotePutRequest()
         }
+    }
+
+    const upvotePutRequest = () => {
+        console.log("ReplyId: " + replyId)
+        fetch(`http://localhost:8080/replies/${replyId}/upvote/`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
+    const downvotePutRequest = () => {
+        console.log("ReplyId Downvote: " + replyId)
+        fetch(`http://localhost:8080/replies/${replyId}/downvote/`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }
 
     const updateDownVotes = () => {
@@ -93,16 +123,20 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             if (clickable) {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
+                downvotePutRequest()
             }
             else {
                 setClickable(true)
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
+                downvotePutRequest()
+                downvotePutRequest()
             }
         }
         else {
             setDownClickable(true)
             setTotalVotes((v) => v + 1)
+            upvotePutRequest()
         }
     }
 
