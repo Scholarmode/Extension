@@ -3,7 +3,10 @@ import { useState } from 'react'
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import React from "react";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import FlagIcon from '@material-ui/icons/Flag';
+import '../styles/reply-footer.css'
 
 const CustomDiv = styled.div`
     display: flex;
@@ -48,6 +51,18 @@ const UpArrowNew = styled.div`
 const DownArrow = styled.div`
     transform: rotate(90deg);
 `
+
+const CustomPopup = styled(Popup)`
+    width: 50px !important;
+    background-color: red !important;
+`
+
+const ReportDiv = styled.div`
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+`;
 
 function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName }) {
 
@@ -123,7 +138,12 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             {/* TODO - onClick has to implemented */}
             <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
             <ReplyClickText onClick={changeReplyBoxState} >Reply</ReplyClickText>
-            <OptionsMenu fontSize="large" />
+            <CustomPopup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
+                <ReportDiv>
+                    <FlagIcon />
+                    <p>Report</p>
+                </ReportDiv>
+            </CustomPopup>
         </CustomDiv>
     )
 }
