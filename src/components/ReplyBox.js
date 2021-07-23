@@ -45,7 +45,7 @@ const getProfileInfo = (token) => {
     const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
     return fetch(url).then((response) => response.json());
 };
-function ReplyBox() {
+const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const storeValue = () => {
@@ -94,13 +94,24 @@ function ReplyBox() {
         );
     };
 
+    const closeBox = () => {
+        console.log("1: " + replyBoxStateNew)
+        if (replyBoxStateNew) {
+            setReplyBoxStateNew(false)
+        }
+        console.log("2: " + isReplyBoxOpenNew)
+        if (isReplyBoxOpenNew) {
+            setReplyBoxOpenNew(false)
+        }
+    }
+
     return (
         <div>
             <CustomDiv>
                 <TextEditor value={textValue} setValue={setTextValue} />
                 <ButtonDiv>
                     <SubmitButton onClick={storeValue}>Submit</SubmitButton>
-                    <CancelButton>Cancel</CancelButton>
+                    <CancelButton onClick={closeBox}>Cancel</CancelButton>
                 </ButtonDiv>
             </CustomDiv>
         </div>

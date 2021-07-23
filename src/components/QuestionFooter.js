@@ -104,11 +104,11 @@ function QuestionFooter({ totalReplies }) {
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <OptionsMenu fontSize="large" />
             </CustomDiv>
-            {isReplyBoxOpen && <ReplyBox />}
+            {isReplyBoxOpen && <ReplyBox isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />}
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox />
+                    <ReplyBox setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                 </>
             }
             {isReplyOpen &&
