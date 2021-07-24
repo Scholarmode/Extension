@@ -1,6 +1,5 @@
-
-import styled from 'styled-components'
-import React from "react";
+import styled from 'styled-components';
+import React from 'react';
 import ReplyContent from './ReplyContent';
 
 const CustomDiv = styled.div`
@@ -29,6 +28,7 @@ function QuestionContent({ question }) {
             {/* <p>{question}</p> */}
         </CustomDiv>
     )
+
 }
 
 export default QuestionContent;
