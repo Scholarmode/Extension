@@ -4,6 +4,10 @@ import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import React from 'react';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import FlagIcon from '@material-ui/icons/Flag';
+import '../styles/reply-footer.css'
 
 const CustomDiv = styled.div`
 	display: flex;
@@ -45,101 +49,137 @@ const UpArrowNew = styled.div`
 	transform: rotate(-90deg);
 `;
 const DownArrow = styled.div`
-	transform: rotate(90deg);
+    transform: rotate(90deg);
+`
+
+const CustomPopup = styled(Popup)`
+    width: 50px !important;
+    background-color: red !important;
+`
+
+const ReportDiv = styled.div`
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 `;
 
-function ReplyFooter({
-	votes,
-	replyBoxOpen,
-	setReplyBoxOpen,
-	setReplyUserName,
-	userName,
-}) {
-	const [totalVotes, setTotalVotes] = useState(votes);
-	const [clickable, setClickable] = useState(true);
-	const [downClickable, setDownClickable] = useState(true);
+function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
 
-	const updateVotes = () => {
-		if (clickable) {
-			if (downClickable) {
-				setClickable(false);
-				setTotalVotes((v) => v + 1);
-			} else {
-				setDownClickable(true);
-				setClickable(false);
-				setTotalVotes((v) => v + 2);
-			}
-		} else {
-			setClickable(true);
-			setTotalVotes((v) => v - 1);
-		}
-	};
+    const baseUrl = "localhost:8080/"
+    let raw = "";
 
-	const updateDownVotes = () => {
-		if (totalVotes > 0 && downClickable) {
-			if (clickable) {
-				setDownClickable(false);
-				setTotalVotes((v) => v - 1);
-			} else {
-				setClickable(true);
-				setDownClickable(false);
-				setTotalVotes((v) => v - 2);
-			}
-		} else {
-			setDownClickable(true);
-			setTotalVotes((v) => v + 1);
-		}
-	};
+    let requestOptions = {
+        method: 'PUT',
+        body: raw,
+        redirect: 'follow'
+    };
 
-	const changeReplyBoxState = () => {
-		setReplyBoxOpen(!replyBoxOpen);
 
-		setReplyUserName(userName);
-	};
+    const [totalVotes, setTotalVotes] = useState(votes);
+    const [clickable, setClickable] = useState(true);
+    const [downClickable, setDownClickable] = useState(true);
 
-	return (
-		<CustomDiv>
-			{/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
-			{clickable ? (
-				<UpArrowNew>
-					<ForwardIcon
-						style={{ width: 25, height: 25, color: '#909090' }}
-						onClick={updateVotes}
-					/>
-				</UpArrowNew>
-			) : (
-				<UpArrowNew>
-					<ForwardIcon
-						style={{ width: 25, height: 25, color: '#3aa1f2' }}
-						onClick={updateVotes}
-					/>
-				</UpArrowNew>
-			)}
-			{/* Total votes for this reply */}
-			<CustomVotesText>{totalVotes}</CustomVotesText>
+    const updateVotes = () => {
+        if (clickable) {
+            if (downClickable) {
+                setClickable(false)
+                setTotalVotes((v) => v + 1)
+                upvotePutRequest()
+            }
+            else {
+                setDownClickable(true)
+                setClickable(false)
+                setTotalVotes((v) => v + 2)
+                upvotePutRequest()
+                upvotePutRequest()
+            }
+        }
+        else {
+            setClickable(true)
+            setTotalVotes((v) => v - 1)
+            downvotePutRequest()
+        }
+    }
 
-			{downClickable ? (
-				<DownArrow>
-					<ForwardIcon
-						style={{ width: 25, height: 25, color: '#909090' }}
-						onClick={updateDownVotes}
-					/>
-				</DownArrow>
-			) : (
-				<DownArrow>
-					<ForwardIcon
-						style={{ width: 25, height: 25, color: 'red' }}
-						onClick={updateDownVotes}
-					/>
-				</DownArrow>
-			)}
+    const upvotePutRequest = () => {
+        console.log("ReplyId: " + replyId)
+        fetch(`http://localhost:8080/replies/${replyId}/upvote/`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
 
-			{/* TODO - onClick has to implemented */}
-			<ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
-			<ReplyClickText onClick={changeReplyBoxState}>Reply</ReplyClickText>
-			<OptionsMenu fontSize="large" />
-		</CustomDiv>
-	);
+    const downvotePutRequest = () => {
+        console.log("ReplyId Downvote: " + replyId)
+        fetch(`http://localhost:8080/replies/${replyId}/downvote/`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
+    const updateDownVotes = () => {
+        if (totalVotes > 0 && downClickable) {
+            if (clickable) {
+                setDownClickable(false)
+                setTotalVotes((v) => v - 1)
+                downvotePutRequest()
+            }
+            else {
+                setClickable(true)
+                setDownClickable(false)
+                setTotalVotes((v) => v - 2)
+                downvotePutRequest()
+                downvotePutRequest()
+            }
+        }
+        else {
+            setDownClickable(true)
+            setTotalVotes((v) => v + 1)
+            upvotePutRequest()
+        }
+    }
+
+    const changeReplyBoxState = () => {
+        console.log(replyBoxOpen)
+        setReplyBoxOpen(!replyBoxOpen)
+
+        console.log("Heyy: " + userName)
+        setReplyUserName(userName)
+    }
+
+    return (
+        <CustomDiv>
+            {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
+            {
+                clickable ? <UpArrowNew>
+                    <ForwardIcon style={{ width: 25, height: 25, color: '#909090' }} onClick={updateVotes} />
+                </UpArrowNew> : <UpArrowNew>
+                    <ForwardIcon style={{ width: 25, height: 25, color: '#3aa1f2', }} onClick={updateVotes} />
+                </UpArrowNew>
+            }
+            {/* Total votes for this reply */}
+            <CustomVotesText>{totalVotes}</CustomVotesText>
+
+            {
+                downClickable ? <DownArrow>
+                    <ForwardIcon style={{ width: 25, height: 25, color: '#909090' }} onClick={updateDownVotes} />
+                </DownArrow> : <DownArrow>
+                    <ForwardIcon style={{ width: 25, height: 25, color: 'red' }} onClick={updateDownVotes} />
+                </DownArrow>
+            }
+
+            {/* TODO - onClick has to implemented */}
+            <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
+            <ReplyClickText onClick={changeReplyBoxState} >Reply</ReplyClickText>
+            <CustomPopup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
+                <ReportDiv>
+                    <FlagIcon />
+                    <p>Report</p>
+                </ReportDiv>
+            </CustomPopup>
+        </CustomDiv>
+    )
 }
 
 export default ReplyFooter;

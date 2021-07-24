@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import isHotkey from "is-hotkey";
 import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { Editor, Transforms, createEditor } from "slate";
@@ -61,6 +61,55 @@ const TextEditor = ({ value, setValue }) => {
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
+    const [focus, setFocus] = useState(false)
+    const [originalChild, setOriginalChild] = useState(null)
+    const [parentNode, setParentNode] = useState(null)
+
+
+
+    // var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0] ? originalChild
+    // var hotkeysParent = hotkeys ? hotkeys.parentNode : false;
+
+    function addYouTubeHotkeys() {
+        let hotkeys;
+        let hotkeysParent;
+        if (originalChild == null) {
+            hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        } else {
+            hotkeys = originalChild
+        }
+        if (parentNode == null) {
+            hotkeysParent = hotkeys ? hotkeys.parentNode : false;
+        }
+        else {
+            hotkeysParent = parentNode
+        }
+        if (hotkeysParent) {
+            hotkeysParent.appendChild(hotkeys);
+        }
+    }
+
+    function removeYoutubeHotkeys() {
+        var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        if (x) {
+            setOriginalChild(x.cloneNode(false))
+            setParentNode(x.parentNode)
+            var clone = x.cloneNode(false)
+            x.parentNode.replaceChild(clone, x)
+            clone.parentNode.removeChild(clone)
+        }
+    }
+
+    useEffect(() => {
+        if (focus) {
+            removeYoutubeHotkeys()
+        }
+        else {
+            addYouTubeHotkeys()
+        }
+    }, [focus])
+
+
     return (
         <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
             <Toolbar>
@@ -80,6 +129,12 @@ const TextEditor = ({ value, setValue }) => {
                 placeholder="Enter some rich text…"
                 spellCheck
                 autoFocus
+                onFocus={() => {
+                    setFocus(true)
+                }}
+                onBlur={() => {
+                    setFocus(false)
+                }}
                 onKeyDown={(event) => {
                     for (const hotkey in HOTKEYS) {
                         if (isHotkey(hotkey, event)) {
@@ -227,41 +282,6 @@ const MarkButton = ({ format, icon }) => {
     );
 };
 
-const initialValue = [
-    {
-        type: "paragraph",
-        children: [
-            { text: "This is editable " },
-            { text: "rich", bold: true },
-            { text: " text, " },
-            { text: "much", italic: true },
-            { text: " better than a " },
-            { text: "<textarea>", code: true },
-            { text: "!" }
-        ]
-    },
-    {
-        type: "paragraph",
-        children: [
-            {
-                text:
-                    "Since it's rich text, you can do things like turn a selection of text "
-            },
-            { text: "bold", bold: true },
-            {
-                text:
-                    ", or add a semantically rendered block quote in the middle of the page, like this:"
-            }
-        ]
-    },
-    {
-        type: "block-quote",
-        children: [{ text: "A wise quote." }]
-    },
-    {
-        type: "paragraph",
-        children: [{ text: "Try it out for yourself!" }]
-    }
-];
+const initialValue = [];
 
 export default TextEditor;

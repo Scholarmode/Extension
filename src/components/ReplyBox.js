@@ -61,65 +61,77 @@ const getTimestamp = () => {
 	return formatTime(htmlVideoPlayer.currentTime);
 };
 
-function ReplyBox() {
-	const [textValue, setTextValue] = useState(initialValue);
+const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+    const [textValue, setTextValue] = useState(initialValue);
 
-	const storeValue = () => {
-		const newValue = JSON.stringify(textValue);
+    const storeValue = () => {
+        const newValue = JSON.stringify(textValue);
+        console.log(newValue);
+        console.log('Hey String Here');
+        console.log(JSON.stringify(newValue));
 
-		chrome.storage.sync.get(['token'], async (result) => {
-			getProfileInfo(result.token).then((info) => {
-				const reqBody = {
-					author: info._id,
-					content: newValue,
-					dateCreated: new Date(),
-					flagged: false,
-					replies: [],
-					reports: [],
-					timestamp: getTimestamp(),
-					title: 'Title',
-					video: linkifyYouTubeURLs(window.location.href),
-					votes: 0,
-				};
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                const reqBody = {
+                    author: info._id,
+                    content: newValue,
+                    dateCreated: new Date(),
+                    flagged: false,
+                    replies: [],
+                    reports: [],
+                    timestamp: getTimestamp(),
+                    title: 'Title',
+                    video: linkifyYouTubeURLs(window.location.href),
+                    votes: 0,
+                };
 
-				console.log(reqBody);
+                fetch('http://localhost:8080/questions/', {
+                    method: 'post',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reqBody),
+                })
+                    .then((response) => response.json)
+                    .then((data) => { })
+                    .catch((err) => console.log('Request failed', err));
+            });
+        });
+    };
 
-				// fetch('http://localhost:8080/questions/', {
-				// 	method: 'post',
-				// 	headers: {
-				// 		Accept: 'application/json',
-				// 		'Content-Type': 'application/json',
-				// 	},
-				// 	body: JSON.stringify(reqBody),
-				// })
-				// 	.then((response) => response.json)
-				// 	.then((data) => {})
-				// 	.catch((err) => console.log('Request failed', err));
-			});
-		});
-	};
+    const serialize = (value) => {
+        return (
+            value
+                // Return the string content of each paragraph in the value's children.
+                .map((n) => Node.string(n))
+                // Join them all with line breaks denoting paragraphs.
+                .join('\n')
+        );
+    };
 
-	const serialize = (value) => {
-		return (
-			value
-				// Return the string content of each paragraph in the value's children.
-				.map((n) => Node.string(n))
-				// Join them all with line breaks denoting paragraphs.
-				.join('\n')
-		);
-	};
+    const closeBox = () => {
+        console.log("1: " + replyBoxStateNew)
+        if (replyBoxStateNew) {
+            setReplyBoxStateNew(false)
+        }
+        console.log("2: " + isReplyBoxOpenNew)
+        if (isReplyBoxOpenNew) {
+            setReplyBoxOpenNew(false)
+        }
+    }
 
-	return (
-		<div>
-			<CustomDiv>
-				<TextEditor value={textValue} setValue={setTextValue} />
-				<ButtonDiv>
-					<SubmitButton onClick={storeValue}>Submit</SubmitButton>
-					<CancelButton>Cancel</CancelButton>
-				</ButtonDiv>
-			</CustomDiv>
-		</div>
-	);
+    return (
+        <div>
+            <CustomDiv>
+                <TextEditor value={textValue} setValue={setTextValue} />
+                <ButtonDiv>
+                    <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                    <CancelButton onClick={closeBox}>Cancel</CancelButton>
+                </ButtonDiv>
+            </CustomDiv>
+        </div>
+    );
 }
 
 const initialValue = [
