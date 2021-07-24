@@ -45,9 +45,11 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
             document.getElementById('secondary')
           )
         } else {
-          chrome.storage.sync.get(['recommendedVideos'], (response) => {
-            document.getElementById('secondary').innerHTML = response.recommendedVideos
-          })
+          window.location.reload()
+
+          // chrome.storage.sync.get(['recommendedVideos'], (response) => {
+          //   document.getElementById('secondary').innerHTML = response.recommendedVideos
+          // })
         }
       })
     }
@@ -68,10 +70,6 @@ window.onload = () => {
         </React.StrictMode>,
         document.getElementById('secondary')
       )
-    } else {
-      chrome.storage.sync.get(['recommendedVideos'], (response) => {
-        document.getElementById('secondary').innerHTML = response.recommendedVideos
-      })
     }
   })
 }
@@ -80,10 +78,13 @@ window.onload = () => {
 
 
 //find and store recommended videos in localStorage
-if (document.getElementById('secondary')) {
-    chrome.storage.sync.set({
-    recommendedVideos: document.getElementById('secondary').innerHTML
-    })
-} else {
-  console.log('no videos here')
-}
+
+// window.addEventListener("load", function(){
+  if (document.getElementById('secondary')) {
+      chrome.storage.sync.set({
+      recommendedVideos: document.getElementById('secondary').innerHTML
+      })
+  } else {
+    console.log('no videos here')
+  }
+// });
