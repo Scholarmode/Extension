@@ -16,6 +16,7 @@ const CustomDiv = styled.div`
 
 function Question() {
 	const { question, setQuestion } = useContext(QuestionContext);
+	console.log("Question Content: " + question.content)
 	return (
 		<CustomDiv>
 			<Sidebar />
