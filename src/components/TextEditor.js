@@ -66,6 +66,9 @@ const MyToolbar = styled(Toolbar)`
     justify-content: center;
 `;
 
+const MySlate = styled(Slate)`
+    background-color: white;
+`
 
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
@@ -126,7 +129,7 @@ const TextEditor = ({ value, setValue }) => {
 
 
     return (
-        <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <MySlate editor={editor} value={value} onChange={(value) => setValue(value)}>
             <MyToolbar>
                 <CustomTimeInput type="number" placeholder="00"></CustomTimeInput>
                 <p>:</p>
@@ -160,7 +163,7 @@ const TextEditor = ({ value, setValue }) => {
                     }
                 }}
             />
-        </Slate>
+        </MySlate>
     );
 };
 

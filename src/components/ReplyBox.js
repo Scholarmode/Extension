@@ -11,6 +11,7 @@ const CustomDiv = styled.div`
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 5px;
+    background-color: white;
 `;
 
 const SubmitButton = styled.button`
