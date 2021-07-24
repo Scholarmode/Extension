@@ -5,13 +5,13 @@ import { useState } from 'react';
 import { Node } from 'slate';
 
 const CustomDiv = styled.div`
-	width: 100%;
 	min-height: 100px;
 	border: 1px solid gray;
 	border-radius: 5px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 5px;
+    background-color: white;
 `;
 
 const SubmitButton = styled.button`

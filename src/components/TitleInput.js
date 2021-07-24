@@ -1,5 +1,3 @@
-
-import React from 'react';
 import {useState, useEffect} from 'react'
 import styled from 'styled-components';
 
@@ -27,39 +25,39 @@ function TitleInput({ title, setTitle }) {
 
 
     const [focus, setFocus] = useState(false)
-    
-    
+
+
     var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
     var hotkeysParent = hotkeys ? hotkeys.parentNode : false;
 
-    function addYouTubeHotkeys(){
-        if(hotkeysParent)
-        hotkeysParent.appendChild(hotkeys);
+    function addYouTubeHotkeys() {
+        if (hotkeysParent)
+            hotkeysParent.appendChild(hotkeys);
     }
 
-    function removeYoutubeHotkeys(){    
-            var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
-            if(x){
-                var clone = x.cloneNode(false)
-                x.parentNode.replaceChild(clone,x)
-                clone.parentNode.removeChild(clone)         
-            }
+    function removeYoutubeHotkeys() {
+        var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        if (x) {
+            var clone = x.cloneNode(false)
+            x.parentNode.replaceChild(clone, x)
+            clone.parentNode.removeChild(clone)
         }
-    
+    }
+
     useEffect(() => {
-        if(focus){
-                removeYoutubeHotkeys()
-            }
-            else{
-                addYouTubeHotkeys()
-            }  
+        if (focus) {
+            removeYoutubeHotkeys()
+        }
+        else {
+            addYouTubeHotkeys()
+        }
     })
 
     return (
         <CustomDiv>
-            <CustomInput 
-                type="text" 
-                placeholder="What's your question ?? " 
+            <CustomInput
+                type="text"
+                placeholder="What's your question ?? "
                 onChange={(e) => setTitleText(e)}
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}></CustomInput>

@@ -18,14 +18,17 @@ const QuestionContentText = styled.div`
 `;
 
 function QuestionContent({ question }) {
-	let newQuestion = question.replaceAll('\\', ' ');
+    console.log(question)
+    let newQuestion = question.replaceAll('\\', ' ')
+    console.log("Question Id: " + newQuestion._id)
+    console.log("New Question: " + newQuestion)
+    return (
+        <CustomDiv>
+            <ReplyContent reply={newQuestion} hasMargin={false} />
+            {/* <p>{question}</p> */}
+        </CustomDiv>
+    )
 
-	return (
-		<CustomDiv>
-			<ReplyContent reply={newQuestion} />
-			{/* <p>{question}</p> */}
-		</CustomDiv>
-	);
 }
 
 export default QuestionContent;
