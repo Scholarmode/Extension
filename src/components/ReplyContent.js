@@ -19,6 +19,12 @@ const CustomFont = styled.p`
     font-size: 15px;
 `;
 
+const CustomCodeStyle = styled.code`
+    font-family: monospace;
+    background-color: #c5c5c5;
+    color: black;
+`
+
 // const ReplyThread = styled.div`
 //    border-left: 2px solid red;
 //    display: block;
@@ -82,7 +88,7 @@ const Leaf = ({ attributes, children, leaf }) => {
     }
 
     if (leaf.code) {
-        children = <code>{children}</code>;
+        children = <CustomCodeStyle>{children}</CustomCodeStyle>;
     }
 
     if (leaf.italic) {
