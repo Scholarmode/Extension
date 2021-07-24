@@ -20,7 +20,6 @@ const CustomFont = styled.p`
 `;
 
 const CustomCodeStyle = styled.code`
-    font-family: monospace;
     background-color: #c5c5c5;
     color: black;
 `
