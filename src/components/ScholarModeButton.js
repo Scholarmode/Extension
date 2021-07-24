@@ -85,7 +85,7 @@ export default function ScholarModeButton() {
     chrome.storage.sync.get(['active'], (result) => {
       setActive(result.active)
     })
-  }, [])
+  })
 
   return (
     <div
