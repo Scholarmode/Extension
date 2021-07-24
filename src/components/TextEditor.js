@@ -27,7 +27,7 @@ const CustomTimeInput = styled.input`
   text-align: center;
   margin-left: 1px;
   border: 0px;
-  font-size: 15px;
+  font-size: 18px;
   color: #2196f3;
   background: none;
 
@@ -42,6 +42,10 @@ const CustomTimeInput = styled.input`
   }
 `;
 
+const CustomFont = styled.p`
+    font-size: 15px;
+`;
+
 const ClockIcon = styled(AccessTimeIcon)`
   margin-top: -10px;
   color: #eee;
@@ -51,6 +55,20 @@ const FontBigDiv = styled.div`
     font-size: 16px;
 `;
 
+const CustomCodeStyle = styled.code`
+    background-color: #c5c5c5;
+    color: black;
+`
+
+const MyToolbar = styled(Toolbar)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const MySlate = styled(Slate)`
+    background-color: white;
+`
 
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
@@ -111,8 +129,8 @@ const TextEditor = ({ value, setValue }) => {
 
 
     return (
-        <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
-            <Toolbar>
+        <MySlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+            <MyToolbar>
                 <CustomTimeInput type="number" placeholder="00"></CustomTimeInput>
                 <p>:</p>
                 <CustomTimeInput type="number" placeholder="00"></CustomTimeInput>
@@ -122,7 +140,7 @@ const TextEditor = ({ value, setValue }) => {
                 <MarkButton format="code" icon="code" />
                 <BlockButton format="block-quote" icon="format_quote" />
                 <BlockButton format="bulleted-list" icon="format_list_bulleted" />
-            </Toolbar>
+            </MyToolbar>
             <Editable
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
@@ -145,7 +163,7 @@ const TextEditor = ({ value, setValue }) => {
                     }
                 }}
             />
-        </Slate>
+        </MySlate>
     );
 };
 
@@ -206,7 +224,7 @@ const Element = ({ attributes, children, element }) => {
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:
-            return <p {...attributes}>{children}</p>;
+            return <CustomFont {...attributes}>{children}</CustomFont>;
     }
 };
 
@@ -216,7 +234,7 @@ const Leaf = ({ attributes, children, leaf }) => {
     }
 
     if (leaf.code) {
-        children = <code>{children}</code>;
+        children = <CustomCodeStyle>{children}</CustomCodeStyle>;
     }
 
     if (leaf.italic) {
@@ -234,10 +252,10 @@ const BlockButton = ({ format, icon }) => {
     const editor = useSlate();
     let element;
     if (icon == "format_quote") {
-        element = <FormatQuoteIcon />
+        element = <FormatQuoteIcon style={{ fontSize: "20px", display: "flex", justifyContent: "center" }} />
     }
     else {
-        element = <FormatListBulletedIcon />
+        element = <FormatListBulletedIcon style={{ fontSize: "20px", display: "flex", justifyContent: "center" }} />
     }
     return (
         <Button
@@ -256,16 +274,16 @@ const MarkButton = ({ format, icon }) => {
     const editor = useSlate();
     let elementIcon;
     if (icon == "format_bold") {
-        elementIcon = <FormatBoldIcon />
+        elementIcon = <FormatBoldIcon style={{ fontSize: "20px", display: "flex", justifyContent: "center" }} />
     }
     else if (icon == "format_italic") {
-        elementIcon = <FormatItalicIcon />
+        elementIcon = <FormatItalicIcon style={{ fontSize: "20px", display: "flex", justifyContent: "center" }} />
     }
     else if (icon == "format_underlined") {
-        elementIcon = <FormatUnderlinedIcon />
+        elementIcon = <FormatUnderlinedIcon style={{ fontSize: "20px", display: "flex", justifyContent: "center" }} />
     }
     else if (icon == "code") {
-        elementIcon = <CodeIcon />
+        elementIcon = <CodeIcon style={{ fontSize: "20px", display: "flex", justifyContent: "center" }} />
     }
 
     return (

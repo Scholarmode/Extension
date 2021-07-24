@@ -66,6 +66,22 @@ const ReplyIcon = styled(SmsIcon)`
    cursor: pointer;
 `;
 
+const ArrowUp = styled(ArrowDropDownIcon)`
+   color: #2196F3;
+   cursor: pointer;
+   transform: rotate(180deg);
+
+   ::selection {
+    color: none;
+    background: none;
+   }
+/* For Mozilla Firefox */
+   ::-moz-selection {
+    color: none;
+    background: none;
+   }
+`
+
 const ReplyClickText = styled.p`
    color: #626262;
    font-size : 16px;
@@ -106,8 +122,12 @@ function QuestionFooter({ totalReplies }) {
                 {
                     totalReplies > 0 &&
                     <>
-                        <ArrowDown fontSize="large" onClick={onClickReply} />
-                        <RepliesTextLink onClick={onClickReply}>View {totalReplies} Replies</RepliesTextLink>
+                        {isReplyOpen ? <ArrowUp fontSize="large" onClick={onClickReply} /> : <ArrowDown fontSize="large" onClick={onClickReply} />}
+                        <RepliesTextLink onClick={onClickReply}>
+                            {
+                                isReplyOpen ? <> Hide {totalReplies} Replies </> : <> View {totalReplies} Replies </>
+                            }
+                        </RepliesTextLink>
                     </>
                 }
 
