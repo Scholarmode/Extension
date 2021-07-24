@@ -42,9 +42,25 @@ const ButtonDiv = styled.div`
 `;
 
 const getProfileInfo = (token) => {
-    const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
-    return fetch(url).then((response) => response.json());
+	const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+	return fetch(url).then((response) => response.json());
 };
+
+const linkifyYouTubeURLs = (text) => {
+	const re =
+		/https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gi;
+	return text.replace(re, '$1');
+};
+
+const getTimestamp = () => {
+	const htmlVideoPlayer = document.getElementsByTagName('video')[0];
+	const formatTime = (s) => {
+		return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + ~~s;
+	};
+
+	return formatTime(htmlVideoPlayer.currentTime);
+};
+
 const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
@@ -63,9 +79,9 @@ const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, i
                     flagged: false,
                     replies: [],
                     reports: [],
-                    timestamp: new Date(),
+                    timestamp: getTimestamp(),
                     title: 'Title',
-                    video: 'Video',
+                    video: linkifyYouTubeURLs(window.location.href),
                     votes: 0,
                 };
 
@@ -119,34 +135,38 @@ const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, i
 }
 
 const initialValue = [
-    {
-        type: 'paragraph',
-        children: [
-            { text: 'This is editable ' },
-            { text: 'rich', bold: true },
-            { text: ' text, ' },
-            { text: 'much', italic: true },
-            { text: ' better than a ' },
-            { text: '<textarea>', code: true },
-            { text: '!' },
-        ],
-    },
-    {
-        type: 'paragraph',
-        children: [
-            {
-                text: "Since it's rich text, you can do things like turn a selection of text ",
-            },
-            { text: 'bold', bold: true },
-            {
-                text: ', or add a semantically rendered block quote in the middle of the page, like this:',
-            },
-        ],
-    },
-    {
-        type: 'block-quote',
-        children: [{ text: 'A wise quote.' }],
-    },
+	{
+		type: 'paragraph',
+		children: [
+			{ text: 'This is editable ' },
+			{ text: 'rich', bold: true },
+			{ text: ' text, ' },
+			{ text: 'much', italic: true },
+			{ text: ' better than a ' },
+			{ text: '<textarea>', code: true },
+			{ text: '!' },
+		],
+	},
+	{
+		type: 'paragraph',
+		children: [
+			{
+				text: "Since it's rich text, you can do things like turn a selection of text ",
+			},
+			{ text: 'bold', bold: true },
+			{
+				text: ', or add a semantically rendered block quote in the middle of the page, like this:',
+			},
+		],
+	},
+	{
+		type: 'block-quote',
+		children: [{ text: 'A wise quote.' }],
+	},
+	{
+		type: 'paragraph',
+		children: [{ text: 'Try it out for yourself!' }],
+	},
 ];
 
 export default ReplyBox;

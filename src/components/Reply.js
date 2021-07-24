@@ -30,7 +30,6 @@ const TestDiv = styled.div`
 
 const Reply = (props) => {
 	const comment = { ...props.comment };
-	console.log(comment);
 
 	let userNameUrl = 'https://material-ui.com/static/images/avatar/1.jpg';
 

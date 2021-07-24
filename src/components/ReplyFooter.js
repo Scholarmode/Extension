@@ -1,53 +1,53 @@
 import styled from 'styled-components';
-import { useState } from 'react'
+import { useState } from 'react';
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import React from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
 
 const CustomDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    background: #ECECEC;
-    flex:1;
-    padding: 10px; 
-    align-items: center;
+	display: flex;
+	flex-direction: row;
+	background: #ececec;
+	flex: 1;
+	padding: 10px;
+	align-items: center;
 `;
 
 const CustomVotesText = styled.p`
-    font-size: 16px;
-    padding-left: 5px;
-    padding-right: 5px;
+	font-size: 16px;
+	padding-left: 5px;
+	padding-right: 5px;
 `;
 
 const ReplyIcon = styled(SmsIcon)`
-   color: #C4C4C4;
-   margin-left: 15px;
-   align-items: center;
-   cursor: pointer;
+	color: #c4c4c4;
+	margin-left: 15px;
+	align-items: center;
+	cursor: pointer;
 `;
 
 const ReplyClickText = styled.p`
-   color: #626262;
-   font-size : 16px;
-   margin-left: 2px;
-   cursor: pointer;
-   text-align: center;
-
+	color: #626262;
+	font-size: 16px;
+	margin-left: 2px;
+	cursor: pointer;
+	text-align: center;
 `;
 
 const OptionsMenu = styled(MoreHorizIcon)`
-    color: #909090;
-    margin-left: 15px;
-    cursor: pointer;
+	color: #909090;
+	margin-left: 15px;
+	cursor: pointer;
 `;
 
 const UpArrowNew = styled.div`
-    transform: rotate(-90deg);
-`
+	transform: rotate(-90deg);
+`;
 const DownArrow = styled.div`
     transform: rotate(90deg);
 `
@@ -182,4 +182,4 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     )
 }
 
-export default ReplyFooter
+export default ReplyFooter;
