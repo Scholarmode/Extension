@@ -1,53 +1,53 @@
 import styled from 'styled-components';
-import { useState } from 'react'
+import { useState } from 'react';
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import React from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
 
 const CustomDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    background: #ECECEC;
-    flex:1;
-    padding: 10px; 
-    align-items: center;
+	display: flex;
+	flex-direction: row;
+	background: #ececec;
+	flex: 1;
+	padding: 10px;
+	align-items: center;
 `;
 
 const CustomVotesText = styled.p`
-    font-size: 16px;
-    padding-left: 5px;
-    padding-right: 5px;
+	font-size: 16px;
+	padding-left: 5px;
+	padding-right: 5px;
 `;
 
 const ReplyIcon = styled(SmsIcon)`
-   color: #C4C4C4;
-   margin-left: 15px;
-   align-items: center;
-   cursor: pointer;
+	color: #c4c4c4;
+	margin-left: 15px;
+	align-items: center;
+	cursor: pointer;
 `;
 
 const ReplyClickText = styled.p`
-   color: #626262;
-   font-size : 16px;
-   margin-left: 2px;
-   cursor: pointer;
-   text-align: center;
-
+	color: #626262;
+	font-size: 16px;
+	margin-left: 2px;
+	cursor: pointer;
+	text-align: center;
 `;
 
 const OptionsMenu = styled(MoreHorizIcon)`
-    color: #909090;
-    margin-left: 15px;
-    cursor: pointer;
+	color: #909090;
+	margin-left: 15px;
+	cursor: pointer;
 `;
 
 const UpArrowNew = styled.div`
-    transform: rotate(-90deg);
-`
+	transform: rotate(-90deg);
+`;
 const DownArrow = styled.div`
     transform: rotate(90deg);
 `
@@ -64,7 +64,17 @@ const ReportDiv = styled.div`
     flex-direction: column;
 `;
 
-function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName }) {
+function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
+
+    const baseUrl = "localhost:8080/"
+    let raw = "";
+
+    let requestOptions = {
+        method: 'PUT',
+        body: raw,
+        redirect: 'follow'
+    };
+
 
     const [totalVotes, setTotalVotes] = useState(votes);
     const [clickable, setClickable] = useState(true);
@@ -75,17 +85,37 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             if (downClickable) {
                 setClickable(false)
                 setTotalVotes((v) => v + 1)
+                upvotePutRequest()
             }
             else {
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
+                upvotePutRequest()
+                upvotePutRequest()
             }
         }
         else {
             setClickable(true)
             setTotalVotes((v) => v - 1)
+            downvotePutRequest()
         }
+    }
+
+    const upvotePutRequest = () => {
+        console.log("ReplyId: " + replyId)
+        fetch(`http://localhost:8080/replies/${replyId}/upvote/`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
+    const downvotePutRequest = () => {
+        console.log("ReplyId Downvote: " + replyId)
+        fetch(`http://localhost:8080/replies/${replyId}/downvote/`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }
 
     const updateDownVotes = () => {
@@ -93,16 +123,20 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             if (clickable) {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
+                downvotePutRequest()
             }
             else {
                 setClickable(true)
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
+                downvotePutRequest()
+                downvotePutRequest()
             }
         }
         else {
             setDownClickable(true)
             setTotalVotes((v) => v + 1)
+            upvotePutRequest()
         }
     }
 
@@ -148,4 +182,4 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     )
 }
 
-export default ReplyFooter
+export default ReplyFooter;

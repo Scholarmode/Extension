@@ -30,7 +30,6 @@ const TestDiv = styled.div`
 
 const Reply = (props) => {
 	const comment = { ...props.comment };
-	console.log(comment);
 
 	let userNameUrl = 'https://material-ui.com/static/images/avatar/1.jpg';
 
@@ -47,11 +46,12 @@ const Reply = (props) => {
 					<ReplyThread>
 						<ReplyContent reply={comment.content} />
 						<ReplyFooter
-							votes={2}
+							votes={comment.votes}
 							replyBoxOpen={props.replyBoxOpen}
 							setReplyBoxOpen={props.setReplyBoxOpen}
 							setReplyUserName={props.setReplyUserName}
 							userName={comment.author.given_name}
+							replyId={comment._id}
 						/>
 						<CustomUnorderedList>
 							{comment.replies.map((child) => (
