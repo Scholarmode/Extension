@@ -6,12 +6,21 @@ import AskQuestionButton from './AskQuestionButton';
 import styled from 'styled-components';
 import ReplyBox from './ReplyBox';
 import TitleInput from './TitleInput';
+import { CircularProgress } from '@material-ui/core';
 
 const CustomDiv = styled.div`
 	margin: 10px;
 	margin-top: 0px;
 	margin-left: 0px;
 `;
+
+const MyCircularProgress = styled(CircularProgress)`
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 margin-top: 100px;
+	 margin-left: 200px;
+`
 
 const Discussion = () => {
 	const [error, setError] = useState(null);
@@ -131,6 +140,7 @@ const Discussion = () => {
 
 	return (
 		<QuestionContext.Provider value={{ question, setQuestion }}>
+			{question == null && <MyCircularProgress />}
 			{question != null &&
 				<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />}
 			{askButtonState &&
