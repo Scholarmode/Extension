@@ -12,6 +12,7 @@ import moment from 'moment';
 const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
+	min-width: 323.33px;
 `;
 
 function Question() {
