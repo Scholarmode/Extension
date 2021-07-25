@@ -66,6 +66,13 @@ const ReplyIcon = styled(SmsIcon)`
    cursor: pointer;
 `;
 
+const ZeroReplyIcon = styled(SmsIcon)`
+   color: #C4C4C4;
+   margin-left: 0px;
+   align-items: center;
+   cursor: pointer;
+`;
+
 const ArrowUp = styled(ArrowDropDownIcon)`
    color: #2196F3;
    cursor: pointer;
@@ -131,7 +138,9 @@ function QuestionFooter({ totalReplies }) {
                     </>
                 }
 
-                <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
+                {
+                    totalReplies <= 0 ? <ZeroReplyIcon fontSize="large" onClick={onReplyBoxClick} /> : <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
+                }
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <Popup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
                     <ReportDiv>
