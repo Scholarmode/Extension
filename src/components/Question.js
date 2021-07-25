@@ -12,7 +12,11 @@ import moment from 'moment';
 const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
-	min-width: 323.33px;
+	min-width: 389.27px;
+`;
+
+const NewCustomWidthDiv = styled.div`
+	min-width: 389.27px;
 `;
 
 function Question() {
@@ -21,7 +25,7 @@ function Question() {
 	return (
 		<CustomDiv>
 			<Sidebar />
-			<div className="questionMain">
+			<NewCustomWidthDiv className="questionMain">
 				<QuestionHeader
 					userName={question.author.given_name}
 					timeStamp={question.timestamp}
@@ -31,7 +35,7 @@ function Question() {
 				<QuestionTitle questionTitle={question.title} />
 				<QuestionContent question={question.content} />
 				<QuestionFooter totalReplies={question.replies.length} />
-			</div>
+			</NewCustomWidthDiv>
 		</CustomDiv>
 	);
 }
