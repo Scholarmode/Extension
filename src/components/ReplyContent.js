@@ -22,7 +22,13 @@ const CustomFont = styled.p`
 const CustomCodeStyle = styled.code`
     background-color: #c5c5c5;
     color: black;
+    font-size: 15px;
 `
+
+const CustomListTag = styled.li`
+    margin-left: 18px;
+    font-size: 15px;
+`;
 
 // const ReplyThread = styled.div`
 //    border-left: 2px solid red;
@@ -84,7 +90,7 @@ const Element = ({ attributes, children, element }) => {
         case "heading-two":
             return <h2 {...attributes}>{children}</h2>;
         case "list-item":
-            return <li {...attributes}>{children}</li>;
+            return <CustomListTag {...attributes}>{children}</CustomListTag>;
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:
