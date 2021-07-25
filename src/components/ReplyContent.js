@@ -40,12 +40,23 @@ const CustomCodeStyle = styled.code`
 //     })
 //   }
 
+
+
 function ReplyContent({ reply, hasMargin }) {
+    const ref = editor => {
+        this.editor = editor
+    }
+    console.log("JSON Response: " + JSON.parse(reply))
     let jsonReplyObj = JSON.parse(reply)
+    console.log("jsonReplyObj")
     const [value, setValue] = useState(jsonReplyObj)
+    console.log("setValue")
     const renderElement = useCallback((props) => <Element {...props} />, []);
+    console.log("Element")
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
-    const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+    console.log("Leaf")
+    const editor = useMemo(() => withReact(createEditor()), [])
+    console.log("useMemo")
     return (
         <div>
             <CustomDiv style={hasMargin ? ({ paddingLeft: '10px' }) : ({ paddingLeft: '0px' })}>
