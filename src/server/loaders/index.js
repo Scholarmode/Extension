@@ -1,7 +1,7 @@
 import passportLoader from './passport'
 
-const loaders = async ({ expressApp }) => {
-    await passportLoader({ app: expressApp })
+const loaders = async (expressApp) => {
+    await passportLoader(expressApp)
     console.log('Passport Initialised')
 }
 
