@@ -29,7 +29,7 @@ passport.use(
     )
 )
 
-const passportLoader = async (expressApp) => {
+module.exports = async (expressApp) => {
     expressApp.get(
         '/auth/chrome',
         passport.authenticate('google', {
@@ -40,5 +40,3 @@ const passportLoader = async (expressApp) => {
         }
     )
 }
-
-export default passportLoader

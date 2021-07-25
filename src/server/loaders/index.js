@@ -1,8 +1,6 @@
-import passportLoader from './passport'
+const passportLoader = require('./passport')
 
-const loaders = async (expressApp) => {
+module.exports = async (expressApp) => {
     await passportLoader(expressApp)
     console.log('Passport Initialised')
 }
-
-export default loaders
