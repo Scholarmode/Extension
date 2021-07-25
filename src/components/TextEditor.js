@@ -175,7 +175,9 @@ const TextEditor = ({ value, setValue }) => {
 
 
     return (
-        <MySlate editor={editor} value={value} onChange={(value) => setValue(value)}>
+        <MySlate editor={editor} value={value} onChange={(value) => {
+            setValue(value)
+        }}>
             <MyToolbar>
                 <CustomTimeInput type="number" placeholder="00"></CustomTimeInput>
                 <p>:</p>

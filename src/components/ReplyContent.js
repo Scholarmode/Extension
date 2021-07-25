@@ -158,6 +158,7 @@ const Leaf = ({ attributes, children, leaf }) => {
         return (<span
             {...attributes}
             className={css`
+                    background-color: hsla(0, 0%, 100%, .5);;
                     font-family: monospace;
                     background: hsla(0, 0%, 100%, .5);
                 ${leaf.comment &&
