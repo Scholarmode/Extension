@@ -1,6 +1,5 @@
 require('dotenv').config()
 const loaders = require('./loaders')
-const passport = require('passport')
 const cookieSession = require('cookie-session')
 const express = require('express')
 const cors = require('cors')
@@ -20,8 +19,7 @@ app.use(
         keys: [process.env.S_COOKIE_KEY],
     })
 )
-app.use(passport.initialize())
-app.use(passport.session())
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -47,7 +45,7 @@ mongoose.connect(
     }
 )
 
-loaders.init(app)
+loaders(app)
 
 //Configuring Endpoints
 // Account RESTFul endpoints
