@@ -26,7 +26,7 @@ const Discussion = () => {
 	const [error, setError] = useState(null);
 	const [isLoaded, setIsLoaded] = useState(false);
 
-	const url = 'https://scholarmode.herokuapp.com/questions/60fd66a250fd11167a18167b';
+	const url = 'https://scholarmode.herokuapp.com/questions/';
 
 	//60fd66a250fd11167a18167b
 
@@ -49,7 +49,7 @@ const Discussion = () => {
 				// Examine the text in the response
 				response.json().then(function (data) {
 					setIsLoaded(true);
-					setQuestion(data);
+					setQuestions(data);
 				});
 			})
 			.catch(function (err) {
@@ -134,16 +134,16 @@ const Discussion = () => {
 	// 	],
 	// });
 
-	const [question, setQuestion] = useState(null)
+	const [questions, setQuestions] = useState(null)
 
 	const [askButtonState, setAskButtonState] = useState(false)
 
 	const [title, setTitle] = useState("")
 
 	return (
-		<QuestionContext.Provider value={{ question, setQuestion }}>
-			{question == null && <MyCircularProgress />}
-			{question != null &&
+		<div>
+			{questions == null && <MyCircularProgress />}
+			{questions != null &&
 				<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />}
 			{askButtonState &&
 				<CustomDiv>
@@ -151,8 +151,15 @@ const Discussion = () => {
 					<ReplyBox />
 				</CustomDiv>
 			}
-			{question != null && <Question />}
-		</QuestionContext.Provider>
+			{questions != null &&
+				questions.map(question => {
+					<QuestionContext.Provider value={{ question, setQuestions }}>
+						{console.log(question)}
+						<Question />
+					</QuestionContext.Provider>
+				})
+			}
+		</div>
 	);
 };
 

@@ -20,7 +20,7 @@ const NewCustomWidthDiv = styled.div`
 `;
 
 function Question() {
-	const { question, setQuestion } = useContext(QuestionContext);
+	const { question, setQuestions } = useContext(QuestionContext);
 	console.log("Question Content: " + question.content)
 	return (
 		<CustomDiv>
