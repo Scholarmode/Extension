@@ -153,10 +153,10 @@ const Discussion = () => {
 			}
 			{questions != null &&
 				questions.map(question => {
-					<QuestionContext.Provider value={{ question, setQuestions }}>
+					return (<QuestionContext.Provider value={{ question, setQuestions }}>
 						{console.log(question)}
 						<Question />
-					</QuestionContext.Provider>
+					</QuestionContext.Provider>)
 				})
 			}
 		</div>
