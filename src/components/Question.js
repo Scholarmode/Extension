@@ -12,10 +12,12 @@ import moment from 'moment';
 const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
+	min-width: 323.33px;
 `;
 
 function Question() {
 	const { question, setQuestion } = useContext(QuestionContext);
+	console.log("Question Content: " + question.content)
 	return (
 		<CustomDiv>
 			<Sidebar />

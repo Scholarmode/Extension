@@ -32,7 +32,6 @@ const Reply = (props) => {
 	const comment = { ...props.comment };
 
 	let userNameUrl = 'https://material-ui.com/static/images/avatar/1.jpg';
-
 	return (
 		<>
 			<div>
