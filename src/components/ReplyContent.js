@@ -2,7 +2,14 @@ import styled from 'styled-components'
 import { useState, useMemo, useCallback } from "react";
 import { Editable, withReact, useSlate, Slate } from "slate-react";
 import { withHistory } from "slate-history";
-import { Editor, Transforms, createEditor } from "slate";
+import Prism from "prismjs";
+import { Text, Editor, Transforms, createEditor } from "slate";
+import { css } from 'emotion';
+import 'prismjs/components/prism-python'
+import 'prismjs/components/prism-php'
+import 'prismjs/components/prism-sql'
+import 'prismjs/components/prism-java'
+
 
 const CustomDiv = styled.div`
     display: flex;
@@ -48,10 +55,9 @@ const CustomListTag = styled.li`
 
 
 
+
+
 function ReplyContent({ reply, hasMargin }) {
-    const ref = editor => {
-        this.editor = editor
-    }
     console.log("JSON Response: " + JSON.parse(reply))
     let jsonReplyObj = JSON.parse(reply)
     console.log("jsonReplyObj")
@@ -63,11 +69,56 @@ function ReplyContent({ reply, hasMargin }) {
     console.log("Leaf")
     const editor = useMemo(() => withReact(createEditor()), [])
     console.log("useMemo")
+
+    const [language, setLanguage] = useState("js");
+
+    const decorate = useCallback(
+        ([node, path]) => {
+            const ranges = [];
+            if (!Text.isText(node)) {
+                return ranges;
+            }
+            const tokens = Prism.tokenize(node.text, Prism.languages[language]);
+            let start = 0;
+
+            for (const token of tokens) {
+                const length = getLength(token);
+                const end = start + length;
+
+                if (typeof token !== "string") {
+                    ranges.push({
+                        [token.type]: true,
+                        anchor: { path, offset: start },
+                        focus: { path, offset: end }
+                    });
+                }
+
+                start = end;
+            }
+
+            return ranges;
+        },
+        [language]
+    );
+
+
+
+    const getLength = (token) => {
+        if (typeof token === "string") {
+            return token.length;
+        } else if (typeof token.content === "string") {
+            return token.content.length;
+        } else {
+            return token.content.reduce((l, t) => l + getLength(t), 0);
+        }
+    };
+
     return (
         <div>
             <CustomDiv style={hasMargin ? ({ paddingLeft: '10px' }) : ({ paddingLeft: '0px' })}>
                 <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
                     <Editable
+                        decorate={decorate}
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}
                         readOnly={true}
@@ -104,7 +155,54 @@ const Leaf = ({ attributes, children, leaf }) => {
     }
 
     if (leaf.code) {
-        children = <CustomCodeStyle>{children}</CustomCodeStyle>;
+        return (<span
+            {...attributes}
+            className={css`
+                    /* background-color: hsla(0, 0%, 100%, .5); */
+                    font-family: monospace;
+                    background: white;
+                ${leaf.comment &&
+                css`
+                    color: slategray;
+                  `} 
+                ${(leaf.operator || leaf.url) &&
+                css`
+                    color: #9a6e3a;
+                  `}
+                ${leaf.keyword &&
+                css`
+                    color: #07a;
+                  `}
+                ${(leaf.variable || leaf.regex) &&
+                css`
+                    color: #e90;
+                  `}
+                ${(leaf.number ||
+                    leaf.boolean ||
+                    leaf.tag ||
+                    leaf.constant ||
+                    leaf.symbol ||
+                    leaf['attr-name'] ||
+                    leaf.selector) &&
+                css`
+                    color: #905;
+                  `}
+                ${leaf.punctuation &&
+                css`
+                    color: #999;
+                  `}
+                ${(leaf.string || leaf.char) &&
+                css`
+                    color: #690;
+                  `}
+                ${(leaf.function || leaf['class-name']) &&
+                css`
+                    color: #dd4a68;
+                  `}
+                `}
+        >
+            {children}
+        </span>);
     }
 
     if (leaf.italic) {
@@ -113,6 +211,12 @@ const Leaf = ({ attributes, children, leaf }) => {
 
     if (leaf.underline) {
         children = <u>{children}</u>;
+    }
+
+    if (leaf.comment) {
+        children = css` 
+            color: slategray;
+         `
     }
 
     return <span {...attributes}>{children}</span>;

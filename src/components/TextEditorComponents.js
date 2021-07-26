@@ -135,7 +135,7 @@ export const Toolbar = React.forwardRef(({ className, ...props }, ref) => (
             css`
         position: relative;
         padding: 1px 18px 10px;
-        padding-left: 30px;
+        padding-left: 10px;
         margin: 0 -4px;
         align-items: center;
         border-bottom: 2px solid #eee;

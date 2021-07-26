@@ -16,7 +16,7 @@
     "@types/source-map": "^0.5.2",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
-    "emotion": "^10.0.27",
+    "emotion": "^10.0.9",
     "emotion-icons": "^3.17.0",
     "is-hotkey": "^0.1.8",
     "moment": "^2.29.1",
