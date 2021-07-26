@@ -32,24 +32,46 @@ ReactDOM.render(
   document.getElementById('insertion-point')
 )
 
+
+//create div
+const beforeVideos = document.createElement('div');
+beforeVideos.id = 'prevideos';
+beforeVideos.style.display = 'none';
+
+//check for recommended videos and prepend div
+if (document.querySelector('#secondary')) {
+  document.querySelector('#secondary').insertAdjacentElement('afterbegin', beforeVideos)
+}
+else {
+  console.log('discussion div not rendered')
+}
+
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Discussion />
+  </React.StrictMode>,
+  document.getElementById('prevideos')
+)
+
+//find recommended videos
+const videos = document.getElementById('secondary-inner')
+
+
+
 // Add chrome storage listener to render questions/recommended videos when button is toggled.
 chrome.storage.onChanged.addListener((changes, namespace) => {
   for (let key in changes) {
     if (key === 'active') {
       chrome.storage.sync.get(['active'], (response) => {
-        if (response.active) {
-          ReactDOM.render(
-            <React.StrictMode>
-              <Discussion />
-            </React.StrictMode>,
-            document.getElementById('secondary')
-          )
-        } else {
-          window.location.reload()
+        if (response.active) {  
+        beforeVideos.style.display = "block"
+        videos.style.display = "none";
 
-          // chrome.storage.sync.get(['recommendedVideos'], (response) => {
-          //   document.getElementById('secondary').innerHTML = response.recommendedVideos
-          // })
+
+        } else {
+          beforeVideos.style.display = "none"
+          videos.style.display = "block"
         }
       })
     }
@@ -64,27 +86,12 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 window.onload = () => {
   chrome.storage.sync.get(['active'], (response) => {
     if (response.active) {
-      ReactDOM.render(
-        <React.StrictMode>
-          <Discussion />
-        </React.StrictMode>,
-        document.getElementById('secondary')
-      )
+      beforeVideos.style.display = "block"
+      videos.style.display = "none";
+      
+    } else {
+      beforeVideos.style.display = "none"
+      videos.style.display = "block"
     }
   })
 }
-
-
-
-
-//find and store recommended videos in localStorage
-
-// window.addEventListener("load", function(){
-  if (document.getElementById('secondary')) {
-      chrome.storage.sync.set({
-      recommendedVideos: document.getElementById('secondary').innerHTML
-      })
-  } else {
-    console.log('no videos here')
-  }
-// });
