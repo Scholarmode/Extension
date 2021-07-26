@@ -57,26 +57,38 @@ ReactDOM.render(
 //find recommended videos
 const videos = document.getElementById('secondary-inner')
 
+//find toggle to know the state
+const toggle = document.querySelector('.sc-bdnxRM')
+
+toggle.addEventListener("click", () => {
+  if(toggle.classList[toggle.classList.length - 1] === 'active'){
+    beforeVideos.style.display = "block"
+    videos.style.display = "none";
+  }else{
+    beforeVideos.style.display = "none"
+    videos.style.display = "block"
+  }
+})
 
 
 // Add chrome storage listener to render questions/recommended videos when button is toggled.
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  for (let key in changes) {
-    if (key === 'active') {
-      chrome.storage.sync.get(['active'], (response) => {
-        if (response.active) {  
-        beforeVideos.style.display = "block"
-        videos.style.display = "none";
+// chrome.storage.onChanged.addListener((changes, namespace) => {
+  // for (let key in changes) {
+    // if (key === 'active') {
+    //   chrome.storage.sync.get(['active'], (response) => {
+    //     if (response.active) {  
+    //     beforeVideos.style.display = "block"
+    //     videos.style.display = "none";
 
 
-        } else {
-          beforeVideos.style.display = "none"
-          videos.style.display = "block"
-        }
-      })
-    }
-  }
-})
+    //     } else {
+    //       beforeVideos.style.display = "none"
+    //       videos.style.display = "block"
+    //     }
+    //   })
+    // }
+  // }
+// })
           
     
   
@@ -84,8 +96,7 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 
 // update recommended videos on first YouTube load or any refresh
 window.onload = () => {
-  chrome.storage.sync.get(['active'], (response) => {
-    if (response.active) {
+    if (toggle.classList[toggle.classList.length - 1] === 'active') {
       beforeVideos.style.display = "block"
       videos.style.display = "none";
       
@@ -93,5 +104,4 @@ window.onload = () => {
       beforeVideos.style.display = "none"
       videos.style.display = "block"
     }
-  })
 }
