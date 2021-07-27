@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TextEditor from './TextEditor';
 import { useState } from 'react';
 import { Node } from 'slate';
+import PostRequestError from './PostRequestError'
 
 const CustomDiv = styled.div`
 	min-height: 100px;
@@ -82,7 +83,7 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
                     votes: 0,
                 };
 
-                fetch('http://localhost:8080/questionsz/', {
+                fetch('http://localhost:8080/questions/', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
@@ -90,9 +91,15 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
                     },
                     body: JSON.stringify(reqBody),
                 })
-                    .then((response) => response.json)
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            setPostReqError(true)
+                        }
+                    })
                     .then((data) => { })
-                    .catch((err) => console.log('Request failed', err));
+                    .catch((err) => {
+                        setPostReqError(true)
+                    });
             });
         });
     };
