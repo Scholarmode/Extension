@@ -60,16 +60,49 @@ const videos = document.getElementById('secondary-inner')
 //find toggle to know the state
 const toggle = document.querySelector('.sc-bdnxRM')
 
-toggle.addEventListener("click", () => {
-  if(toggle.classList[toggle.classList.length - 1] === 'active'){
-    beforeVideos.style.display = "block"
-    videos.style.display = "none";
-  }else{
-    beforeVideos.style.display = "none"
-    videos.style.display = "block"
+
+//observe when toggle changes
+const toggleObserver = new MutationObserver(
+  function(mutations){
+    mutations.forEach(function(mutation){
+        if(mutation.target.classList[2] === 'active'){
+            beforeVideos.style.display = "block"
+            videos.style.display = "none";
+          }else{
+            beforeVideos.style.display = "none"
+            videos.style.display = "block"
+          }
+      })
   }
+)
+
+toggleObserver.observe(toggle, {
+  childList: false,
+  attributes: true
 })
 
+
+
+
+// toggle.addEventListener("click", () => {
+//   if(toggle.classList[toggle.classList.length - 1] === 'active'){
+//     beforeVideos.style.display = "block"
+//     videos.style.display = "none";
+//   }else{
+//     beforeVideos.style.display = "none"
+//     videos.style.display = "block"
+//   }
+// })
+
+// toggle.addEventListener("click", () => {
+//   if(toggle.classList[toggle.classList.length - 1] === 'deactive'){
+//     beforeVideos.style.display = "block"
+//     videos.style.display = "none";
+//   }else{
+//     beforeVideos.style.display = "none"
+//     videos.style.display = "block"
+//   }
+// })
 
 // Add chrome storage listener to render questions/recommended videos when button is toggled.
 // chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -95,13 +128,13 @@ toggle.addEventListener("click", () => {
 
 
 // update recommended videos on first YouTube load or any refresh
-window.onload = () => {
-    if (toggle.classList[toggle.classList.length - 1] === 'active') {
-      beforeVideos.style.display = "block"
-      videos.style.display = "none";
+// window.onload = () => {
+//     if (toggle.classList[toggle.classList.length - 1] === 'active') {
+//       beforeVideos.style.display = "block"
+//       videos.style.display = "none";
       
-    } else {
-      beforeVideos.style.display = "none"
-      videos.style.display = "block"
-    }
-}
+//     } else {
+//       beforeVideos.style.display = "none"
+//       videos.style.display = "block"
+//     }
+// }
