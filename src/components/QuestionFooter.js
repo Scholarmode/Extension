@@ -12,6 +12,8 @@ import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
 
+import PostRequestError from './PostRequestError.js'
+
 const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
@@ -123,6 +125,9 @@ function QuestionFooter({ totalReplies }) {
     // State for UserName
     const [replyUserName, setReplyUserName] = useState("")
 
+    // State for handling error
+    const [postError, setPostError] = useState(false)
+
     return (
         <div>
             <CustomDiv>
@@ -149,11 +154,12 @@ function QuestionFooter({ totalReplies }) {
                     </ReportDiv>
                 </Popup>
             </CustomDiv>
-            {isReplyBoxOpen && <ReplyBox isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />}
+            {postError && <PostRequestError />}
+            {isReplyBoxOpen && <ReplyBox setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />}
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                    <ReplyBox setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                 </>
             }
             {isReplyOpen &&

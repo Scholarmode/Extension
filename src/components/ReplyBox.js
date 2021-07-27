@@ -61,7 +61,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const storeValue = () => {
@@ -82,7 +82,7 @@ const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, i
                     votes: 0,
                 };
 
-                fetch('http://localhost:8080/questions/', {
+                fetch('http://localhost:8080/questionsz/', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
