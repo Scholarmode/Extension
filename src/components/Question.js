@@ -22,7 +22,6 @@ const NewCustomWidthDiv = styled.div`
 
 function Question() {
 	const { question, setQuestions } = useContext(QuestionContext);
-	console.log("Question Content: " + question.content)
 	return (
 		<CustomDiv>
 			<Sidebar />

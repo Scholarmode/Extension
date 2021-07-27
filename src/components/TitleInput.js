@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components';
 
 const CustomDiv = styled.div`
@@ -19,7 +19,6 @@ const CustomInput = styled.input`
 
 function TitleInput({ title, setTitle }) {
     const setTitleText = (e) => {
-        console.log(e.target.value)
         setTitle(e.target.value)
     }
 

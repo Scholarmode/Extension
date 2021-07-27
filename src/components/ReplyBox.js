@@ -66,9 +66,6 @@ const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, i
 
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
-        console.log(newValue);
-        console.log('Hey String Here');
-        console.log(JSON.stringify(newValue));
 
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
@@ -111,11 +108,9 @@ const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, i
     };
 
     const closeBox = () => {
-        console.log("1: " + replyBoxStateNew)
         if (replyBoxStateNew) {
             setReplyBoxStateNew(false)
         }
-        console.log("2: " + isReplyBoxOpenNew)
         if (isReplyBoxOpenNew) {
             setReplyBoxOpenNew(false)
         }
