@@ -96,9 +96,8 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
                             setPostReqError(true)
                         }
                     })
-                    .then((data) => { })
                     .catch((err) => {
-                        setPostReqError(true)
+                        console.log("Error: " + err)
                     });
             });
         });
