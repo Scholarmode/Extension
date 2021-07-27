@@ -11,6 +11,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
+import { useErrorBoundary } from "use-error-boundary";
 
 import PostRequestError from './PostRequestError.js'
 
@@ -128,6 +129,8 @@ function QuestionFooter({ totalReplies }) {
     // State for handling error
     const [postError, setPostError] = useState(false)
 
+    const { ErrorBoundary, didCatch, error } = useErrorBoundary();
+
     return (
         <div>
             <CustomDiv>
@@ -155,7 +158,15 @@ function QuestionFooter({ totalReplies }) {
                 </Popup>
             </CustomDiv>
             {postError && <PostRequestError />}
-            {isReplyBoxOpen && <ReplyBox setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />}
+            {isReplyBoxOpen &&
+                <>
+                    {didCatch ? < PostRequestError /> :
+                        <ErrorBoundary>
+                            <ReplyBox setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                        </ErrorBoundary>
+                    }
+                </>
+            }
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
