@@ -33,12 +33,12 @@ ReactDOM.render(
 )
 
 
-//create div
+//create div for discussion
 const beforeVideos = document.createElement('div');
 beforeVideos.id = 'prevideos';
 beforeVideos.style.display = 'none';
 
-//check for recommended videos and prepend div
+//check for recommended videos and place div before videos
 if (document.querySelector('#secondary')) {
   document.querySelector('#secondary').insertAdjacentElement('afterbegin', beforeVideos)
 }
@@ -46,7 +46,7 @@ else {
   console.log('discussion div not rendered')
 }
 
-
+// render discussion into hidden div
 ReactDOM.render(
   <React.StrictMode>
     <Discussion />
@@ -80,49 +80,6 @@ toggleObserver.observe(toggle, {
   childList: false,
   attributes: true
 })
-
-
-
-
-// toggle.addEventListener("click", () => {
-//   if(toggle.classList[toggle.classList.length - 1] === 'active'){
-//     beforeVideos.style.display = "block"
-//     videos.style.display = "none";
-//   }else{
-//     beforeVideos.style.display = "none"
-//     videos.style.display = "block"
-//   }
-// })
-
-// toggle.addEventListener("click", () => {
-//   if(toggle.classList[toggle.classList.length - 1] === 'deactive'){
-//     beforeVideos.style.display = "block"
-//     videos.style.display = "none";
-//   }else{
-//     beforeVideos.style.display = "none"
-//     videos.style.display = "block"
-//   }
-// })
-
-// Add chrome storage listener to render questions/recommended videos when button is toggled.
-// chrome.storage.onChanged.addListener((changes, namespace) => {
-  // for (let key in changes) {
-    // if (key === 'active') {
-    //   chrome.storage.sync.get(['active'], (response) => {
-    //     if (response.active) {  
-    //     beforeVideos.style.display = "block"
-    //     videos.style.display = "none";
-
-
-    //     } else {
-    //       beforeVideos.style.display = "none"
-    //       videos.style.display = "block"
-    //     }
-    //   })
-    // }
-  // }
-// })
-          
     
   
 
