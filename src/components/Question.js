@@ -20,11 +20,11 @@ const NewCustomWidthDiv = styled.div`
 	min-width: 389.27px;
 `;
 
-function Question() {
-	const { question, setQuestions } = useContext(QuestionContext);
+function Question({ question }) {
+	//const { questions, setQuestions } = useContext(QuestionContext);
 	return (
 		<CustomDiv>
-			<Sidebar />
+			<Sidebar question={question} />
 			<NewCustomWidthDiv className="questionMain">
 				<QuestionHeader
 					userName={question.author.given_name}
@@ -34,7 +34,7 @@ function Question() {
 				/>
 				<QuestionTitle questionTitle={question.title} />
 				<QuestionContent question={question.content} />
-				<QuestionFooter totalReplies={question.replies.length} />
+				<QuestionFooter totalReplies={question.replies.length} question={question} />
 			</NewCustomWidthDiv>
 		</CustomDiv>
 	);

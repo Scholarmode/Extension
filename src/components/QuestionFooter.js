@@ -107,7 +107,7 @@ const OptionsMenu = styled(MoreHorizIcon)`
     cursor: pointer;
 `;
 
-function QuestionFooter({ totalReplies }) {
+function QuestionFooter({ totalReplies, question }) {
 
     const [isReplyOpen, setReplyOpen] = useState(false);
 
@@ -179,6 +179,7 @@ function QuestionFooter({ totalReplies }) {
                     setReplyBoxState={setReplyBoxState}
                     replyUserName={replyUserName}
                     setReplyUserName={setReplyUserName}
+                    questionReplies={question}
                 />
 
             }

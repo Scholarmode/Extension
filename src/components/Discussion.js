@@ -160,7 +160,7 @@ const Discussion = () => {
 						<QuestionContext.Provider
 							value={{ question, setQuestions }}
 						>
-							<Question />
+							<Question question={question} />
 						</QuestionContext.Provider>
 					)
 				})}

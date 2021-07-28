@@ -4,6 +4,8 @@ import TextEditor from './TextEditor';
 import { useState } from 'react';
 import { Node } from 'slate';
 import PostRequestError from './PostRequestError'
+import { QuestionContext } from './QuestionContext';
+import { useContext } from 'react';
 
 const CustomDiv = styled.div`
 	min-height: 100px;
@@ -65,6 +67,8 @@ const getTimestamp = () => {
 const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
+    const { questions, setQuestions } = useContext(QuestionContext);
+
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
 
@@ -95,6 +99,14 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
                         if (response.status !== 200) {
                             setPostReqError(true)
                         }
+                        else {
+                            console.log("Response: " + response);
+                            console.log("Questions: " + questions)
+                            console.log("JSON: " + response.json());
+                        }
+                    })
+                    .then((data) => {
+                        console.log("Respones: " + data)
                     })
                     .catch((err) => {
                         console.log("Error: " + err)
