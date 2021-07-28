@@ -150,8 +150,12 @@ const Discussion = () => {
 			)}
 			{askButtonState && (
 				<CustomDiv>
-					<TitleInput title={title} setTitle={setTitle} />
-					<ReplyBox />
+					<QuestionContext.Provider
+						value={{ questions, setQuestions }}
+					>
+						<TitleInput title={title} setTitle={setTitle} />
+						<ReplyBox allQuestions={questions} />
+					</QuestionContext.Provider>
 				</CustomDiv>
 			)}
 			{questions != null &&
@@ -160,7 +164,8 @@ const Discussion = () => {
 						<QuestionContext.Provider
 							value={{ question, setQuestions }}
 						>
-							<Question question={question} />
+							{console.log(question)}
+							<Question question={question} allQuestions={questions} />
 						</QuestionContext.Provider>
 					)
 				})}

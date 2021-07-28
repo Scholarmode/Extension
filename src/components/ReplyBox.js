@@ -64,10 +64,15 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
-    const { questions, setQuestions } = useContext(QuestionContext);
+    const { setQuestions } = useContext(QuestionContext);
+
+    const insertObject = (array, index, arrayToInsert) => {
+        Array.prototype.splice.apply(array, [index, 0].concat(arrayToInsert));
+        return array;
+    }
 
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
@@ -87,30 +92,55 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
                     votes: 0,
                 };
 
+                // (async () => {
+                //     const rawResponse = 
+                // })
                 fetch('http://localhost:8080/questions/', {
                     method: 'POST',
                     headers: {
-                        Accept: 'application/json',
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(reqBody),
+                    redirect: "follow"
                 })
-                    .then((response) => {
-                        if (response.status !== 200) {
-                            setPostReqError(true)
+                    .then(async (response) => {
+                        // if (response.status !== 200) {
+                        //     setPostReqError(true)
+                        // }
+                        // else {
+                        //     console.log("Response: " + response);
+                        //     console.log("Questions: " + allQuestions)
+                        //     console.log("JSON: " + response.json());
+                        //     let jsonR = response.json()
+                        //     let whole = { ...allQuestions, reqBody }
+                        //     let newObj = Object.assign({}, allQuestions, reqBody)
+                        //     console.log("NewObj: " + JSON.stringify(reqBody))
+                        //     // setQuestions(newObj)
+                        // }
+                        let data = await response.json();
+                        if (response.status != 200) {
+                            console.log("Error")
                         }
                         else {
-                            console.log("Response: " + response);
-                            console.log("Questions: " + questions)
-                            console.log("JSON: " + response.json());
+                            console.log(JSON.stringify(data))
+                            let newObj = insertObject(allQuestions, 0, data)
+                            console.log("New Obj: " + JSON.stringify(newObj))
+                            setQuestions(null)
+                            setQuestions(newObj)
+                            // console.log("Length of all questions: " + allQuestions.length())
+
                         }
-                    })
+                    }
+                    )
                     .then((data) => {
-                        console.log("Respones: " + data)
+                        console.log("Responses m: " + data)
                     })
                     .catch((err) => {
                         console.log("Error: " + err)
+                        setPostReqError(true)
                     });
+
+
             });
         });
     };

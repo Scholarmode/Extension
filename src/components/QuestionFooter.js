@@ -107,7 +107,7 @@ const OptionsMenu = styled(MoreHorizIcon)`
     cursor: pointer;
 `;
 
-function QuestionFooter({ totalReplies, question }) {
+function QuestionFooter({ totalReplies, questions }) {
 
     const [isReplyOpen, setReplyOpen] = useState(false);
 
@@ -162,7 +162,7 @@ function QuestionFooter({ totalReplies, question }) {
                 <>
                     {didCatch ? < PostRequestError /> :
                         <ErrorBoundary>
-                            <ReplyBox setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                            <ReplyBox allQuestions={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                         </ErrorBoundary>
                     }
                 </>
@@ -179,7 +179,6 @@ function QuestionFooter({ totalReplies, question }) {
                     setReplyBoxState={setReplyBoxState}
                     replyUserName={replyUserName}
                     setReplyUserName={setReplyUserName}
-                    questionReplies={question}
                 />
 
             }
