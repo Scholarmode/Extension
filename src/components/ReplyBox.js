@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TextEditor from './TextEditor';
 import { useState } from 'react';
 import { Node } from 'slate';
+import PostRequestError from './PostRequestError'
 
 const CustomDiv = styled.div`
 	min-height: 100px;
@@ -61,7 +62,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const storeValue = () => {
@@ -90,9 +91,14 @@ const ReplyBox = ({ setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, i
                     },
                     body: JSON.stringify(reqBody),
                 })
-                    .then((response) => response.json)
-                    .then((data) => { })
-                    .catch((err) => console.log('Request failed', err));
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            setPostReqError(true)
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("Error: " + err)
+                    });
             });
         });
     };
