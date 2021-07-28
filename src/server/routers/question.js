@@ -4,14 +4,35 @@ const Replies = require('../models/reply')
 
 module.exports = {
     getAll: (req, res) => {
-        Question.find((err, questions) => {
-            if (err) return res.status(400).json(err)
-            if (!questions) return res.status(404).json()
+        // Question.find((err, questions) => {
+        //     if (err) return res.status(400).json(err)
+        //     if (!questions) return res.status(404).json()
 
-            if (questions.length === 0)
-                return res.status(404).json('No matching documents')
-            res.json(questions)
-        })
+        //     if (questions.length === 0)
+        //         return res.status(404).json('No matching documents')
+        //     res.json(questions)
+        // })
+
+        Question.find()
+            .populate('author')
+            .populate({
+                path: 'replies',
+                populate: [
+                    { path: 'author' },
+                    {
+                        path: 'replies',
+                        populate: [{ path: 'author' }, { path: 'replies' }],
+                    },
+                ],
+            })
+            .exec((err, questions) => {
+                if (err) return res.status(400).json(err)
+                if (!questions) return res.status(404).json()
+
+                if (questions.length === 0)
+                    return res.status(404).json('No matching documents')
+                res.json(questions)
+            })
     },
 
     createOne: (req, res) => {
@@ -20,8 +41,6 @@ module.exports = {
 
         let question = new Question(newQuestionDetails)
         question.save((err) => {
-            console.log(req.body)
-            console.log(err)
             if (err) return res.status(400).json(err)
             res.json(question)
         })
@@ -47,6 +66,11 @@ module.exports = {
     },
 
     getAuthorQuestions: (req, res) => {
+        // Question.find({ author: req.params.id }, (err, questions) => {
+        // 	if (err) return res.status(400).json(err);
+        // 	if (!questions) return res.status(404).json();
+        // 	return res.json(questions);
+        // });
         Question.find({ author: req.params.id })
             .populate('author')
             .populate({

@@ -1,6 +1,5 @@
-
-import styled from 'styled-components'
-import React from "react";
+import styled from 'styled-components';
+import React from 'react';
 import ReplyContent from './ReplyContent';
 
 const CustomDiv = styled.div`
@@ -19,16 +18,14 @@ const QuestionContentText = styled.div`
 `;
 
 function QuestionContent({ question }) {
-    console.log(question)
-    let newQuestion = question.replaceAll('\\', ' ')
-    console.log("Question Id: " + newQuestion._id)
-    console.log("New Question: " + newQuestion)
+    let newQuestion = question
     return (
         <CustomDiv>
-            <ReplyContent reply={newQuestion} />
+            <ReplyContent reply={newQuestion} hasMargin={false} />
             {/* <p>{question}</p> */}
         </CustomDiv>
     )
+
 }
 
 export default QuestionContent;

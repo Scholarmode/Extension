@@ -14,7 +14,7 @@ const LinkSpan = styled.span`
 `
 
 const CustomReplyText = styled.p`
-    margin-left: 10px;
+    margin-left: 1px;
 `;
 
 function ReplyBoxHeader({ userName }) {

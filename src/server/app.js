@@ -1,8 +1,6 @@
 require('dotenv').config()
-const passport = require('passport')
+const loaders = require('./loaders')
 const cookieSession = require('cookie-session')
-const GoogleTokenStrategy = require('passport-google-token').Strategy
-const Account = require('./models/account')
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -13,43 +11,6 @@ const replies = require('./routers/reply')
 const app = express()
 const port = process.env.PORT || 8080
 
-// Authenticate with Google Token Strategy
-passport.use(
-    new GoogleTokenStrategy(
-        {
-            clientID: process.env.G_CLIENT_ID,
-            clientSecret: process.env.G_CLIENT_SECRET,
-        },
-        (accessToken, refreshToken, profile, done) => {
-            Account.findOne({ googleId: profile.id }).then((currentUser) => {
-                if (currentUser) {
-                    done(null, currentUser)
-                } else {
-                    // Save to the account collection
-                    let newAccountDetails = profile._json
-                    newAccountDetails._id = new mongoose.Types.ObjectId()
-                    newAccountDetails.googleId = profile.id
-
-                    let account = new Account(newAccountDetails)
-                    account.save((newUser) => {
-                        done(null, newUser)
-                    })
-                }
-            })
-        }
-    )
-)
-
-passport.serializeUser((user, done) => {
-    done(null, user.id)
-})
-
-passport.deserializeUser((id, done) => {
-    Account.findById(id).then((user) => {
-        done(null, user)
-    })
-})
-
 app.listen(port)
 console.log(`Listening on port ${port}`)
 
@@ -59,8 +20,7 @@ app.use(
         keys: [process.env.S_COOKIE_KEY],
     })
 )
-app.use(passport.initialize())
-app.use(passport.session())
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -85,6 +45,8 @@ mongoose.connect(
         console.log('Connected to Mongoose successfully')
     }
 )
+
+loaders(app)
 
 //Configuring Endpoints
 // Account RESTFul endpoints
@@ -112,8 +74,3 @@ app.put('/replies/:id', replies.updateOne)
 app.delete('/replies/:id', replies.deleteOne)
 app.put('/replies/:id/upvote', replies.upvote)
 app.put('/replies/:id/downvote', replies.downvote)
-
-// Google AUTH endpoints
-app.get('/auth/chrome', passport.authenticate('google-token'), (req, res) => {
-    res.json(req.user)
-})

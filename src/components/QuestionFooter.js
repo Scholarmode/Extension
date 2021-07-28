@@ -66,6 +66,29 @@ const ReplyIcon = styled(SmsIcon)`
    cursor: pointer;
 `;
 
+const ZeroReplyIcon = styled(SmsIcon)`
+   color: #C4C4C4;
+   margin-left: 0px;
+   align-items: center;
+   cursor: pointer;
+`;
+
+const ArrowUp = styled(ArrowDropDownIcon)`
+   color: #2196F3;
+   cursor: pointer;
+   transform: rotate(180deg);
+
+   ::selection {
+    color: none;
+    background: none;
+   }
+/* For Mozilla Firefox */
+   ::-moz-selection {
+    color: none;
+    background: none;
+   }
+`
+
 const ReplyClickText = styled.p`
    color: #626262;
    font-size : 16px;
@@ -106,12 +129,18 @@ function QuestionFooter({ totalReplies }) {
                 {
                     totalReplies > 0 &&
                     <>
-                        <ArrowDown fontSize="large" onClick={onClickReply} />
-                        <RepliesTextLink onClick={onClickReply}>View {totalReplies} Replies</RepliesTextLink>
+                        {isReplyOpen ? <ArrowUp fontSize="large" onClick={onClickReply} /> : <ArrowDown fontSize="large" onClick={onClickReply} />}
+                        <RepliesTextLink onClick={onClickReply}>
+                            {
+                                isReplyOpen ? <> Hide {totalReplies} Replies </> : <> View {totalReplies} Replies </>
+                            }
+                        </RepliesTextLink>
                     </>
                 }
 
-                <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
+                {
+                    totalReplies <= 0 ? <ZeroReplyIcon fontSize="large" onClick={onReplyBoxClick} /> : <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
+                }
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <Popup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
                     <ReportDiv>
@@ -120,11 +149,11 @@ function QuestionFooter({ totalReplies }) {
                     </ReportDiv>
                 </Popup>
             </CustomDiv>
-            {isReplyBoxOpen && <ReplyBox />}
+            {isReplyBoxOpen && <ReplyBox isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />}
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox />
+                    <ReplyBox setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                 </>
             }
             {isReplyOpen &&
