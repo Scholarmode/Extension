@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ titleInput, allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -87,7 +87,7 @@ const ReplyBox = ({ allQuestions, setPostReqError, setReplyBoxStateNew, replyBox
                     replies: [],
                     reports: [],
                     timestamp: getTimestamp(),
-                    title: 'Title',
+                    title: titleInput,
                     video: linkifyYouTubeURLs(window.location.href),
                     votes: 0,
                 };

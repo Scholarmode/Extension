@@ -154,7 +154,7 @@ const Discussion = () => {
 						value={{ questions, setQuestions }}
 					>
 						<TitleInput title={title} setTitle={setTitle} />
-						<ReplyBox allQuestions={questions} />
+						<ReplyBox allQuestions={questions} titleInput={title} />
 					</QuestionContext.Provider>
 				</CustomDiv>
 			)}
@@ -164,7 +164,6 @@ const Discussion = () => {
 						<QuestionContext.Provider
 							value={{ question, setQuestions }}
 						>
-							{console.log(question)}
 							<Question question={question} allQuestions={questions} />
 						</QuestionContext.Provider>
 					)
