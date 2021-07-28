@@ -63,8 +63,8 @@ app.get('/questions/author/:id', questions.getAuthorQuestions)
 app.post('/questions', questions.createOne)
 app.put('/questions/:id', questions.updateOne)
 app.delete('/questions/:id', questions.deleteOne)
-app.put('/questions/:id/upvote', questions.upvote)
-app.put('/questions/:id/downvote', questions.downvote)
+app.put('/questions/:id/:accountId/upvote', questions.upvote)
+app.put('/questions/:id/:accountId/downvote', questions.downvote)
 
 // Reply RESTFul endpoints
 app.get('/replies', replies.getAll)

@@ -97,28 +97,68 @@ module.exports = {
     },
 
     upvote: (req, res) => {
-        Question.findOneAndUpdate(
-            { _id: req.params.id },
-            { $inc: { votes: 1 } },
-            { returnOriginal: false },
-            (err, question) => {
-                if (err) return res.status(400).json(err)
-                if (!question) return res.status(404).json()
-                res.json(question)
+        Question.findOne({ _id: req.params.id }, (err, question) => {
+            if (err) return res.status(400).json(err)
+            if (!question) return res.status(404).json()
+
+            const accountId = req.params.accountId
+            let upvoters = question.upvoters
+            let downvoters = question.downvoters
+
+            console.log(upvoters)
+            console.log(downvoters)
+
+            if (downvoters.includes(accountId)) {
+                console.log(`Before removal: ${downvoters}`)
+                downvoters.splice(downvoters.indexOf(accountId), 1)
+                console.log(`After removal: ${downvoters}`)
+
+                upvoters.push(accountId)
+            } else if (upvoters.includes(accountId)) {
+                return res
+                    .status(422)
+                    .json('The user has already upvoted this question.')
+            } else {
+                upvoters.push(accountId)
             }
-        )
+
+            question.votes += 1
+            question.upvoters = upvoters
+            question.downvoters = downvoters
+            question.save()
+            res.json()
+        })
     },
 
     downvote: (req, res) => {
-        Question.findOneAndUpdate(
-            { _id: req.params.id },
-            { $inc: { votes: -1 } },
-            { returnOriginal: false },
-            (err, question) => {
-                if (err) return res.status(400).json(err)
-                if (!question) return res.status(404).json()
-                res.json(question)
+        Question.findOne({ _id: req.params.id }, (err, question) => {
+            if (err) return res.status(400).json(err)
+            if (!question) return res.status(404).json()
+
+            const accountId = req.params.accountId
+            let upvoters = question.upvoters
+            let downvoters = question.downvoters
+
+            console.log(upvoters)
+            console.log(downvoters)
+
+            if (upvoters.includes(accountId)) {
+                upvoters.splice(upvoters.indexOf(accountId), 1)
+
+                downvoters.push(accountId)
+            } else if (downvoters.includes(accountId)) {
+                return res
+                    .status(422)
+                    .json('The user has already downvoted this question.')
+            } else {
+                downvoters.push(accountId)
             }
-        )
+
+            question.votes -= 1
+            question.upvoters = upvoters
+            question.downvoters = downvoters
+            question.save()
+            res.json()
+        })
     },
 }
