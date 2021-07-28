@@ -58,17 +58,11 @@ const CustomListTag = styled.li`
 
 
 function ReplyContent({ reply, hasMargin }) {
-    console.log("JSON Response: " + JSON.parse(reply))
     let jsonReplyObj = JSON.parse(reply)
-    console.log("jsonReplyObj")
     const [value, setValue] = useState(jsonReplyObj)
-    console.log("setValue")
     const renderElement = useCallback((props) => <Element {...props} />, []);
-    console.log("Element")
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
-    console.log("Leaf")
     const editor = useMemo(() => withReact(createEditor()), [])
-    console.log("useMemo")
 
     const [language, setLanguage] = useState("js");
 

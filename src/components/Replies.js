@@ -42,8 +42,6 @@ function Replies(props) {
 
 
 	// const nest = (items, id = null) => {
-	// 	console.log(items);
-	// 	console.log(id);
 	// 	items
 	// 		.filter((item) => item.parentReply === id)
 	// 		.map((item) => ({ ...item, children: nest(items, item.id) }));

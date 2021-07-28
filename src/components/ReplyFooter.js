@@ -103,7 +103,6 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const upvotePutRequest = () => {
-        console.log("ReplyId: " + replyId)
         fetch(`http://localhost:8080/replies/${replyId}/upvote/`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
@@ -111,7 +110,6 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const downvotePutRequest = () => {
-        console.log("ReplyId Downvote: " + replyId)
         fetch(`http://localhost:8080/replies/${replyId}/downvote/`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
@@ -141,10 +139,7 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const changeReplyBoxState = () => {
-        console.log(replyBoxOpen)
         setReplyBoxOpen(!replyBoxOpen)
-
-        console.log("Heyy: " + userName)
         setReplyUserName(userName)
     }
 
