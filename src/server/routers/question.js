@@ -105,9 +105,6 @@ module.exports = {
             let upvoters = question.upvoters
             let downvoters = question.downvoters
 
-            console.log(upvoters)
-            console.log(downvoters)
-
             if (downvoters.includes(accountId)) {
                 console.log(`Before removal: ${downvoters}`)
                 downvoters.splice(downvoters.indexOf(accountId), 1)
@@ -138,9 +135,6 @@ module.exports = {
             const accountId = req.params.accountId
             let upvoters = question.upvoters
             let downvoters = question.downvoters
-
-            console.log(upvoters)
-            console.log(downvoters)
 
             if (upvoters.includes(accountId)) {
                 upvoters.splice(upvoters.indexOf(accountId), 1)
