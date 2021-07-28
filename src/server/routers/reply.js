@@ -162,4 +162,44 @@ module.exports = {
             res.json()
         })
     },
+
+    report: (req, res) => {
+        Reply.findOne({ _id: req.params.id }, (err, reply) => {
+            if (err) return res.status(400).json(err)
+            if (!reply) return res.status(404).json()
+
+            const accountId = req.params.accountId
+            let reports = reply.reports
+
+            if (reports.includes(accountId)) {
+                return res
+                    .status(422)
+                    .json('The user has already reported this question.')
+            } else {
+                reports.push(accountId)
+            }
+
+            reply.reports = reports
+            reply.save()
+            res.json()
+        })
+    },
+
+    removeReport: (req, res) => {
+        Reply.findOne({ _id: req.params.id }, (err, reply) => {
+            if (err) return res.status(400).json(err)
+            if (!reply) return res.status(404).json()
+
+            const accountId = req.params.accountId
+            let reports = reply.reports
+
+            if (reports.includes(accountId)) {
+                reports.splice(reports.indexOf(accountId), 1)
+            }
+
+            reply.reports = reports
+            reply.save()
+            res.json()
+        })
+    },
 }

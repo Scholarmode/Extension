@@ -22,7 +22,12 @@ const questionSchema = new mongoose.Schema({
         },
     ],
     repliesCount: Number,
-    reports: [String],
+    reports: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Account',
+        },
+    ],
     timestamp: String,
     title: {
         type: String,
