@@ -70,6 +70,26 @@ module.exports = {
             })
     },
 
+    getVideoQuestions: (req, res) => {
+        Question.find({ video: req.params.id })
+            .populate('author')
+            .populate({
+                path: 'replies',
+                populate: [
+                    { path: 'author' },
+                    {
+                        path: 'replies',
+                        populate: [{ path: 'author' }, { path: 'replies' }],
+                    },
+                ],
+            })
+            .exec((err, questions) => {
+                if (err) return res.status(400).json(err)
+                if (!questions) return res.status(404).json()
+                return res.json(questions)
+            })
+    },
+
     updateOne: (req, res) => {
         Question.findOneAndUpdate(
             { _id: req.params.id },
