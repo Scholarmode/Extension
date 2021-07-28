@@ -154,7 +154,7 @@ const Discussion = () => {
 						value={{ questions, setQuestions }}
 					>
 						<TitleInput title={title} setTitle={setTitle} />
-						<ReplyBox allQuestions={questions} titleInput={title} />
+						<ReplyBox allQuestions={questions} titleInput={title} askButtonState={askButtonState} askButtonStateFunc={setAskButtonState} />
 					</QuestionContext.Provider>
 				</CustomDiv>
 			)}

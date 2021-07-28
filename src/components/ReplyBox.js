@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ titleInput, allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -124,9 +124,10 @@ const ReplyBox = ({ titleInput, allQuestions, setPostReqError, setReplyBoxStateN
                         else {
                             console.log(JSON.stringify(data))
                             let newObj = insertObject(allQuestions, 0, data)
-                            console.log("New Obj: " + JSON.stringify(newObj))
+                            // console.log("New Obj: " + JSON.stringify(newObj))
                             setQuestions(null)
                             setQuestions(newObj)
+                            askButtonStateFunc(false)
                             // console.log("Length of all questions: " + allQuestions.length())
 
                         }
@@ -161,6 +162,9 @@ const ReplyBox = ({ titleInput, allQuestions, setPostReqError, setReplyBoxStateN
         }
         if (isReplyBoxOpenNew) {
             setReplyBoxOpenNew(false)
+        }
+        if (askButtonState) {
+            askButtonStateFunc(false)
         }
     }
 
