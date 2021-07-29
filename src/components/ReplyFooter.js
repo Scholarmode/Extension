@@ -132,10 +132,14 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const downvotePutRequest = () => {
-        fetch(`http://localhost:8080/replies/${replyId}/${authorId()}/downvote/`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/downvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
     }
 
     const updateDownVotes = () => {
