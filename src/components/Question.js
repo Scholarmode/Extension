@@ -34,7 +34,7 @@ function Question({ question, allQuestions }) {
 				/>
 				<QuestionTitle questionTitle={question.title} />
 				<QuestionContent question={question.content} />
-				<QuestionFooter totalReplies={question.replies.length} questions={allQuestions} />
+				<QuestionFooter totalReplies={question.replies.length} questions={question} />
 			</NewCustomWidthDiv>
 		</CustomDiv>
 	);
