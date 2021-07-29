@@ -1,3 +1,4 @@
+/* global chrome */
 import styled from 'styled-components';
 import { useState } from 'react';
 import ForwardIcon from '@material-ui/icons/Forward';
@@ -80,6 +81,22 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     const [clickable, setClickable] = useState(true);
     const [downClickable, setDownClickable] = useState(true);
 
+    const getProfileInfo = (token) => {
+        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        return fetch(url).then((response) => response.json());
+    };
+
+    const authorId = () => {
+        chrome.storage.sync.get(['token'], (result) => {
+            getProfileInfo(result.token).then((info) => {
+                console.log("Token: " + result.token)
+                console.log("Info: " + info);
+                return info._id;
+            })
+        })
+    }
+
+
     const updateVotes = () => {
         if (clickable) {
             if (downClickable) {
@@ -103,14 +120,15 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const upvotePutRequest = () => {
-        fetch(`http://localhost:8080/replies/${replyId}/upvote/`, requestOptions)
+        console.log(`http://localhost:8080/replies/${replyId}/${authorId()}/upvote/`)
+        fetch(`http://localhost:8080/replies/${replyId}/${authorId()}/upvote/`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
     }
 
     const downvotePutRequest = () => {
-        fetch(`http://localhost:8080/replies/${replyId}/downvote/`, requestOptions)
+        fetch(`http://localhost:8080/replies/${replyId}/${authorId()}/downvote/`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
