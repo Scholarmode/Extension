@@ -1,3 +1,4 @@
+/* global chrome */
 import styled from 'styled-components';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import SmsIcon from '@material-ui/icons/Sms';
@@ -29,6 +30,7 @@ const ReportDiv = styled.div`
     justify-content: center;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 `;
 
 const RepliesTextLink = styled.div`
@@ -113,12 +115,34 @@ function QuestionFooter({ totalReplies, questions }) {
 
     const [isReplyBoxOpen, setReplyBoxOpen] = useState(false);
 
+    var NewRequestOptions = {
+        method: 'PUT',
+        redirect: 'follow'
+    };
+
     const onClickReply = () => {
         setReplyOpen(!isReplyOpen)
     }
 
     const onReplyBoxClick = () => {
         setReplyBoxOpen(!isReplyBoxOpen)
+    }
+
+    const getProfileInfo = (token) => {
+        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        return fetch(url).then((response) => response.json());
+    };
+
+    const reportQuestion = () => {
+        //  /questions/:id/:accountId/report
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                fetch(`http://localhost:8080/questions/${questions._id}/${info._id}/report/`, NewRequestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
     }
 
     const [replyBoxState, setReplyBoxState] = useState(false)
@@ -151,7 +175,7 @@ function QuestionFooter({ totalReplies, questions }) {
                 }
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <Popup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
-                    <ReportDiv>
+                    <ReportDiv onClick={reportQuestion}>
                         <FlagIcon />
                         <p>Report</p>
                     </ReportDiv>

@@ -63,6 +63,7 @@ const ReportDiv = styled.div`
     justify-content: center;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 `;
 
 function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
@@ -76,6 +77,11 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
         redirect: 'follow'
     };
 
+    let NewRequestOptions = {
+        method: 'PUT',
+        redirect: 'follow'
+    };
+
 
     const [totalVotes, setTotalVotes] = useState(votes);
     const [clickable, setClickable] = useState(true);
@@ -85,6 +91,18 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
         const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
         return fetch(url).then((response) => response.json());
     };
+
+    const reportReplies = () => {
+        //  /questions/:id/:accountId/report
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/report/`, NewRequestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
+    }
 
     const authorId = () => {
         chrome.storage.sync.get(['token'], async (result) => {
@@ -194,7 +212,7 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
             <ReplyClickText onClick={changeReplyBoxState} >Reply</ReplyClickText>
             <CustomPopup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
-                <ReportDiv>
+                <ReportDiv onClick={reportReplies}>
                     <FlagIcon />
                     <p>Report</p>
                 </ReportDiv>
