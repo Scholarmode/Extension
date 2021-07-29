@@ -33,7 +33,10 @@ const Discussion = () => {
     const [isLoaded, setIsLoaded] = useState(false)
 
     // const url = `https://scholarmode.herokuapp.com/questions/video/${linkifyYouTubeURLs(window.location.href)}/`
-    const url = `http://localhost:8080/questions/video/${linkifyYouTubeURLs(window.location.href)}/`
+    const url = `http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+        window.location.href
+    )}/`
+    console.log('url', url)
 
     //60fd66a250fd11167a18167b
 
@@ -53,6 +56,7 @@ const Discussion = () => {
 
                 // Examine the text in the response
                 response.json().then(function (data) {
+                    console.log('Response: ' + data)
                     setIsLoaded(true)
                     setQuestions(data)
                 })

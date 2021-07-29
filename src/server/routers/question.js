@@ -31,9 +31,13 @@ module.exports = {
         newQuestionDetails._id = new mongoose.Types.ObjectId()
 
         let question = new Question(newQuestionDetails)
-        question.save((err) => {
+        question.populate('author').execPopulate((err, populatedQuestion) => {
             if (err) return res.status(400).json(err)
-            res.json(question)
+
+            populatedQuestion.save((err) => {
+                if (err) return res.status(400).json(err)
+                res.json(populatedQuestion)
+            })
         })
     },
 
