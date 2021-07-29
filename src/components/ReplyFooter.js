@@ -87,7 +87,7 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     };
 
     const authorId = () => {
-        chrome.storage.sync.get(['token'], (result) => {
+        chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 console.log("Token: " + result.token)
                 console.log("Info: " + info);
@@ -120,11 +120,15 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const upvotePutRequest = () => {
-        console.log(`http://localhost:8080/replies/${replyId}/${authorId()}/upvote/`)
-        fetch(`http://localhost:8080/replies/${replyId}/${authorId()}/upvote/`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                console.log(`http://localhost:8080/replies/${replyId}/${info._id}/upvote/`)
+                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/upvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
     }
 
     const downvotePutRequest = () => {
