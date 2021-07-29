@@ -4,6 +4,8 @@ import TextEditor from './TextEditor';
 import { useState } from 'react';
 import { Node } from 'slate';
 import PostRequestError from './PostRequestError'
+import { QuestionContext } from './QuestionContext';
+import { useContext } from 'react';
 
 const CustomDiv = styled.div`
 	min-height: 100px;
@@ -62,8 +64,15 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
+
+    const { setQuestions } = useContext(QuestionContext);
+
+    const insertObject = (array, index, arrayToInsert) => {
+        Array.prototype.splice.apply(array, [index, 0].concat(arrayToInsert));
+        return array;
+    }
 
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
@@ -78,27 +87,61 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
                     replies: [],
                     reports: [],
                     timestamp: getTimestamp(),
-                    title: 'Title',
+                    title: titleInput,
                     video: linkifyYouTubeURLs(window.location.href),
                     votes: 0,
                 };
 
+                // (async () => {
+                //     const rawResponse = 
+                // })
                 fetch('http://localhost:8080/questions/', {
                     method: 'POST',
                     headers: {
-                        Accept: 'application/json',
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(reqBody),
+                    redirect: "follow"
                 })
-                    .then((response) => {
-                        if (response.status !== 200) {
-                            setPostReqError(true)
+                    .then(async (response) => {
+                        // if (response.status !== 200) {
+                        //     setPostReqError(true)
+                        // }
+                        // else {
+                        //     console.log("Response: " + response);
+                        //     console.log("Questions: " + allQuestions)
+                        //     console.log("JSON: " + response.json());
+                        //     let jsonR = response.json()
+                        //     let whole = { ...allQuestions, reqBody }
+                        //     let newObj = Object.assign({}, allQuestions, reqBody)
+                        //     console.log("NewObj: " + JSON.stringify(reqBody))
+                        //     // setQuestions(newObj)
+                        // }
+                        let data = await response.json();
+                        if (response.status != 200) {
+                            console.log("Error")
                         }
+                        else {
+                            console.log(JSON.stringify(data))
+                            let newObj = insertObject(allQuestions, 0, data)
+                            // console.log("New Obj: " + JSON.stringify(newObj))
+                            setQuestions(null)
+                            setQuestions(newObj)
+                            askButtonStateFunc(false)
+                            // console.log("Length of all questions: " + allQuestions.length())
+
+                        }
+                    }
+                    )
+                    .then((data) => {
+                        console.log("Responses m: " + data)
                     })
                     .catch((err) => {
                         console.log("Error: " + err)
+                        setPostReqError(true)
                     });
+
+
             });
         });
     };
@@ -119,6 +162,9 @@ const ReplyBox = ({ setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setR
         }
         if (isReplyBoxOpenNew) {
             setReplyBoxOpenNew(false)
+        }
+        if (askButtonState) {
+            askButtonStateFunc(false)
         }
     }
 

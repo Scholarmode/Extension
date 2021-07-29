@@ -150,31 +150,35 @@ const Discussion = () => {
     const [title, setTitle] = useState('')
 
     return (
-        <div>
-            {questions == null && <MyCircularProgress />}
-            {questions != null && (
-                <AskQuestionButton
-                    askButtonOpen={askButtonState}
-                    setAskButtonOpen={setAskButtonState}
-                />
-            )}
-            {askButtonState && (
-                <CustomDiv>
-                    <TitleInput title={title} setTitle={setTitle} />
-                    <ReplyBox />
-                </CustomDiv>
-            )}
-            {questions != null &&
-                questions.map((question) => {
-                    return (
-                        <QuestionContext.Provider
-                            value={{ question, setQuestions }}
-                        >
-                            <Question />
-                        </QuestionContext.Provider>
-                    )
-                })}
-        </div>
+<div>
+			{questions == null && <MyCircularProgress />}
+			{questions != null && (
+				<AskQuestionButton
+					askButtonOpen={askButtonState}
+					setAskButtonOpen={setAskButtonState}
+				/>
+			)}
+			{askButtonState && (
+				<CustomDiv>
+					<QuestionContext.Provider
+						value={{ questions, setQuestions }}
+					>
+						<TitleInput title={title} setTitle={setTitle} />
+						<ReplyBox allQuestions={questions} titleInput={title} askButtonState={askButtonState} askButtonStateFunc={setAskButtonState} />
+					</QuestionContext.Provider>
+				</CustomDiv>
+			)}
+			{questions != null &&
+				questions.map((question) => {
+					return (
+						<QuestionContext.Provider
+							value={{ question, setQuestions }}
+						>
+							<Question question={question} allQuestions={questions} />
+						</QuestionContext.Provider>
+					)
+				})}
+		</div>
     )
 }
 
