@@ -113,9 +113,7 @@ module.exports = {
             let downvoters = reply.downvoters
 
             if (downvoters.includes(accountId)) {
-                console.log(`Before removal: ${downvoters}`)
                 downvoters.splice(downvoters.indexOf(accountId), 1)
-                console.log(`After removal: ${downvoters}`)
 
                 upvoters.push(accountId)
             } else if (upvoters.includes(accountId)) {

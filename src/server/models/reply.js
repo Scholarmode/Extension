@@ -32,6 +32,18 @@ const replySchema = new mongoose.Schema({
     repliesCount: Number,
     timestamp: String,
     votes: Number,
+    upvoters: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Account',
+        },
+    ],
+    downvoters: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Account',
+        },
+    ],
 })
 
 module.exports = mongoose.model('Reply', replySchema)
