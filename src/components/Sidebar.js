@@ -16,9 +16,9 @@ const SidebarBackground = styled.div`
 `;
 
 
-export const Sidebar = () => {
+export const Sidebar = ({ question }) => {
 
-    const {question} =  useContext(QuestionContext)
+    // const {question} =  useContext(QuestionContext)
 
     const [totalVotes, setTotalVotes] = useState(question.votes);
     const [clickable, setClickable] = useState(true);
@@ -64,16 +64,16 @@ export const Sidebar = () => {
 
         <SidebarBackground>
             {
-                clickable ? 
+                clickable ?
                     <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#909090' }} onClick={updateVotes} />
-                    : 
+                    :
                     <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#3aa1f2', }} onClick={updateVotes} />
             }
-                {totalVotes}
+            {totalVotes}
             {
-                downClickable ? 
+                downClickable ?
                     <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: '#909090' }} onClick={updateDownVotes} />
-                    : 
+                    :
                     <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: 'red' }} onClick={updateDownVotes} />
             }
         </SidebarBackground>
