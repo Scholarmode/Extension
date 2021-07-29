@@ -13,6 +13,7 @@ const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
 	min-width: 389.27px;
+	margin-bottom: 50px;
 `;
 
 const NewCustomWidthDiv = styled.div`
@@ -20,8 +21,7 @@ const NewCustomWidthDiv = styled.div`
 `;
 
 function Question() {
-	const { question, setQuestion } = useContext(QuestionContext);
-	console.log("Question Content: " + question.content)
+	const { question, setQuestions } = useContext(QuestionContext);
 	return (
 		<CustomDiv>
 			<Sidebar />

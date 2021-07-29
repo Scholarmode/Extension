@@ -1,39 +1,38 @@
-import { useState } from 'react';
-import Question from './Question';
-import { QuestionContext } from './QuestionContext';
-import { useEffect } from 'react';
-import AskQuestionButton from './AskQuestionButton';
-import styled from 'styled-components';
-import ReplyBox from './ReplyBox';
-import TitleInput from './TitleInput';
-import { CircularProgress } from '@material-ui/core';
+import { useState } from 'react'
+import Question from './Question'
+import { QuestionContext } from './QuestionContext'
+import { useEffect } from 'react'
+import AskQuestionButton from './AskQuestionButton'
+import styled from 'styled-components'
+import ReplyBox from './ReplyBox'
+import TitleInput from './TitleInput'
+import { CircularProgress } from '@material-ui/core'
 
 const CustomDiv = styled.div`
-	margin: 10px;
-	margin-top: 0px;
-	margin-left: 0px;
-`;
+    margin: 10px;
+    margin-top: 0px;
+    margin-left: 0px;
+`
 
 const MyCircularProgress = styled(CircularProgress)`
-	 display: flex;
-	 justify-content: center;
-	 align-items: center;
-	 margin-top: 100px;
-	 margin-left: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    margin-left: 200px;
 `
 
 const Discussion = () => {
-	const [error, setError] = useState(null);
-	const [isLoaded, setIsLoaded] = useState(false);
+	const [error, setError] = useState(null)
+	const [isLoaded, setIsLoaded] = useState(false)
 
-	const url = 'https://scholarmode.herokuapp.com/questions/60fd66a250fd11167a18167b';
+	// const url = 'https://scholarmode.herokuapp.com/questions/'
+	const url = 'http://localhost:8080/questions/'
 
 	//60fd66a250fd11167a18167b
 
 	// const url = 'http://localhost:8080/questions/60effd184aec8d4c777abb53';
 	// const url = 'http://localhost:8080/questions/author/60eec4b4ca5eb79cc28d3e94';
-
-
 
 	useEffect(() => {
 		fetch(url)
@@ -42,20 +41,20 @@ const Discussion = () => {
 					console.log(
 						'Looks like there was a problem. Status Code: ' +
 						response.status
-					);
-					return;
+					)
+					return
 				}
 
 				// Examine the text in the response
 				response.json().then(function (data) {
-					setIsLoaded(true);
-					setQuestion(data);
-				});
+					setIsLoaded(true)
+					setQuestions(data)
+				})
 			})
 			.catch(function (err) {
-				console.log('Fetch Error :-S', err);
-			});
-	}, []);
+				console.log('Fetch Error :-S', err)
+			})
+	}, [])
 
 	// const [question, setQuestion] = useState({
 	// 	author: {
@@ -134,30 +133,39 @@ const Discussion = () => {
 	// 	],
 	// });
 
-	const [question, setQuestion] = useState(null)
+	const [questions, setQuestions] = useState(null)
 
 	const [askButtonState, setAskButtonState] = useState(false)
 
-	const [title, setTitle] = useState("")
+	const [title, setTitle] = useState('')
 
 	return (
-		<QuestionContext.Provider value={{ question, setQuestion }}>
-			{question == null && <MyCircularProgress />}
-			{question != null &&
-				<AskQuestionButton askButtonOpen={askButtonState} setAskButtonOpen={setAskButtonState} />}
-			{askButtonState &&
+		<div>
+			{questions == null && <MyCircularProgress />}
+			{questions != null && (
+				<AskQuestionButton
+					askButtonOpen={askButtonState}
+					setAskButtonOpen={setAskButtonState}
+				/>
+			)}
+			{askButtonState && (
 				<CustomDiv>
 					<TitleInput title={title} setTitle={setTitle} />
 					<ReplyBox />
 				</CustomDiv>
-			}
-			{question != null && <Question />}
-		</QuestionContext.Provider>
-	);
-};
+			)}
+			{questions != null &&
+				questions.map((question) => {
+					return (
+						<QuestionContext.Provider
+							value={{ question, setQuestions }}
+						>
+							<Question />
+						</QuestionContext.Provider>
+					)
+				})}
+		</div>
+	)
+}
 
-
-export default Discussion;
-
-
-
+export default Discussion
