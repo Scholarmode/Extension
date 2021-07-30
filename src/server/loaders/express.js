@@ -1,5 +1,7 @@
 const express = require('express')
 const passport = require('passport')
+const fetch = require('node-fetch')
+const Account = require('../models/account')
 const accounts = require('../routers/account')
 const questions = require('../routers/question')
 const replies = require('../routers/reply')
@@ -7,6 +9,29 @@ const replies = require('../routers/reply')
 module.exports = async (expressApp) => {
     expressApp.use(express.json())
     expressApp.use(express.urlencoded({ extended: false }))
+
+    expressApp.use('/accounts/:id', (req, res, next) => {
+        const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
+        // Try retrieve profile info using token via Google API
+        fetch(url)
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.hasOwnProperty('error')) {
+                    res.json({ message: 'Invalid or expired token.' })
+                } else {
+                    // If token is valid, ensure the user is accessing their own data.
+                    Account.findOne({
+                        googleId: response.id,
+                    }).then((user) => {
+                        if (user._id.toString() !== req.params.id) {
+                            res.json({ message: 'Unauthorised user.' })
+                        } else {
+                            next()
+                        }
+                    })
+                }
+            })
+    })
 
     //Configuring Endpoints
     // Account RESTFul endpoints
