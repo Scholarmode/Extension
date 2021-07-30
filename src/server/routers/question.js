@@ -87,6 +87,7 @@ module.exports = {
                     },
                 ],
             })
+            .sort({ votes: -1 })
             .exec((err, questions) => {
                 if (err) return res.status(400).json(err)
                 if (!questions) return res.status(404).json()
