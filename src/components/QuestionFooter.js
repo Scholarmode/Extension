@@ -111,7 +111,7 @@ const OptionsMenu = styled(MoreHorizIcon)`
     cursor: pointer;
 `;
 
-function QuestionFooter({ totalReplies, questions }) {
+function QuestionFooter({ totalReplies, questions, allQuestions }) {
 
     const [isReplyOpen, setReplyOpen] = useState(false);
 
@@ -197,7 +197,7 @@ function QuestionFooter({ totalReplies, questions }) {
                 <>
                     {didCatch ? < PostRequestError /> :
                         <ErrorBoundary>
-                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
+                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
                         </ErrorBoundary>
                     }
                 </>
@@ -205,7 +205,7 @@ function QuestionFooter({ totalReplies, questions }) {
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
+                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
                 </>
             }
             {isReplyOpen &&

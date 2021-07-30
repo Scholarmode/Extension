@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setNestedComments, replyId, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ setNestedComments, replyId, allQuestions, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -114,6 +114,7 @@ const ReplyBox = ({ setNestedComments, replyId, postToReplies, askButtonState, a
 
         }
         else {
+            console.log("Here: " + postToReplies)
             // This will basically post the content to questions db
             chrome.storage.sync.get(['token'], async (result) => {
                 getProfileInfo(result.token).then((info) => {
@@ -161,8 +162,8 @@ const ReplyBox = ({ setNestedComments, replyId, postToReplies, askButtonState, a
                             }
                             else {
                                 console.log(JSON.stringify(data))
-                                let newObj = insertObject(allQuestion, 0, data)
-                                // console.log("New Obj: " + JSON.stringify(newObj))
+                                let newObj = insertObject(allQuestions, 0, data)
+                                console.log("New Obj: " + JSON.stringify(newObj))
                                 setQuestions(null)
                                 setQuestions(newObj)
                                 askButtonStateFunc(false)
