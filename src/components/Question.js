@@ -13,18 +13,18 @@ const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
 	min-width: 389.27px;
+	margin-bottom: 50px;
 `;
 
 const NewCustomWidthDiv = styled.div`
 	min-width: 389.27px;
 `;
 
-function Question() {
-	const { question, setQuestion } = useContext(QuestionContext);
-	console.log("Question Content: " + question.content)
+function Question({ question, allQuestions }) {
+	//const { questions, setQuestions } = useContext(QuestionContext);
 	return (
 		<CustomDiv>
-			<Sidebar />
+			<Sidebar question={question} />
 			<NewCustomWidthDiv className="questionMain">
 				<QuestionHeader
 					userName={question.author.given_name}
@@ -34,7 +34,7 @@ function Question() {
 				/>
 				<QuestionTitle questionTitle={question.title} />
 				<QuestionContent question={question.content} />
-				<QuestionFooter totalReplies={question.replies.length} />
+				<QuestionFooter totalReplies={question.replies.length} questions={question} />
 			</NewCustomWidthDiv>
 		</CustomDiv>
 	);

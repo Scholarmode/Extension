@@ -32,59 +32,66 @@ ReactDOM.render(
   document.getElementById('insertion-point')
 )
 
-// Add chrome storage listener to render questions/recommended videos when button is toggled.
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  for (let key in changes) {
-    if (key === 'active') {
-      chrome.storage.sync.get(['active'], (response) => {
-        if (response.active) {
-          ReactDOM.render(
-            <React.StrictMode>
-              <Discussion />
-            </React.StrictMode>,
-            document.getElementById('secondary')
-          )
-        } else {
-          window.location.reload()
 
-          // chrome.storage.sync.get(['recommendedVideos'], (response) => {
-          //   document.getElementById('secondary').innerHTML = response.recommendedVideos
-          // })
-        }
+//create div for discussion
+const beforeVideos = document.createElement('div');
+beforeVideos.id = 'prevideos';
+beforeVideos.style.display = 'none';
+
+//check for recommended videos and place div before videos
+if (document.querySelector('#secondary')) {
+  document.querySelector('#secondary').insertAdjacentElement('afterbegin', beforeVideos)
+}
+else {
+  console.log('discussion div not rendered')
+}
+
+// render discussion into hidden div
+ReactDOM.render(
+  <React.StrictMode>
+    <Discussion />
+  </React.StrictMode>,
+  document.getElementById('prevideos')
+)
+
+//find recommended videos
+const videos = document.getElementById('secondary-inner')
+
+//find toggle to know the state
+const toggle = document.querySelector('.sc-bdnxRM')
+
+
+//observe when toggle changes
+const toggleObserver = new MutationObserver(
+  function(mutations){
+    mutations.forEach(function(mutation){
+        if(mutation.target.classList[2] === 'active'){
+            beforeVideos.style.display = "block"
+            videos.style.display = "none";
+          }else{
+            beforeVideos.style.display = "none"
+            videos.style.display = "block"
+          }
       })
-    }
   }
+)
+
+toggleObserver.observe(toggle, {
+  childList: false,
+  attributes: true
 })
-          
     
   
 
 
 // update recommended videos on first YouTube load or any refresh
-window.onload = () => {
-  chrome.storage.sync.get(['active'], (response) => {
-    if (response.active) {
-      ReactDOM.render(
-        <React.StrictMode>
-          <Discussion />
-        </React.StrictMode>,
-        document.getElementById('secondary')
-      )
-    }
-  })
-}
-
-
-
-
-//find and store recommended videos in localStorage
-
-// window.addEventListener("load", function(){
-  if (document.getElementById('secondary')) {
-      chrome.storage.sync.set({
-      recommendedVideos: document.getElementById('secondary').innerHTML
-      })
-  } else {
-    console.log('no videos here')
-  }
-// });
+// window.onload = () => {
+//     if (toggle.classList[toggle.classList.length - 1] === 'active') {
+//       beforeVideos.style.display = "block"
+//       videos.style.display = "none";
+      
+//     } else {
+//       beforeVideos.style.display = "none"
+//       videos.style.display = "block"
+//     }
+// }

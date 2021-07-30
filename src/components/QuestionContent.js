@@ -19,8 +19,6 @@ const QuestionContentText = styled.div`
 
 function QuestionContent({ question }) {
     let newQuestion = question
-    console.log("Question Id: " + newQuestion._id)
-    console.log("New Question: " + newQuestion)
     return (
         <CustomDiv>
             <ReplyContent reply={newQuestion} hasMargin={false} />

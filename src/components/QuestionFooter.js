@@ -1,3 +1,4 @@
+/* global chrome */
 import styled from 'styled-components';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import SmsIcon from '@material-ui/icons/Sms';
@@ -11,6 +12,9 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
+import { useErrorBoundary } from "use-error-boundary";
+
+import PostRequestError from './PostRequestError.js'
 
 const CustomDiv = styled.div`
     display: flex;
@@ -26,6 +30,7 @@ const ReportDiv = styled.div`
     justify-content: center;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 `;
 
 const RepliesTextLink = styled.div`
@@ -104,11 +109,16 @@ const OptionsMenu = styled(MoreHorizIcon)`
     cursor: pointer;
 `;
 
-function QuestionFooter({ totalReplies }) {
+function QuestionFooter({ totalReplies, questions }) {
 
     const [isReplyOpen, setReplyOpen] = useState(false);
 
     const [isReplyBoxOpen, setReplyBoxOpen] = useState(false);
+
+    var NewRequestOptions = {
+        method: 'PUT',
+        redirect: 'follow'
+    };
 
     const onClickReply = () => {
         setReplyOpen(!isReplyOpen)
@@ -118,10 +128,32 @@ function QuestionFooter({ totalReplies }) {
         setReplyBoxOpen(!isReplyBoxOpen)
     }
 
+    const getProfileInfo = (token) => {
+        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        return fetch(url).then((response) => response.json());
+    };
+
+    const reportQuestion = () => {
+        //  /questions/:id/:accountId/report
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                fetch(`http://localhost:8080/questions/${questions._id}/${info._id}/report/`, NewRequestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
+    }
+
     const [replyBoxState, setReplyBoxState] = useState(false)
 
     // State for UserName
     const [replyUserName, setReplyUserName] = useState("")
+
+    // State for handling error
+    const [postError, setPostError] = useState(false)
+
+    const { ErrorBoundary, didCatch, error } = useErrorBoundary();
 
     return (
         <div>
@@ -143,17 +175,26 @@ function QuestionFooter({ totalReplies }) {
                 }
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <Popup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
-                    <ReportDiv>
+                    <ReportDiv onClick={reportQuestion}>
                         <FlagIcon />
                         <p>Report</p>
                     </ReportDiv>
                 </Popup>
             </CustomDiv>
-            {isReplyBoxOpen && <ReplyBox isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />}
+            {postError && <PostRequestError />}
+            {isReplyBoxOpen &&
+                <>
+                    {didCatch ? < PostRequestError /> :
+                        <ErrorBoundary>
+                            <ReplyBox allQuestions={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                        </ErrorBoundary>
+                    }
+                </>
+            }
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                    <ReplyBox setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                 </>
             }
             {isReplyOpen &&

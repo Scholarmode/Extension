@@ -1,3 +1,4 @@
+/* global chrome */
 import styled from 'styled-components';
 import { useState } from 'react';
 import ForwardIcon from '@material-ui/icons/Forward';
@@ -62,6 +63,7 @@ const ReportDiv = styled.div`
     justify-content: center;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 `;
 
 function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
@@ -75,10 +77,43 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
         redirect: 'follow'
     };
 
+    let NewRequestOptions = {
+        method: 'PUT',
+        redirect: 'follow'
+    };
+
 
     const [totalVotes, setTotalVotes] = useState(votes);
     const [clickable, setClickable] = useState(true);
     const [downClickable, setDownClickable] = useState(true);
+
+    const getProfileInfo = (token) => {
+        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        return fetch(url).then((response) => response.json());
+    };
+
+    const reportReplies = () => {
+        //  /questions/:id/:accountId/report
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/report/`, NewRequestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
+    }
+
+    const authorId = () => {
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                console.log("Token: " + result.token)
+                console.log("Info: " + info);
+                return info._id;
+            })
+        })
+    }
+
 
     const updateVotes = () => {
         if (clickable) {
@@ -103,19 +138,26 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const upvotePutRequest = () => {
-        console.log("ReplyId: " + replyId)
-        fetch(`http://localhost:8080/replies/${replyId}/upvote/`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                console.log(`http://localhost:8080/replies/${replyId}/${info._id}/upvote/`)
+                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/upvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
     }
 
     const downvotePutRequest = () => {
-        console.log("ReplyId Downvote: " + replyId)
-        fetch(`http://localhost:8080/replies/${replyId}/downvote/`, requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/downvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            })
+        })
     }
 
     const updateDownVotes = () => {
@@ -141,10 +183,7 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     }
 
     const changeReplyBoxState = () => {
-        console.log(replyBoxOpen)
         setReplyBoxOpen(!replyBoxOpen)
-
-        console.log("Heyy: " + userName)
         setReplyUserName(userName)
     }
 
@@ -173,7 +212,7 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
             <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
             <ReplyClickText onClick={changeReplyBoxState} >Reply</ReplyClickText>
             <CustomPopup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
-                <ReportDiv>
+                <ReportDiv onClick={reportReplies}>
                     <FlagIcon />
                     <p>Report</p>
                 </ReportDiv>
