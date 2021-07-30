@@ -20,6 +20,7 @@ const NewCustomWidthDiv = styled.div`
 	min-width: 389.27px;
 `;
 
+
 function Question({ question, allQuestions }) {
 	//const { questions, setQuestions } = useContext(QuestionContext);
 	return (

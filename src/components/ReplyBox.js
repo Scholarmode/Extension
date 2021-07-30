@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -77,73 +77,109 @@ const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
 
-        chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                const reqBody = {
-                    author: info._id,
-                    content: newValue,
-                    dateCreated: new Date(),
-                    flagged: false,
-                    replies: [],
-                    reports: [],
-                    timestamp: getTimestamp(),
-                    title: titleInput,
-                    video: linkifyYouTubeURLs(window.location.href),
-                    votes: 0,
-                };
 
-                // (async () => {
-                //     const rawResponse = 
-                // })
-                fetch('http://localhost:8080/questions/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(reqBody),
-                    redirect: "follow"
-                })
-                    .then(async (response) => {
-                        // if (response.status !== 200) {
-                        //     setPostReqError(true)
-                        // }
-                        // else {
-                        //     console.log("Response: " + response);
-                        //     console.log("Questions: " + allQuestions)
-                        //     console.log("JSON: " + response.json());
-                        //     let jsonR = response.json()
-                        //     let whole = { ...allQuestions, reqBody }
-                        //     let newObj = Object.assign({}, allQuestions, reqBody)
-                        //     console.log("NewObj: " + JSON.stringify(reqBody))
-                        //     // setQuestions(newObj)
-                        // }
-                        let data = await response.json();
-                        if (response.status != 200) {
-                            console.log("Error")
-                        }
-                        else {
-                            console.log(JSON.stringify(data))
-                            let newObj = insertObject(allQuestions, 0, data)
-                            // console.log("New Obj: " + JSON.stringify(newObj))
-                            setQuestions(null)
-                            setQuestions(newObj)
-                            askButtonStateFunc(false)
-                            // console.log("Length of all questions: " + allQuestions.length())
+        if (postToReplies) {
+            // This will basically post the content to replies db
+            chrome.storage.sync.get(['token'], async (result) => {
+                getProfileInfo(result.token).then((info) => {
+                    const reqBody = {
+                        author: info._id,
+                        content: newValue,
+                        dateCreated: new Date(),
+                        flagged: false,
+                        replies: [],
+                        reports: [],
+                        timestamp: getTimestamp(),
+                        parentQuestion: allQuestion._id,
+                        parentReply: null,
+                        votes: 0
+                    };
 
-                        }
-                    }
-                    )
-                    .then((data) => {
-                        console.log("Responses m: " + data)
+                    fetch("http://localhost:8080/replies/", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(reqBody),
+                        redirect: "follow"
                     })
-                    .catch((err) => {
-                        console.log("Error: " + err)
-                        setPostReqError(true)
-                    });
+                        .then(response => response.text())
+                        .then(result => console.log(result))
+                        .catch(error => console.log('error-reply', error));
+                })
+            })
+
+        }
+        else {
+            // This will basically post the content to questions db
+            chrome.storage.sync.get(['token'], async (result) => {
+                getProfileInfo(result.token).then((info) => {
+                    const reqBody = {
+                        author: info._id,
+                        content: newValue,
+                        dateCreated: new Date(),
+                        flagged: false,
+                        replies: [],
+                        reports: [],
+                        timestamp: getTimestamp(),
+                        title: titleInput,
+                        video: linkifyYouTubeURLs(window.location.href),
+                        votes: 0,
+                    };
+
+                    // (async () => {
+                    //     const rawResponse = 
+                    // })
+                    fetch('http://localhost:8080/questions/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(reqBody),
+                        redirect: "follow"
+                    })
+                        .then(async (response) => {
+                            // if (response.status !== 200) {
+                            //     setPostReqError(true)
+                            // }
+                            // else {
+                            //     console.log("Response: " + response);
+                            //     console.log("Questions: " + allQuestions)
+                            //     console.log("JSON: " + response.json());
+                            //     let jsonR = response.json()
+                            //     let whole = { ...allQuestions, reqBody }
+                            //     let newObj = Object.assign({}, allQuestions, reqBody)
+                            //     console.log("NewObj: " + JSON.stringify(reqBody))
+                            //     // setQuestions(newObj)
+                            // }
+                            let data = await response.json();
+                            if (response.status != 200) {
+                                console.log("Error")
+                            }
+                            else {
+                                console.log(JSON.stringify(data))
+                                let newObj = insertObject(allQuestion, 0, data)
+                                // console.log("New Obj: " + JSON.stringify(newObj))
+                                setQuestions(null)
+                                setQuestions(newObj)
+                                askButtonStateFunc(false)
+                                // console.log("Length of all questions: " + allQuestions.length())
+
+                            }
+                        }
+                        )
+                        .then((data) => {
+                            console.log("Responses m: " + data)
+                        })
+                        .catch((err) => {
+                            console.log("Error: " + err)
+                            setPostReqError(true)
+                        });
 
 
+                });
             });
-        });
+        }
     };
 
     const serialize = (value) => {

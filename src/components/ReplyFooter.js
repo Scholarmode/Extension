@@ -185,6 +185,7 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     const changeReplyBoxState = () => {
         setReplyBoxOpen(!replyBoxOpen)
         setReplyUserName(userName)
+        // Set ReplyId here too 
     }
 
     return (
