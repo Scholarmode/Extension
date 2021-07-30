@@ -91,7 +91,27 @@ module.exports = {
             .exec((err, questions) => {
                 if (err) return res.status(400).json(err)
                 if (!questions) return res.status(404).json()
-                return res.json(questions)
+
+                // Sort replies based on number of votes
+                const recursiveSort = (q) => {
+                    console.log(q)
+                    if (!q.replies) return
+
+                    recursiveSort(
+                        q.replies.sort((a, b) => {
+                            const votes1 = a.votes
+                            const votes2 = b.votes
+
+                            if (votes1 < votes2) return 1
+                            if (votes1 > votes2) return -1
+                            return 0
+                        })
+                    )
+
+                    return q
+                }
+
+                return res.json(questions.map(recursiveSort))
             })
     },
 
