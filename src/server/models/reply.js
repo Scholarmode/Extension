@@ -30,6 +30,7 @@ const replySchema = new mongoose.Schema({
         },
     ],
     repliesCount: Number,
+    slateLang: String,
     timestamp: String,
     votes: Number,
     upvoters: [
