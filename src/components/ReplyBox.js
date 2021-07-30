@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ replyId, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -91,7 +91,7 @@ const ReplyBox = ({ postToReplies, askButtonState, askButtonStateFunc, titleInpu
                         reports: [],
                         timestamp: getTimestamp(),
                         parentQuestion: allQuestion._id,
-                        parentReply: null,
+                        parentReply: replyId != null && replyId,
                         votes: 0
                     };
 

@@ -66,7 +66,7 @@ const ReportDiv = styled.div`
     cursor: pointer;
 `;
 
-function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
+function ReplyFooter({ setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
 
     const baseUrl = "localhost:8080/"
     let raw = "";
@@ -185,7 +185,13 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
     const changeReplyBoxState = () => {
         setReplyBoxOpen(!replyBoxOpen)
         setReplyUserName(userName)
-        // Set ReplyId here too 
+        // Set ReplyId here too manage nested replies
+
+        if (replyId != "") {
+            console.log("ReplyId: " + replyId)
+            setReplyId(replyId)
+        }
+
     }
 
     return (

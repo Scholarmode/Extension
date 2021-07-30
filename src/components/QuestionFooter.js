@@ -155,6 +155,8 @@ function QuestionFooter({ totalReplies, questions }) {
 
     const { ErrorBoundary, didCatch, error } = useErrorBoundary();
 
+    const [replyId, setReplyId] = useState(null)
+
     return (
         <div>
             <CustomDiv>
@@ -186,7 +188,7 @@ function QuestionFooter({ totalReplies, questions }) {
                 <>
                     {didCatch ? < PostRequestError /> :
                         <ErrorBoundary>
-                            <ReplyBox postToReplies={true} allQuestion={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                         </ErrorBoundary>
                     }
                 </>
@@ -194,7 +196,7 @@ function QuestionFooter({ totalReplies, questions }) {
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox postToReplies={true} allQuestion={questions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
                 </>
             }
             {isReplyOpen &&
@@ -203,6 +205,7 @@ function QuestionFooter({ totalReplies, questions }) {
                     setReplyBoxState={setReplyBoxState}
                     replyUserName={replyUserName}
                     setReplyUserName={setReplyUserName}
+                    setReplyId={setReplyId}
                 />
 
             }

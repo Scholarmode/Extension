@@ -80,6 +80,7 @@ function Replies(props) {
 							replyBoxOpen={props.replyBoxState}
 							setReplyBoxOpen={props.setReplyBoxState}
 							setReplyUserName={props.setReplyUserName}
+							setReplyId={props.setReplyId}
 						/>
 					</>
 				))}
