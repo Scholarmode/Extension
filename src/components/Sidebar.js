@@ -137,16 +137,16 @@ export const Sidebar = ({ question }) => {
             {downvotedOrNot()}
             {
                 clickable ?
-                    <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#909090' }} onClick={updateVotes} />
+                    <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#909090', cursor: 'pointer' }} onClick={updateVotes} />
                     :
-                    <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#3aa1f2', }} onClick={updateVotes} />
+                    <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#3aa1f2', cursor: 'pointer' }} onClick={updateVotes} />
             }
             {totalVotes}
             {
                 downClickable ?
-                    <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: '#909090' }} onClick={updateDownVotes} />
+                    <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: '#909090', cursor: 'pointer' }} onClick={updateDownVotes} />
                     :
-                    <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: 'red' }} onClick={updateDownVotes} />
+                    <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: 'red', cursor: 'pointer' }} onClick={updateDownVotes} />
             }
         </SidebarBackground>
     )
