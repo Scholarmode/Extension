@@ -5,9 +5,6 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
-const accounts = require('./routers/account')
-const questions = require('./routers/question')
-const replies = require('./routers/reply')
 const app = express()
 
 app.listen(8080)
@@ -19,9 +16,6 @@ app.use(
         keys: [process.env.S_COOKIE_KEY],
     })
 )
-
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
 
 app.use(cors())
 
@@ -46,30 +40,3 @@ mongoose.connect(
 )
 
 loaders(app)
-
-//Configuring Endpoints
-// Account RESTFul endpoints
-app.get('/accounts', accounts.getAll)
-app.get('/accounts/:id', accounts.getOne)
-app.post('/accounts', accounts.createOne)
-app.put('/accounts/:id', accounts.updateOne)
-app.delete('/accounts/:id', accounts.deleteOne)
-
-// Question RESTFul endpoints
-app.get('/questions', questions.getAll)
-app.get('/questions/:id', questions.getOne)
-app.get('/questions/author/:id', questions.getAuthorQuestions)
-app.post('/questions', questions.createOne)
-app.put('/questions/:id', questions.updateOne)
-app.delete('/questions/:id', questions.deleteOne)
-app.put('/questions/:id/upvote', questions.upvote)
-app.put('/questions/:id/downvote', questions.downvote)
-
-// Reply RESTFul endpoints
-app.get('/replies', replies.getAll)
-app.get('/replies/:id', replies.getOne)
-app.post('/replies', replies.createOne)
-app.put('/replies/:id', replies.updateOne)
-app.delete('/replies/:id', replies.deleteOne)
-app.put('/replies/:id/upvote', replies.upvote)
-app.put('/replies/:id/downvote', replies.downvote)

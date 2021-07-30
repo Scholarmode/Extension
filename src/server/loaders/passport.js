@@ -31,13 +31,4 @@ module.exports = async (expressApp) => {
 
     expressApp.use(passport.initialize())
     expressApp.use(passport.session())
-
-    expressApp.get(
-        '/auth/chrome',
-        passport.authenticate('google-token'),
-        (req, res) => {
-            console.log(res)
-            res.json(req.user)
-        }
-    )
 }
