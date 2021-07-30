@@ -15,6 +15,25 @@ module.exports = {
     },
 
     createOne: (req, res) => {
+        const getQuestion = (qId) => {
+            Question.findOne({ _id: qId })
+                .populate('author')
+                .populate({
+                    path: 'replies',
+                    populate: [
+                        { path: 'author' },
+                        {
+                            path: 'replies',
+                            populate: [{ path: 'author' }, { path: 'replies' }],
+                        },
+                    ],
+                })
+                .exec((err, question) => {
+                    if (err) return err
+                    res.json(question.replies)
+                })
+        }
+
         let newReplyDetails = req.body
         newReplyDetails._id = new mongoose.Types.ObjectId()
 
@@ -37,7 +56,7 @@ module.exports = {
                             reply.replies.push(newReplyDetails._id)
                             reply.save((err) => {
                                 if (err) return res.status(400).json(err)
-                                res.json(populatedReply)
+                                getQuestion(populatedReply.parentQuestion)
                             })
                         }
                     )
@@ -51,7 +70,7 @@ module.exports = {
                             question.replies.push(newReplyDetails._id)
                             question.save((err) => {
                                 if (err) return res.status(400).json(err)
-                                res.json(populatedReply)
+                                getQuestion(populatedReply.parentQuestion)
                             })
                         }
                     )
