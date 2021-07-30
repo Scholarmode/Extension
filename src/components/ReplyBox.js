@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setNestedComments, replyId, allQuestions, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -106,6 +106,11 @@ const ReplyBox = ({ setNestedComments, replyId, allQuestions, postToReplies, ask
                         .then(response => response.text())
                         .then(result => {
                             console.log(JSON.parse(result))
+                            console.log("result length: " + JSON.parse(result).length)
+                            if (JSON.parse(result).length == 1) {
+                                console.log("Inside")
+                                setTotalReplies(1)
+                            }
                             setNestedComments(JSON.parse(result))
                         })
                         .catch(error => console.log('error-reply', error));

@@ -117,6 +117,8 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
 
     const [isReplyBoxOpen, setReplyBoxOpen] = useState(false);
 
+    const [newTotalReplies, setTotalReplies] = useState(totalReplies)
+
     var NewRequestOptions = {
         method: 'PUT',
         redirect: 'follow'
@@ -170,19 +172,19 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
         <div>
             <CustomDiv>
                 {
-                    totalReplies > 0 &&
+                    newTotalReplies > 0 &&
                     <>
                         {isReplyOpen ? <ArrowUp fontSize="large" onClick={onClickReply} /> : <ArrowDown fontSize="large" onClick={onClickReply} />}
                         <RepliesTextLink onClick={onClickReply}>
                             {
-                                isReplyOpen ? <> Hide {totalReplies} Replies </> : <> View {totalReplies} Replies </>
+                                isReplyOpen ? <> Hide {newTotalReplies} Replies </> : <> View {newTotalReplies} Replies </>
                             }
                         </RepliesTextLink>
                     </>
                 }
 
                 {
-                    totalReplies <= 0 ? <ZeroReplyIcon fontSize="large" onClick={onReplyBoxClick} /> : <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
+                    newTotalReplies <= 0 ? <ZeroReplyIcon fontSize="large" onClick={onReplyBoxClick} /> : <ReplyIcon fontSize="large" onClick={onReplyBoxClick} />
                 }
                 <ReplyClickText onClick={onReplyBoxClick} >Reply</ReplyClickText>
                 <Popup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
@@ -197,7 +199,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
                 <>
                     {didCatch ? < PostRequestError /> :
                         <ErrorBoundary>
-                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
+                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} setTotalReplies={setTotalReplies} />
                         </ErrorBoundary>
                     }
                 </>
@@ -205,7 +207,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
+                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} setTotalReplies={setTotalReplies} />
                 </>
             }
             {isReplyOpen &&
