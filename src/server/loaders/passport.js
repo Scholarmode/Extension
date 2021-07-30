@@ -1,7 +1,6 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-token').Strategy
 const Account = require('../models/account')
-const mongoose = require('mongoose')
 
 module.exports = async (expressApp) => {
     passport.use(
