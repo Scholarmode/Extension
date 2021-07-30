@@ -78,7 +78,7 @@ const MySlate = styled(Slate)`
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const TextEditor = ({ value, setValue }) => {
+const TextEditor = ({ value, setValue, setCodeLanguage }) => {
     // const [value, setValue] = useState(initialValue);
     const renderElement = useCallback((props) => <Element {...props} />, []);
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
@@ -191,7 +191,10 @@ const TextEditor = ({ value, setValue }) => {
                     <select
                         value={language}
                         style={{ float: "right" }}
-                        onChange={(e) => setLanguage(e.target.value)}
+                        onChange={(e) => {
+                            setLanguage(e.target.value)
+                            setCodeLanguage(e.target.value)
+                        }}
                     >
                         <option value="js">JavaScript</option>
                         <option value="css">CSS</option>

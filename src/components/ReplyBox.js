@@ -74,6 +74,8 @@ const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, p
         return array;
     }
 
+    const [codeLanguage, setCodeLanguage] = useState("html")
+
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
 
@@ -92,7 +94,8 @@ const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, p
                         timestamp: getTimestamp(),
                         parentQuestion: allQuestion._id,
                         parentReply: replyId != null ? replyId : null,
-                        votes: 0
+                        votes: 0,
+                        slateLang: codeLanguage
                     };
 
                     fetch("http://localhost:8080/replies/", {
@@ -134,6 +137,7 @@ const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, p
                         title: titleInput,
                         video: linkifyYouTubeURLs(window.location.href),
                         votes: 0,
+                        slateLang: codeLanguage
                     };
 
                     // (async () => {
@@ -216,7 +220,7 @@ const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, p
     return (
         <div>
             <CustomDiv>
-                <TextEditor value={textValue} setValue={setTextValue} />
+                <TextEditor value={textValue} setValue={setTextValue} setCodeLanguage={setCodeLanguage} />
                 <ButtonDiv>
                     <SubmitButton onClick={storeValue}>Submit</SubmitButton>
                     <CancelButton onClick={closeBox}>Cancel</CancelButton>

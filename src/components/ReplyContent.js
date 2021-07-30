@@ -57,14 +57,14 @@ const CustomListTag = styled.li`
 
 
 
-function ReplyContent({ reply, hasMargin }) {
+function ReplyContent({ reply, hasMargin, slateLang }) {
     let jsonReplyObj = JSON.parse(reply)
     const [value, setValue] = useState(jsonReplyObj)
     const renderElement = useCallback((props) => <Element {...props} />, []);
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
     const editor = useMemo(() => withReact(createEditor()), [])
 
-    const [language, setLanguage] = useState("js");
+    const [language, setLanguage] = useState(slateLang);
 
     const decorate = useCallback(
         ([node, path]) => {

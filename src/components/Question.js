@@ -34,7 +34,7 @@ function Question({ question, allQuestions }) {
 					userImageUrl={question.author.picture}
 				/>
 				<QuestionTitle questionTitle={question.title} />
-				<QuestionContent question={question.content} />
+				<QuestionContent question={question.content} slateLang={question.slateLang} />
 				<QuestionFooter totalReplies={question.replies.length} questions={question} allQuestions={allQuestions} />
 			</NewCustomWidthDiv>
 		</CustomDiv>
