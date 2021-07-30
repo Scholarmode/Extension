@@ -66,7 +66,7 @@ const ReportDiv = styled.div`
     cursor: pointer;
 `;
 
-function ReplyFooter({ setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
+function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
 
     const baseUrl = "localhost:8080/"
     let raw = "";
@@ -137,6 +137,34 @@ function ReplyFooter({ setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setRepl
         }
     }
 
+    const upvotedOrNot = () => {
+        // This function is responsible for checking if the user has already upvoted the reply or not, 
+        // If , yes then it would be rendered accordingly
+        console.log("Upvotes: " + reply.upvoters)
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                reply.upvoters.map((id) => {
+                    if (id == info._id) {
+                        setClickable(false)
+                    }
+                })
+            })
+        })
+    }
+
+    const downvotedOrNot = () => {
+        console.log("Upvotes: " + reply.downvoters)
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                reply.downvoters.map((id) => {
+                    if (id == info._id) {
+                        setDownClickable(false)
+                    }
+                })
+            })
+        })
+    }
+
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
@@ -194,8 +222,12 @@ function ReplyFooter({ setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setRepl
 
     }
 
+    // upvotedOrNot()
+
     return (
         <CustomDiv>
+            {upvotedOrNot()}
+            {downvotedOrNot()}
             {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
             {
                 clickable ? <UpArrowNew>

@@ -52,6 +52,7 @@ const Reply = (props) => {
 							userName={comment.author.given_name}
 							replyId={comment._id}
 							setReplyId={props.setReplyId}
+							reply={comment}
 						/>
 						<CustomUnorderedList>
 							{comment.replies.map((child) => (
