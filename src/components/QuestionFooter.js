@@ -13,6 +13,8 @@ import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
 import { useErrorBoundary } from "use-error-boundary";
+import { QuestionContext } from './QuestionContext';
+import { useContext } from 'react';
 
 import PostRequestError from './PostRequestError.js'
 
@@ -145,7 +147,12 @@ function QuestionFooter({ totalReplies, questions }) {
         })
     }
 
+    const { question, setQuestion } = useContext(QuestionContext);
+
+
     const [replyBoxState, setReplyBoxState] = useState(false)
+
+    const comments = question.replies
 
     // State for UserName
     const [replyUserName, setReplyUserName] = useState("")
@@ -156,6 +163,8 @@ function QuestionFooter({ totalReplies, questions }) {
     const { ErrorBoundary, didCatch, error } = useErrorBoundary();
 
     const [replyId, setReplyId] = useState(null)
+
+    const [nestedComments, setNestedComments] = useState(comments);
 
     return (
         <div>
@@ -188,7 +197,7 @@ function QuestionFooter({ totalReplies, questions }) {
                 <>
                     {didCatch ? < PostRequestError /> :
                         <ErrorBoundary>
-                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
                         </ErrorBoundary>
                     }
                 </>
@@ -196,7 +205,7 @@ function QuestionFooter({ totalReplies, questions }) {
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} />
+                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} />
                 </>
             }
             {isReplyOpen &&
@@ -206,6 +215,7 @@ function QuestionFooter({ totalReplies, questions }) {
                     replyUserName={replyUserName}
                     setReplyUserName={setReplyUserName}
                     setReplyId={setReplyId}
+                    nestedComments={nestedComments}
                 />
 
             }

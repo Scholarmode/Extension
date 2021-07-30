@@ -64,7 +64,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ replyId, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ setNestedComments, replyId, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -91,7 +91,7 @@ const ReplyBox = ({ replyId, postToReplies, askButtonState, askButtonStateFunc, 
                         reports: [],
                         timestamp: getTimestamp(),
                         parentQuestion: allQuestion._id,
-                        parentReply: replyId != null && replyId,
+                        parentReply: replyId != null ? replyId : null,
                         votes: 0
                     };
 
@@ -104,7 +104,10 @@ const ReplyBox = ({ replyId, postToReplies, askButtonState, askButtonStateFunc, 
                         redirect: "follow"
                     })
                         .then(response => response.text())
-                        .then(result => console.log(result))
+                        .then(result => {
+                            console.log(JSON.parse(result))
+                            setNestedComments(JSON.parse(result))
+                        })
                         .catch(error => console.log('error-reply', error));
                 })
             })
