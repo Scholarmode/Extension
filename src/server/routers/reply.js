@@ -150,7 +150,7 @@ module.exports = {
                 upvoters.push(accountId)
             }
 
-            reply.votes += 1
+            reply.votes = upvoters.length - downvoters.length
             reply.upvoters = upvoters
             reply.downvoters = downvoters
             reply.save()
@@ -179,7 +179,7 @@ module.exports = {
                 downvoters.push(accountId)
             }
 
-            reply.votes -= 1
+            reply.votes = upvoters.length - downvoters.length
             reply.upvoters = upvoters
             reply.downvoters = downvoters
             reply.save()

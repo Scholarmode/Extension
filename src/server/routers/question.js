@@ -162,7 +162,7 @@ module.exports = {
                 upvoters.push(accountId)
             }
 
-            question.votes += 1
+            question.votes = upvoters.length - downvoters.length
             question.upvoters = upvoters
             question.downvoters = downvoters
             question.save()
@@ -191,7 +191,7 @@ module.exports = {
                 downvoters.push(accountId)
             }
 
-            question.votes -= 1
+            question.votes = upvoters.length - downvoters.length
             question.upvoters = upvoters
             question.downvoters = downvoters
             question.save()
