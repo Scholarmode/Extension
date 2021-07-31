@@ -66,11 +66,21 @@ const ReportDiv = styled.div`
     cursor: pointer;
 `;
 
+/*
+    Breakdown of upvote and downvote logic
+    Votes can go into negative values
+    if already upvoted reply is clicked again, it should be downvoted by 1
+    if already downvoted reply is clicked again, it should be upvoted by 1
+
+*/
+
 function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
 
     const baseUrl = "localhost:8080/"
     let raw = "";
-    let realUserId;
+    let replyObject;
+    let downStatus = false;
+    let upStatus = false;
 
     let requestOptions = {
         method: 'PUT',
@@ -119,11 +129,13 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const updateVotes = () => {
         if (clickable) {
             if (downClickable) {
+                console.log("downClickable: " + downClickable)
                 setClickable(false)
                 setTotalVotes((v) => v + 1)
                 upvotePutRequest()
             }
             else {
+                console.log("downClickable: " + downClickable)
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
@@ -132,38 +144,96 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
             }
         }
         else {
+            removeVotes()
+            upStatus = true
             setClickable(true)
             setTotalVotes((v) => v - 1)
-            downvotePutRequest()
         }
     }
 
-    const upvotedOrNot = () => {
-        // This function is responsible for checking if the user has already upvoted the reply or not, 
-        // If , yes then it would be rendered accordingly
-        console.log("Upvotes: " + reply.upvoters)
+    const removeVotes = () => {
         chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                reply.upvoters.map((id) => {
-                    if (id == info._id) {
-                        setClickable(false)
-                    }
-                })
+            await getProfileInfo(result.token).then(async (info) => {
+                await fetch(`http://localhost:8080/replies/${replyId}/${info._id}/unvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
             })
         })
     }
 
-    const downvotedOrNot = () => {
-        console.log("Upvotes: " + reply.downvoters)
-        chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                reply.downvoters.map((id) => {
-                    if (id == info._id) {
-                        setDownClickable(false)
-                    }
+    const upvotedOrNot = () => {
+        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+            .then(response => response.text())
+            .then(resultReply => {
+                console.log("Upvotes: " + JSON.parse(resultReply).upvoters)
+                chrome.storage.sync.get(['token'], async (result) => {
+                    getProfileInfo(result.token).then((info) => {
+                        JSON.parse(resultReply).upvoters.map((id) => {
+                            if (id == info._id) {
+                                setClickable(false)
+                            }
+                        })
+                    })
                 })
             })
-        })
+            .catch(error => console.log('error', error));
+    }
+
+    // const upvotedOrNot = () => {
+    //     // This function is responsible for checking if the user has already upvoted the reply or not, 
+    //     // If , yes then it would be rendered accordingly
+    //     console.log("Upvotes: " + reply.upvoters)
+    //     chrome.storage.sync.get(['token'], async (result) => {
+    //         getProfileInfo(result.token).then((info) => {
+    //             if (upStatus) {
+    //                 let index = reply.upvoters.indexOf(info._id)
+    //                 if (index > -1) {
+    //                     reply.upvoters.splice(info._id, 1)
+    //                 }
+    //             }
+    //             console.log("Upvotes New: " + reply.upvoters)
+    //             reply.upvoters.map((id) => {
+    //                 if (id == info._id) {
+    //                     setClickable(false)
+    //                 }
+    //             })
+    //         })
+    //     })
+    // }
+
+    const downvotedOrNot = () => {
+        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+            .then(response => response.text())
+            .then(resultReply => {
+                console.log("Downvotes: " + JSON.parse(resultReply).downvoters)
+                chrome.storage.sync.get(['token'], async (result) => {
+                    getProfileInfo(result.token).then((info) => {
+                        JSON.parse(resultReply).downvoters.map((id) => {
+                            if (id == info._id) {
+                                if (downStatus == true) {
+                                    setDownClickable(true)
+                                }
+                                else {
+                                    setDownClickable(false)
+                                } // This means vote icon has been clicked by the user
+                            }
+                        })
+                    })
+                })
+            })
+            .catch(error => console.log('error', error));
+
+        // console.log("Upvotes: " + reply.downvoters)
+        // chrome.storage.sync.get(['token'], async (result) => {
+        //     getProfileInfo(result.token).then((info) => {
+        //         reply.downvoters.map((id) => {
+        //             if (id == info._id) {
+        //                 setDownClickable(false)
+        //             }
+        //         })
+        //     })
+        // })
     }
 
     // const authorId = () => {
@@ -197,8 +267,9 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
         })
     }
 
-    const updateDownVotes = () => {
-        if (totalVotes > 0 && downClickable) {
+    const updateDownVotes = () => {   // 1 -> 2
+        console.log("Down: " + downClickable)
+        if (downClickable) {
             if (clickable) {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
@@ -213,9 +284,9 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
             }
         }
         else {
-            setDownClickable(true)
+            removeVotes()
+            downStatus = true
             setTotalVotes((v) => v + 1)
-            upvotePutRequest()
         }
     }
 
