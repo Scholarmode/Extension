@@ -187,6 +187,43 @@ module.exports = {
         })
     },
 
+    removeVote: (req, res) => {
+        const accountId = req.params.accountId
+
+        if (!req.params.id || !accountId)
+            return res.status(400).json('Please include the account ID')
+
+        Reply.findOne({ _id: req.params.id })
+            .populate('author')
+            .populate('replies')
+            .exec((err, reply) => {
+                if (err) return res.status(400).json(err)
+                if (!reply) return res.status(404).json(err)
+
+                // Remove account in upvoters and downvoters array
+                let upvoters = reply.upvoters
+                let downvoters = reply.downvoters
+
+                if (upvoters.includes(accountId)) {
+                    upvoters.splice(upvoters.indexOf(accountId), 1)
+					reply.votes -= 1
+                }
+
+                if (downvoters.includes(accountId)) {
+                    downvoters.splice(downvoters.indexOf(accountId), 1)
+					reply.votes += 1
+                }
+
+                reply.upvoters = upvoters
+                reply.downvoters = downvoters
+                reply.save((err, reply) => {
+                    if (err) return res.status(400).json(err)
+                    if (!reply) return res.status(404).json(err)
+                    res.json(reply)
+                })
+            })
+    },
+
     report: (req, res) => {
         Reply.findOne({ _id: req.params.id }, (err, reply) => {
             if (err) return res.status(400).json(err)
