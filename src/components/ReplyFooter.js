@@ -70,6 +70,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
 
     const baseUrl = "localhost:8080/"
     let raw = "";
+    let realUserId;
 
     let requestOptions = {
         method: 'PUT',
@@ -104,15 +105,15 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
         })
     }
 
-    const authorId = () => {
-        chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                console.log("Token: " + result.token)
-                console.log("Info: " + info);
-                return info._id;
-            })
-        })
-    }
+    // const authorId = () => {
+    //     chrome.storage.sync.get(['token'], async (result) => {
+    //         getProfileInfo(result.token).then((info) => {
+    //             console.log("Token: " + result.token)
+    //             console.log("Info: " + info);
+    //             return info._id;
+    //         })
+    //     })
+    // }
 
 
     const updateVotes = () => {
@@ -164,6 +165,14 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
             })
         })
     }
+
+    // const authorId = () => {
+    //     chrome.storage.sync.get(['token'], async (result) => {
+    //         getProfileInfo(result.token).then((info) => info.text()).then((result) => {
+    //             realUserId = result
+    //         })
+    //     })
+    // }
 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
@@ -223,6 +232,8 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     }
 
     // upvotedOrNot()
+    // authorId()
+    // console.log("AuthorId: " + realUserId)
 
     return (
         <CustomDiv>
