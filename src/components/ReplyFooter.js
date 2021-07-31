@@ -48,9 +48,11 @@ const OptionsMenu = styled(MoreHorizIcon)`
 
 const UpArrowNew = styled.div`
 	transform: rotate(-90deg);
+    cursor: pointer;
 `;
 const DownArrow = styled.div`
     transform: rotate(90deg);
+    cursor: pointer
 `
 
 const CustomPopup = styled(Popup)`
@@ -76,7 +78,7 @@ const ReportDiv = styled.div`
 
 function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
 
-    const baseUrl = "localhost:8080/"
+
     let raw = "";
     let replyObject;
     let downStatus = false;
@@ -143,7 +145,6 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
-                upvotePutRequest()
                 upvotePutRequest()
             }
         }
@@ -285,7 +286,6 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
                 setClickable(true)
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
-                downvotePutRequest()
                 downvotePutRequest()
             }
         }
