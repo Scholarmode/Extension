@@ -13,7 +13,8 @@
   "description":"Turning the most entertaining social media platform into the most educational social media platform.",
   "permissions":[
     "storage",
-    "identity"
+    "identity",
+    "tabs"
   ],
   "content_scripts": [
     {
