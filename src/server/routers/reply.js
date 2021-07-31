@@ -15,12 +15,36 @@ module.exports = {
     },
 
     createOne: (req, res) => {
+        const getQuestion = (qId) => {
+            Question.findOne({ _id: qId })
+                .populate('author')
+                .populate({
+                    path: 'replies',
+                    populate: [
+                        { path: 'author' },
+                        {
+                            path: 'replies',
+                            populate: [{ path: 'author' }, { path: 'replies' }],
+                        },
+                    ],
+                })
+                .exec((err, question) => {
+                    if (err) return err
+                    res.json(question.replies)
+                })
+        }
+
         let newReplyDetails = req.body
         newReplyDetails._id = new mongoose.Types.ObjectId()
 
         let reply = new Reply(newReplyDetails)
-        reply.save((err) => {
-            if (!err) {
+
+        reply.populate('author').execPopulate((err, populatedReply) => {
+            if (err) return res.status(400).json(err)
+
+            populatedReply.save((err) => {
+                if (err) return res.status(400).json(err)
+
                 // Add reply to parent reply / question
                 if (newReplyDetails.parentReply) {
                     Reply.findOne(
@@ -31,7 +55,8 @@ module.exports = {
 
                             reply.replies.push(newReplyDetails._id)
                             reply.save((err) => {
-                                res.json(reply)
+                                if (err) return res.status(400).json(err)
+                                getQuestion(populatedReply.parentQuestion)
                             })
                         }
                     )
@@ -44,12 +69,13 @@ module.exports = {
 
                             question.replies.push(newReplyDetails._id)
                             question.save((err) => {
-                                res.json(question)
+                                if (err) return res.status(400).json(err)
+                                getQuestion(populatedReply.parentQuestion)
                             })
                         }
                     )
                 }
-            }
+            })
         })
     },
 

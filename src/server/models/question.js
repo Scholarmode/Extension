@@ -28,6 +28,7 @@ const questionSchema = new mongoose.Schema({
             ref: 'Account',
         },
     ],
+    slateLang: String,
     timestamp: String,
     title: {
         type: String,
