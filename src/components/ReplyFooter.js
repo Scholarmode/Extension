@@ -1,6 +1,6 @@
 /* global chrome */
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -115,6 +115,10 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
         })
     }
 
+    useEffect(() => {
+        upvotedOrNot()
+        downvotedOrNot()
+    }, [])
     // const authorId = () => {
     //     chrome.storage.sync.get(['token'], async (result) => {
     //         getProfileInfo(result.token).then((info) => {
@@ -143,10 +147,9 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
                 upvotePutRequest()
             }
         }
-        else {
+        else { // Upvoted -> Unvote
             removeVotes()
             upStatus = true
-            setClickable(true)
             setTotalVotes((v) => v - 1)
         }
     }
@@ -156,7 +159,10 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
             await getProfileInfo(result.token).then(async (info) => {
                 await fetch(`http://localhost:8080/replies/${replyId}/${info._id}/unvote/`, requestOptions)
                     .then(response => response.text())
-                    .then(result => console.log(result))
+                    .then(result => {
+                        setClickable(true)
+                        setDownClickable(true)
+                    })
                     .catch(error => console.log('error', error));
             })
         })
@@ -171,7 +177,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
                     getProfileInfo(result.token).then((info) => {
                         JSON.parse(resultReply).upvoters.map((id) => {
                             if (id == info._id) {
-                                setClickable(false)
+                                setClickable(false) // Upvote - Blue
                             }
                         })
                     })
@@ -302,14 +308,17 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
 
     }
 
+
+
+    // nothing is votes
+    // downvote,- color , clickable
+    // clickable - false, color
+
     // upvotedOrNot()
     // authorId()
     // console.log("AuthorId: " + realUserId)
-
     return (
         <CustomDiv>
-            {upvotedOrNot()}
-            {downvotedOrNot()}
             {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
             {
                 clickable ? <UpArrowNew>
