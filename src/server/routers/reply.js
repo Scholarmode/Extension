@@ -150,7 +150,7 @@ module.exports = {
                 upvoters.push(accountId)
             }
 
-            reply.votes += 1
+            reply.votes = upvoters.length - downvoters.length
             reply.upvoters = upvoters
             reply.downvoters = downvoters
             reply.save()
@@ -179,7 +179,7 @@ module.exports = {
                 downvoters.push(accountId)
             }
 
-            reply.votes -= 1
+            reply.votes = upvoters.length - downvoters.length
             reply.upvoters = upvoters
             reply.downvoters = downvoters
             reply.save()
@@ -206,16 +206,15 @@ module.exports = {
 
                 if (upvoters.includes(accountId)) {
                     upvoters.splice(upvoters.indexOf(accountId), 1)
-					reply.votes -= 1
                 }
 
                 if (downvoters.includes(accountId)) {
                     downvoters.splice(downvoters.indexOf(accountId), 1)
-					reply.votes += 1
                 }
 
                 reply.upvoters = upvoters
                 reply.downvoters = downvoters
+				reply.votes = upvoters.length - downvoters.length
                 reply.save((err, reply) => {
                     if (err) return res.status(400).json(err)
                     if (!reply) return res.status(404).json(err)

@@ -162,7 +162,7 @@ module.exports = {
                 upvoters.push(accountId)
             }
 
-            question.votes += 1
+            question.votes = upvoters.length - downvoters.length
             question.upvoters = upvoters
             question.downvoters = downvoters
             question.save()
@@ -191,7 +191,7 @@ module.exports = {
                 downvoters.push(accountId)
             }
 
-            question.votes -= 1
+            question.votes = upvoters.length - downvoters.length
             question.upvoters = upvoters
             question.downvoters = downvoters
             question.save()
@@ -218,16 +218,15 @@ module.exports = {
 
                 if (upvoters.includes(accountId)) {
                     upvoters.splice(upvoters.indexOf(accountId), 1)
-                    question.votes -= 1
                 }
 
                 if (downvoters.includes(accountId)) {
                     downvoters.splice(downvoters.indexOf(accountId), 1)
-                    question.votes += 1
                 }
 
                 question.upvoters = upvoters
                 question.downvoters = downvoters
+                question.votes = upvoters.length - downvoters.length
                 question.save((err, question) => {
                     if (err) return res.status(400).json(err)
                     if (!question) return res.status(404).json(err)
