@@ -17,14 +17,15 @@ const QuestionContentText = styled.div`
 	font-size: 14px;
 `;
 
-function QuestionContent({ question }) {
-    let newQuestion = question
-    return (
-        <CustomDiv>
-            <ReplyContent reply={newQuestion} hasMargin={false} />
-            {/* <p>{question}</p> */}
-        </CustomDiv>
-    )
+function QuestionContent({ question, slateLang }) {
+	let newQuestion = question
+	console.log("Changed: " + newQuestion)
+	return (
+		<CustomDiv>
+			<ReplyContent reply={newQuestion} hasMargin={false} slateLang={slateLang} />
+			{/* <p>{question}</p> */}
+		</CustomDiv>
+	)
 
 }
 
