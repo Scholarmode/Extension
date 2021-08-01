@@ -24,19 +24,37 @@ function TitleInput({ title, setTitle }) {
 
 
     const [focus, setFocus] = useState(false)
+    const [originalChild, setOriginalChild] = useState(null)
+    const [parentNode, setParentNode] = useState(null)
 
 
-    var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
-    var hotkeysParent = hotkeys ? hotkeys.parentNode : false;
+    // var hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+    // var hotkeysParent = hotkeys ? hotkeys.parentNode : false;
 
     function addYouTubeHotkeys() {
-        if (hotkeysParent)
+        let hotkeys;
+        let hotkeysParent;
+        if (originalChild == null) {
+            hotkeys = document.getElementsByTagName('yt-Hotkey-Manager')[0]
+        } else {
+            hotkeys = originalChild
+        }
+        if (parentNode == null) {
+            hotkeysParent = hotkeys ? hotkeys.parentNode : false;
+        }
+        else {
+            hotkeysParent = parentNode
+        }
+        if (hotkeysParent) {
             hotkeysParent.appendChild(hotkeys);
+        }
     }
 
     function removeYoutubeHotkeys() {
         var x = document.getElementsByTagName('yt-Hotkey-Manager')[0]
         if (x) {
+            setOriginalChild(x.cloneNode(false))
+            setParentNode(x.parentNode)
             var clone = x.cloneNode(false)
             x.parentNode.replaceChild(clone, x)
             clone.parentNode.removeChild(clone)
@@ -50,7 +68,7 @@ function TitleInput({ title, setTitle }) {
         else {
             addYouTubeHotkeys()
         }
-    })
+    }, [focus])
 
     return (
         <CustomDiv>
