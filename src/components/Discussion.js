@@ -32,6 +32,13 @@ const Discussion = () => {
     const [error, setError] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
 
+    const refreshDiscussion = () => {
+        setQuestions(null)
+        console.log('refreshed discussion')
+    }
+
+    document.addEventListener('yt-navigate-finish', refreshDiscussion);
+
     // const url = `https://scholarmode.herokuapp.com/questions/video/${linkifyYouTubeURLs(window.location.href)}/`
     const url = `http://localhost:8080/questions/video/${linkifyYouTubeURLs(
         window.location.href
@@ -65,6 +72,8 @@ const Discussion = () => {
                 console.log('Fetch Error :-S', err)
             })
     }, [])
+
+    
 
     // const [question, setQuestion] = useState({
     // 	author: {
