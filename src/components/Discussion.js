@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import ReplyBox from './ReplyBox'
 import TitleInput from './TitleInput'
 import { CircularProgress } from '@material-ui/core'
+import EmptyScreen from './EmptyScreen'
 
 const CustomDiv = styled.div`
     margin: 10px;
@@ -168,6 +169,8 @@ const Discussion = () => {
 					</QuestionContext.Provider>
 				</CustomDiv>
 			)}
+			{questions != null &&
+				questions == "" && <EmptyScreen />}
 			{questions != null &&
 				questions.map((question) => {
 					return (
