@@ -3,11 +3,7 @@ const loaders = require('./loaders')
 const cookieSession = require('cookie-session')
 const express = require('express')
 const cors = require('cors')
-const mongoose = require('mongoose')
 
-const accounts = require('./routers/account')
-const questions = require('./routers/question')
-const replies = require('./routers/reply')
 const app = express()
 const port = process.env.PORT || 8080
 
@@ -21,30 +17,7 @@ app.use(
     })
 )
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-
 app.use(cors())
-
-const atlasUser = process.env.ATLAS_USER
-const atlasPwrd = process.env.ATLAS_PWRD
-
-const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@realmcluster.fi10q.mongodb.net/ScholarMode?retryWrites=true&w=majority`
-
-mongoose.connect(
-    uri,
-    {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useFindAndModify: false,
-    },
-    function (err) {
-        if (err) {
-            return console.log('Mongoose - connection error:', err)
-        }
-        console.log('Connected to Mongoose successfully')
-    }
-)
 
 loaders(app)
 

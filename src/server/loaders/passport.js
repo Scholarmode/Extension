@@ -1,7 +1,7 @@
 const passport = require('passport')
+const mongoose = require('mongoose')
 const GoogleStrategy = require('passport-google-token').Strategy
 const Account = require('../models/account')
-const mongoose = require('mongoose')
 
 module.exports = async (expressApp) => {
     passport.use(
@@ -11,23 +11,18 @@ module.exports = async (expressApp) => {
                 clientSecret: process.env.G_CLIENT_SECRET,
             },
             (accessToken, refreshToken, profile, done) => {
-                Account.findOne({ googleId: profile.id }).then(
-                    (currentUser) => {
-                        if (currentUser) {
-                            done(null, currentUser)
-                        } else {
-                            // Save to the account collection
-                            let newAccountDetails = profile._json
-                            newAccountDetails._id = new mongoose.Types.ObjectId()
-                            newAccountDetails.googleId = profile.id
-
-                            let account = new Account(newAccountDetails)
-                            account.save((newUser) => {
-                                done(null, newUser)
-                            })
-                        }
+                Account.findOne({ googleId: profile.id }).then((user) => {
+                    if (!user) {
+                        let newAccountDetails = profile._json
+                        newAccountDetails._id = new mongoose.Types.ObjectId()
+                        newAccountDetails.googleId = profile.id
+                        let account = new Account(newAccountDetails)
+                        account.save((newUser) => {
+                            done(null, newUser)
+                        })
                     }
-                )
+                    return done(null, user)
+                })
             }
         )
     )
@@ -42,13 +37,4 @@ module.exports = async (expressApp) => {
 
     expressApp.use(passport.initialize())
     expressApp.use(passport.session())
-
-    expressApp.get(
-        '/auth/chrome',
-        passport.authenticate('google-token'),
-        (req, res) => {
-            console.log(res)
-            res.json(req.user)
-        }
-    )
 }
