@@ -163,7 +163,7 @@ const showDiscussion = async() => {
             let div = await placeDiv(beforeVideos)
             await renderDiscussion()
             await toggleVideos(div)
-
+            console.log('end of showDiscussion');
         }
     }
     catch(err){
@@ -177,3 +177,6 @@ if(document.body){
 }else{
     document.addEventListener('DOMContentLoaded', showDiscussion )
 }
+
+
+// document.addEventListener('yt-navigate-finish', showDiscussion);
