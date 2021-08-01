@@ -1,5 +1,5 @@
 /* global chrome */
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { QuestionContext } from './QuestionContext';
 import ArrowDown from '@material-ui/icons/ArrowDropDown';
@@ -32,6 +32,11 @@ export const Sidebar = ({ question }) => {
         redirect: 'follow'
     };
 
+    useEffect(() => {
+        upvotedOrNot()
+        downvotedOrNot()
+    }, [])
+
     const updateVotes = () => {
         if (clickable) {
             if (downClickable) {
@@ -44,18 +49,30 @@ export const Sidebar = ({ question }) => {
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
                 upvotePutRequest()
-                upvotePutRequest()
             }
         }
         else {
-            setClickable(true)
+            removeVotes()
             setTotalVotes((v) => v - 1)
-            downvotePutRequest()
         }
     }
 
+    const removeVotes = () => {
+        chrome.storage.sync.get(['token'], async (result) => {
+            await getProfileInfo(result.token).then(async (info) => {
+                await fetch(`http://localhost:8080/replies/${question._id}/${info._id}/unvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        setClickable(true)
+                        setDownClickable(true)
+                    })
+                    .catch(error => console.log('error', error));
+            })
+        })
+    }
+
     const updateDownVotes = () => {
-        if (totalVotes > 0 && downClickable) {
+        if (downClickable) {
             if (clickable) {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
@@ -66,13 +83,11 @@ export const Sidebar = ({ question }) => {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
                 downvotePutRequest()
-                downvotePutRequest()
             }
         }
         else {
-            setDownClickable(true)
+            removeVotes()
             setTotalVotes((v) => v + 1)
-            upvotePutRequest()
         }
     }
 
@@ -133,8 +148,6 @@ export const Sidebar = ({ question }) => {
 
     return (
         <SidebarBackground>
-            {upvotedOrNot()}
-            {downvotedOrNot()}
             {
                 clickable ?
                     <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#909090', cursor: 'pointer' }} onClick={updateVotes} />
