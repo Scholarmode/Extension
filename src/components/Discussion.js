@@ -37,6 +37,9 @@ const Discussion = () => {
     const refreshDiscussion = () => {
         setQuestions(null)
         console.log('refreshed discussion')
+		setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+		window.location.href
+	)}/`)
     }
 
 	// useEffect(() => {
@@ -46,10 +49,12 @@ const Discussion = () => {
 
     document.addEventListener('yt-navigate-finish', refreshDiscussion);
 
-    const [url, setUrl] = useState(null)
-	setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+    const [url, setUrl] = useState(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
 		window.location.href
 	)}/`)
+	// setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+	// 	window.location.href
+	// )}/`)
 	
 	// const url = `https://scholarmode.herokuapp.com/questions/video/${linkifyYouTubeURLs(window.location.href)}/`
 			// const url = `http://localhost:8080/questions/video/${linkifyYouTubeURLs(
