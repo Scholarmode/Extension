@@ -75,10 +75,15 @@ const MySlate = styled(Slate)`
     background-color: white;
 `
 
+const CustomListTag = styled.li`
+    margin-left: 18px;
+    font-size: 15px;
+`;
+
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
-const TextEditor = ({ value, setValue }) => {
+const TextEditor = ({ value, setValue, setCodeLanguage }) => {
     // const [value, setValue] = useState(initialValue);
     const renderElement = useCallback((props) => <Element {...props} />, []);
     const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
@@ -191,7 +196,10 @@ const TextEditor = ({ value, setValue }) => {
                     <select
                         value={language}
                         style={{ float: "right" }}
-                        onChange={(e) => setLanguage(e.target.value)}
+                        onChange={(e) => {
+                            setLanguage(e.target.value)
+                            setCodeLanguage(e.target.value)
+                        }}
                     >
                         <option value="js">JavaScript</option>
                         <option value="css">CSS</option>
@@ -283,7 +291,7 @@ const Element = ({ attributes, children, element }) => {
         case "heading-two":
             return <h2 {...attributes}>{children}</h2>;
         case "list-item":
-            return <li {...attributes}>{children}</li>;
+            return <CustomListTag {...attributes}>{children}</CustomListTag>;
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:

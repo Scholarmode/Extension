@@ -1,6 +1,6 @@
 /* global chrome */
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ForwardIcon from '@material-ui/icons/Forward';
 import SmsIcon from '@material-ui/icons/Sms';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -48,9 +48,11 @@ const OptionsMenu = styled(MoreHorizIcon)`
 
 const UpArrowNew = styled.div`
 	transform: rotate(-90deg);
+    cursor: pointer;
 `;
 const DownArrow = styled.div`
     transform: rotate(90deg);
+    cursor: pointer
 `
 
 const CustomPopup = styled(Popup)`
@@ -66,10 +68,21 @@ const ReportDiv = styled.div`
     cursor: pointer;
 `;
 
-function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
+/*
+    Breakdown of upvote and downvote logic
+    Votes can go into negative values
+    if already upvoted reply is clicked again, it should be downvoted by 1
+    if already downvoted reply is clicked again, it should be upvoted by 1
 
-    const baseUrl = "localhost:8080/"
+*/
+
+function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
+
+
     let raw = "";
+    let replyObject;
+    let downStatus = false;
+    let upStatus = false;
 
     let requestOptions = {
         method: 'PUT',
@@ -104,38 +117,139 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
         })
     }
 
-    const authorId = () => {
-        chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                console.log("Token: " + result.token)
-                console.log("Info: " + info);
-                return info._id;
-            })
-        })
-    }
+    useEffect(() => {
+        upvotedOrNot()
+        downvotedOrNot()
+    }, [])
+    // const authorId = () => {
+    //     chrome.storage.sync.get(['token'], async (result) => {
+    //         getProfileInfo(result.token).then((info) => {
+    //             console.log("Token: " + result.token)
+    //             console.log("Info: " + info);
+    //             return info._id;
+    //         })
+    //     })
+    // }
 
 
     const updateVotes = () => {
         if (clickable) {
             if (downClickable) {
+                console.log("downClickable: " + downClickable)
                 setClickable(false)
                 setTotalVotes((v) => v + 1)
                 upvotePutRequest()
             }
             else {
+                console.log("downClickable: " + downClickable)
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
                 upvotePutRequest()
-                upvotePutRequest()
             }
         }
-        else {
-            setClickable(true)
+        else { // Upvoted -> Unvote
+            removeVotes()
+            upStatus = true
             setTotalVotes((v) => v - 1)
-            downvotePutRequest()
         }
     }
+
+    const removeVotes = () => {
+        chrome.storage.sync.get(['token'], async (result) => {
+            await getProfileInfo(result.token).then(async (info) => {
+                await fetch(`http://localhost:8080/replies/${replyId}/${info._id}/unvote/`, requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        setClickable(true)
+                        setDownClickable(true)
+                    })
+                    .catch(error => console.log('error', error));
+            })
+        })
+    }
+
+    const upvotedOrNot = () => {
+        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+            .then(response => response.text())
+            .then(resultReply => {
+                console.log("Upvotes: " + JSON.parse(resultReply).upvoters)
+                chrome.storage.sync.get(['token'], async (result) => {
+                    getProfileInfo(result.token).then((info) => {
+                        JSON.parse(resultReply).upvoters.map((id) => {
+                            if (id == info._id) {
+                                setClickable(false) // Upvote - Blue
+                            }
+                        })
+                    })
+                })
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    // const upvotedOrNot = () => {
+    //     // This function is responsible for checking if the user has already upvoted the reply or not, 
+    //     // If , yes then it would be rendered accordingly
+    //     console.log("Upvotes: " + reply.upvoters)
+    //     chrome.storage.sync.get(['token'], async (result) => {
+    //         getProfileInfo(result.token).then((info) => {
+    //             if (upStatus) {
+    //                 let index = reply.upvoters.indexOf(info._id)
+    //                 if (index > -1) {
+    //                     reply.upvoters.splice(info._id, 1)
+    //                 }
+    //             }
+    //             console.log("Upvotes New: " + reply.upvoters)
+    //             reply.upvoters.map((id) => {
+    //                 if (id == info._id) {
+    //                     setClickable(false)
+    //                 }
+    //             })
+    //         })
+    //     })
+    // }
+
+    const downvotedOrNot = () => {
+        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+            .then(response => response.text())
+            .then(resultReply => {
+                console.log("Downvotes: " + JSON.parse(resultReply).downvoters)
+                chrome.storage.sync.get(['token'], async (result) => {
+                    getProfileInfo(result.token).then((info) => {
+                        JSON.parse(resultReply).downvoters.map((id) => {
+                            if (id == info._id) {
+                                if (downStatus == true) {
+                                    setDownClickable(true)
+                                }
+                                else {
+                                    setDownClickable(false)
+                                } // This means vote icon has been clicked by the user
+                            }
+                        })
+                    })
+                })
+            })
+            .catch(error => console.log('error', error));
+
+        // console.log("Upvotes: " + reply.downvoters)
+        // chrome.storage.sync.get(['token'], async (result) => {
+        //     getProfileInfo(result.token).then((info) => {
+        //         reply.downvoters.map((id) => {
+        //             if (id == info._id) {
+        //                 setDownClickable(false)
+        //             }
+        //         })
+        //     })
+        // })
+    }
+
+    // const authorId = () => {
+    //     chrome.storage.sync.get(['token'], async (result) => {
+    //         getProfileInfo(result.token).then((info) => info.text()).then((result) => {
+    //             realUserId = result
+    //         })
+    //     })
+    // }
 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
@@ -160,8 +274,9 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
         })
     }
 
-    const updateDownVotes = () => {
-        if (totalVotes > 0 && downClickable) {
+    const updateDownVotes = () => {   // 1 -> 2
+        console.log("Down: " + downClickable)
+        if (downClickable) {
             if (clickable) {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
@@ -172,21 +287,36 @@ function ReplyFooter({ votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, u
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
                 downvotePutRequest()
-                downvotePutRequest()
             }
         }
         else {
-            setDownClickable(true)
+            removeVotes()
+            downStatus = true
             setTotalVotes((v) => v + 1)
-            upvotePutRequest()
         }
     }
 
     const changeReplyBoxState = () => {
         setReplyBoxOpen(!replyBoxOpen)
         setReplyUserName(userName)
+        // Set ReplyId here too manage nested replies
+
+        if (replyId != "") {
+            console.log("ReplyId: " + replyId)
+            setReplyId(replyId)
+        }
+
     }
 
+
+
+    // nothing is votes
+    // downvote,- color , clickable
+    // clickable - false, color
+
+    // upvotedOrNot()
+    // authorId()
+    // console.log("AuthorId: " + realUserId)
     return (
         <CustomDiv>
             {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}

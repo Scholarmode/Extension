@@ -25,7 +25,7 @@ const TestDiv = styled.div`
 `;
 
 function Replies(props) {
-	const { question, setQuestion } = useContext(QuestionContext);
+	//const { question, setQuestion } = useContext(QuestionContext);
 
 
 	// const nest = (items, id = null) =>
@@ -47,9 +47,12 @@ function Replies(props) {
 	// 		.map((item) => ({ ...item, children: nest(items, item.id) }));
 	// };
 
-	const comments = question.replies;
+	// const comments = question.replies;
 
-	const [nestedComments, setNestedComments] = useState(comments);
+	// const [nestedComments, setNestedComments] = useState(comments);
+	const nestedComments = props.nestedComments
+
+	console.log("Nested Comments: " + nestedComments);
 
 	// const Comment = (props) => (
 	// 	<li>
@@ -80,6 +83,7 @@ function Replies(props) {
 							replyBoxOpen={props.replyBoxState}
 							setReplyBoxOpen={props.setReplyBoxState}
 							setReplyUserName={props.setReplyUserName}
+							setReplyId={props.setReplyId}
 						/>
 					</>
 				))}

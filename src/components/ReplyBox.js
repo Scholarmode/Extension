@@ -15,6 +15,17 @@ const CustomDiv = styled.div`
 	padding-bottom: 10px;
 	padding-left: 5px;
     background-color: white;
+    width: 411.25px;
+`;
+
+const SmallDiv = styled.div`
+    min-height: 100px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+    background-color: white;
 `;
 
 const SubmitButton = styled.button`
@@ -64,7 +75,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ increaseSize, setTotalReplies, setNestedComments, replyId, allQuestions, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -74,76 +85,125 @@ const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions
         return array;
     }
 
+    const [codeLanguage, setCodeLanguage] = useState("html")
+
     const storeValue = () => {
         const newValue = JSON.stringify(textValue);
 
-        chrome.storage.sync.get(['token'], async (result) => {
-            getProfileInfo(result.token).then((info) => {
-                const reqBody = {
-                    author: info._id,
-                    content: newValue,
-                    dateCreated: new Date(),
-                    flagged: false,
-                    replies: [],
-                    reports: [],
-                    timestamp: getTimestamp(),
-                    title: titleInput,
-                    video: linkifyYouTubeURLs(window.location.href),
-                    votes: 0,
-                };
 
-                // (async () => {
-                //     const rawResponse = 
-                // })
-                fetch('http://localhost:8080/questions/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(reqBody),
-                    redirect: "follow"
-                })
-                    .then(async (response) => {
-                        // if (response.status !== 200) {
-                        //     setPostReqError(true)
-                        // }
-                        // else {
-                        //     console.log("Response: " + response);
-                        //     console.log("Questions: " + allQuestions)
-                        //     console.log("JSON: " + response.json());
-                        //     let jsonR = response.json()
-                        //     let whole = { ...allQuestions, reqBody }
-                        //     let newObj = Object.assign({}, allQuestions, reqBody)
-                        //     console.log("NewObj: " + JSON.stringify(reqBody))
-                        //     // setQuestions(newObj)
-                        // }
-                        let data = await response.json();
-                        if (response.status != 200) {
-                            console.log("Error")
-                        }
-                        else {
-                            console.log(JSON.stringify(data))
-                            let newObj = insertObject(allQuestions, 0, data)
-                            // console.log("New Obj: " + JSON.stringify(newObj))
-                            setQuestions(null)
-                            setQuestions(newObj)
-                            askButtonStateFunc(false)
-                            // console.log("Length of all questions: " + allQuestions.length())
+        if (postToReplies) {
+            // This will basically post the content to replies db
+            chrome.storage.sync.get(['token'], async (result) => {
+                getProfileInfo(result.token).then((info) => {
+                    const reqBody = {
+                        author: info._id,
+                        content: newValue,
+                        dateCreated: new Date(),
+                        flagged: false,
+                        replies: [],
+                        reports: [],
+                        timestamp: getTimestamp(),
+                        parentQuestion: allQuestion._id,
+                        parentReply: replyId != null ? replyId : null,
+                        votes: 0,
+                        slateLang: codeLanguage
+                    };
 
-                        }
-                    }
-                    )
-                    .then((data) => {
-                        console.log("Responses m: " + data)
+                    fetch("http://localhost:8080/replies/", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(reqBody),
+                        redirect: "follow"
                     })
-                    .catch((err) => {
-                        console.log("Error: " + err)
-                        setPostReqError(true)
-                    });
+                        .then(response => response.text())
+                        .then(result => {
+                            console.log(JSON.parse(result))
+                            console.log("result length: " + JSON.parse(result).length)
+                            if (JSON.parse(result).length == 1) {
+                                console.log("Inside")
+                                setTotalReplies(1)
+                            }
+                            setNestedComments(JSON.parse(result))
+                        })
+                        .catch(error => console.log('error-reply', error));
+                })
+            })
+
+        }
+        else {
+            console.log("Here: " + postToReplies)
+            // This will basically post the content to questions db
+            chrome.storage.sync.get(['token'], async (result) => {
+                getProfileInfo(result.token).then((info) => {
+                    const reqBody = {
+                        author: info._id,
+                        content: newValue,
+                        dateCreated: new Date(),
+                        flagged: false,
+                        replies: [],
+                        reports: [],
+                        timestamp: getTimestamp(),
+                        title: titleInput,
+                        video: linkifyYouTubeURLs(window.location.href),
+                        votes: 0,
+                        slateLang: codeLanguage
+                    };
+
+                    // (async () => {
+                    //     const rawResponse = 
+                    // })
+                    fetch('http://localhost:8080/questions/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(reqBody),
+                        redirect: "follow"
+                    })
+                        .then(async (response) => {
+                            // if (response.status !== 200) {
+                            //     setPostReqError(true)
+                            // }
+                            // else {
+                            //     console.log("Response: " + response);
+                            //     console.log("Questions: " + allQuestions)
+                            //     console.log("JSON: " + response.json());
+                            //     let jsonR = response.json()
+                            //     let whole = { ...allQuestions, reqBody }
+                            //     let newObj = Object.assign({}, allQuestions, reqBody)
+                            //     console.log("NewObj: " + JSON.stringify(reqBody))
+                            //     // setQuestions(newObj)
+                            // }
+                            let data = await response.json();
+                            if (response.status != 200) {
+                                console.log("Error")
+                            }
+                            else {
+                                console.log(JSON.stringify(data))
+                                let newObj = insertObject(allQuestions, 0, data)
+                                console.log("New Obj: " + JSON.stringify(newObj))
+                                setQuestions(null)
+                                setQuestions(newObj)
+                                askButtonStateFunc(false)
+                                // console.log("Length of all questions: " + allQuestions.length())
+
+                            }
+                        }
+                        )
+                        .then((data) => {
+                            console.log("Responses m: " + data)
+                        })
+                        .catch((err) => {
+                            console.log("Error: " + err)
+                            setPostReqError(true)
+                        });
 
 
+                });
             });
-        });
+        }
     };
 
     const serialize = (value) => {
@@ -170,13 +230,24 @@ const ReplyBox = ({ askButtonState, askButtonStateFunc, titleInput, allQuestions
 
     return (
         <div>
-            <CustomDiv>
-                <TextEditor value={textValue} setValue={setTextValue} />
-                <ButtonDiv>
-                    <SubmitButton onClick={storeValue}>Submit</SubmitButton>
-                    <CancelButton onClick={closeBox}>Cancel</CancelButton>
-                </ButtonDiv>
-            </CustomDiv>
+            {increaseSize ?
+                <CustomDiv>
+                    <TextEditor value={textValue} setValue={setTextValue} setCodeLanguage={setCodeLanguage} />
+                    <ButtonDiv>
+                        <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                        <CancelButton onClick={closeBox}>Cancel</CancelButton>
+                    </ButtonDiv>
+                </CustomDiv>
+                :
+
+                <SmallDiv>
+                    <TextEditor value={textValue} setValue={setTextValue} setCodeLanguage={setCodeLanguage} />
+                    <ButtonDiv>
+                        <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                        <CancelButton onClick={closeBox}>Cancel</CancelButton>
+                    </ButtonDiv>
+                </SmallDiv>
+            }
         </div>
     );
 }
@@ -221,7 +292,7 @@ const initialValue = [
         type: 'paragraph',
         children: [
             {
-                text: '<h1>Hi!</h1>',
+                text: '',
             },
         ],
     },

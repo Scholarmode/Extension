@@ -43,7 +43,7 @@ const Reply = (props) => {
 						userImageUrl={comment.author.picture}
 					/>
 					<ReplyThread>
-						<ReplyContent reply={comment.content} hasMargin={true} />
+						<ReplyContent reply={comment.content} hasMargin={true} slateLang={comment.slateLang} />
 						<ReplyFooter
 							votes={comment.votes}
 							replyBoxOpen={props.replyBoxOpen}
@@ -51,6 +51,8 @@ const Reply = (props) => {
 							setReplyUserName={props.setReplyUserName}
 							userName={comment.author.given_name}
 							replyId={comment._id}
+							setReplyId={props.setReplyId}
+							reply={comment}
 						/>
 						<CustomUnorderedList>
 							{comment.replies.map((child) => (
@@ -59,6 +61,7 @@ const Reply = (props) => {
 									replyBoxOpen={props.replyBoxOpen}
 									setReplyBoxOpen={props.setReplyBoxOpen}
 									setReplyUserName={props.setReplyUserName}
+									setReplyId={props.setReplyId}
 								/>
 							))}
 						</CustomUnorderedList>

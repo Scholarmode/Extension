@@ -32,6 +32,7 @@ const ButtonBackground = styled.div`
   border-color: black;
   display: flex;
   align-items: center;
+  cursor:pointer;
 
   &.active {
     animation: ${activateBackground} 0.2s ease-in-out forwards;

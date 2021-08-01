@@ -20,6 +20,7 @@ const NewCustomWidthDiv = styled.div`
 	min-width: 389.27px;
 `;
 
+
 function Question({ question, allQuestions }) {
 	//const { questions, setQuestions } = useContext(QuestionContext);
 	return (
@@ -33,8 +34,8 @@ function Question({ question, allQuestions }) {
 					userImageUrl={question.author.picture}
 				/>
 				<QuestionTitle questionTitle={question.title} />
-				<QuestionContent question={question.content} />
-				<QuestionFooter totalReplies={question.replies.length} questions={question} />
+				<QuestionContent question={question.content} slateLang={question.slateLang} />
+				<QuestionFooter totalReplies={question.replies.length} questions={question} allQuestions={allQuestions} />
 			</NewCustomWidthDiv>
 		</CustomDiv>
 	);
