@@ -155,7 +155,7 @@ const showDiscussion = async() => {
         if(window.location.pathname === '/watch'){
             
             
-            const beforeVideos = await createDiv()
+            let beforeVideos = await createDiv()
             await placeDiv(beforeVideos)
             await renderDiscussion()
             toggleVideos(beforeVideos)
