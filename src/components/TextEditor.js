@@ -75,6 +75,11 @@ const MySlate = styled(Slate)`
     background-color: white;
 `
 
+const CustomListTag = styled.li`
+    margin-left: 18px;
+    font-size: 15px;
+`;
+
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
@@ -286,7 +291,7 @@ const Element = ({ attributes, children, element }) => {
         case "heading-two":
             return <h2 {...attributes}>{children}</h2>;
         case "list-item":
-            return <li {...attributes}>{children}</li>;
+            return <CustomListTag {...attributes}>{children}</CustomListTag>;
         case "numbered-list":
             return <ol {...attributes}>{children}</ol>;
         default:
