@@ -179,4 +179,17 @@ if(document.body){
 }
 
 
-// document.addEventListener('yt-navigate-finish', showDiscussion);
+const discussionFromHomepage = () => {
+    if(window.location.pathname === '/watch'){
+        window.location.reload()
+        console.log('discussion from homepage')
+        document.removeEventListener('yt-navigate-finish', discussionFromHomepage)
+    }
+}
+
+
+//if YouTube homepage then track render disccusion on navigate
+if(window.location.pathname === '/'){
+document.addEventListener('yt-navigate-finish', discussionFromHomepage)
+console.log('discussionFromHome event called');
+}
