@@ -1,9 +1,8 @@
 /* global chrome */
-import { useContext, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { QuestionContext } from './QuestionContext';
 import ArrowDown from '@material-ui/icons/ArrowDropDown';
 import ArrowUp from '@material-ui/icons/ArrowDropUp';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 
 const SidebarBackground = styled.div`
