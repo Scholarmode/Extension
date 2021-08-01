@@ -36,31 +36,16 @@ const Discussion = () => {
 
     const refreshDiscussion = () => {
         setQuestions(null)
-        console.log('refreshed discussion')
 		setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
 		window.location.href
 	)}/`)
     }
-
-	// useEffect(() => {
-	// 	refreshDiscussion()
-		
-	// }, [questions])
 
     document.addEventListener('yt-navigate-finish', refreshDiscussion);
 
     const [url, setUrl] = useState(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
 		window.location.href
 	)}/`)
-	// setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
-	// 	window.location.href
-	// )}/`)
-	
-	// const url = `https://scholarmode.herokuapp.com/questions/video/${linkifyYouTubeURLs(window.location.href)}/`
-			// const url = `http://localhost:8080/questions/video/${linkifyYouTubeURLs(
-			// 	window.location.href
-			// )}/`
-			// console.log('url', url)
 
 	//60fd66a250fd11167a18167b
 
@@ -88,7 +73,6 @@ const Discussion = () => {
 			.catch(function (err) {
 				console.log('Fetch Error :-S', err)
 			})
-		console.log('useEffect');
 	}, [url])
 
 	// const [question, setQuestion] = useState({

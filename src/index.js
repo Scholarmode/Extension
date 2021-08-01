@@ -34,74 +34,12 @@ ReactDOM.render(
 )
 
 
-
-
-
-// //create div for discussion
-// const beforeVideos = document.createElement('div')
-// beforeVideos.id = 'prevideos'
-// beforeVideos.style.display = 'none'
-
-// //check for recommended videos and place div before videos
-// if (document.querySelector('#secondary')) {
-//     document
-//         .querySelector('#secondary')
-//         .insertAdjacentElement('afterbegin', beforeVideos)
-// } else {
-//     console.log('discussion div not rendered')
-// }
-
-// // render discussion into hidden div
-// ReactDOM.render(
-//     <React.StrictMode>
-//         <Discussion />
-//     </React.StrictMode>,
-//     document.getElementById('prevideos')
-// )
-
-// //find recommended videos
-// const videos = document.getElementById('secondary-inner')
-
-// //find toggle to know the state
-// const toggle = document.querySelector('.sc-bdnxRM')
-
-// //observe when toggle changes
-// const toggleObserver = new MutationObserver(function (mutations) {
-//     mutations.forEach(function (mutation) {
-//         if (mutation.target.classList[2] === 'active') {
-//             beforeVideos.style.display = 'block'
-//             videos.style.display = 'none'
-//         } else {
-//             beforeVideos.style.display = 'none'
-//             videos.style.display = 'block'
-//         }
-//     })
-// })
-
-// toggleObserver.observe(toggle, {
-//     childList: false,
-//     attributes: true,
-// })
-
-// update recommended videos on first YouTube load or any refresh
-// window.onload = () => {
-//     if (toggle.classList[toggle.classList.length - 1] === 'active') {
-//       beforeVideos.style.display = "block"
-//       videos.style.display = "none";
-
-//     } else {
-//       beforeVideos.style.display = "none"
-//       videos.style.display = "block"
-//     }
-// }
-
 const createDiv = async() => {
     //create div for discussion
     const beforeVideos = document.createElement('div')
     beforeVideos.id = 'prevideos'
     beforeVideos.style.display = 'none'
 
-    console.log('1');
     return beforeVideos
 }
 
@@ -110,7 +48,6 @@ const placeDiv = async(beforeVideos) => {
     const secondary = document.querySelector('#secondary')
     secondary.insertAdjacentElement('afterbegin', beforeVideos)
 
-    console.log('2');
     return beforeVideos
 }
 
@@ -122,7 +59,6 @@ const renderDiscussion = async() => {
         </React.StrictMode>,
         document.getElementById('prevideos')
     )
-    console.log('3');
 }
 
 const toggleVideos = async(beforeVideos) => {
@@ -149,7 +85,6 @@ const toggleVideos = async(beforeVideos) => {
         childList: false,
         attributes: true,
     })
-    console.log('4');
 }
 
 
@@ -163,7 +98,6 @@ const showDiscussion = async() => {
             let div = await placeDiv(beforeVideos)
             await renderDiscussion()
             await toggleVideos(div)
-            console.log('end of showDiscussion');
         }
     }
     catch(err){
@@ -173,7 +107,6 @@ const showDiscussion = async() => {
 
 if(document.body){
     showDiscussion()
-    console.log('showDiscussion')
 }else{
     document.addEventListener('DOMContentLoaded', showDiscussion )
 }
@@ -182,7 +115,6 @@ if(document.body){
 const discussionFromHomepage = () => {
     if(window.location.pathname === '/watch'){
         window.location.reload()
-        console.log('discussion from homepage')
         document.removeEventListener('yt-navigate-finish', discussionFromHomepage)
     }
 }
@@ -191,5 +123,4 @@ const discussionFromHomepage = () => {
 //if YouTube homepage then track render disccusion on navigate
 if(window.location.pathname === '/'){
 document.addEventListener('yt-navigate-finish', discussionFromHomepage)
-console.log('discussionFromHome event called');
 }
