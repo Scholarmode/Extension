@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components';
 
 const CustomDiv = styled.div`
-	width: 100%;
+	width: 419.25px;
 	height: 50px;
 	display: flex;
 	flex-direction: column;

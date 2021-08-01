@@ -15,6 +15,17 @@ const CustomDiv = styled.div`
 	padding-bottom: 10px;
 	padding-left: 5px;
     background-color: white;
+    width: 411.25px;
+`;
+
+const SmallDiv = styled.div`
+    min-height: 100px;
+	border: 1px solid gray;
+	border-radius: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+    background-color: white;
 `;
 
 const SubmitButton = styled.button`
@@ -64,7 +75,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime);
 };
 
-const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
+const ReplyBox = ({ increaseSize, setTotalReplies, setNestedComments, replyId, allQuestions, postToReplies, askButtonState, askButtonStateFunc, titleInput, allQuestion, setPostReqError, setReplyBoxStateNew, replyBoxStateNew, setReplyBoxOpenNew, isReplyBoxOpenNew }) => {
     const [textValue, setTextValue] = useState(initialValue);
 
     const { setQuestions } = useContext(QuestionContext);
@@ -219,13 +230,24 @@ const ReplyBox = ({ setTotalReplies, setNestedComments, replyId, allQuestions, p
 
     return (
         <div>
-            <CustomDiv>
-                <TextEditor value={textValue} setValue={setTextValue} setCodeLanguage={setCodeLanguage} />
-                <ButtonDiv>
-                    <SubmitButton onClick={storeValue}>Submit</SubmitButton>
-                    <CancelButton onClick={closeBox}>Cancel</CancelButton>
-                </ButtonDiv>
-            </CustomDiv>
+            {increaseSize ?
+                <CustomDiv>
+                    <TextEditor value={textValue} setValue={setTextValue} setCodeLanguage={setCodeLanguage} />
+                    <ButtonDiv>
+                        <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                        <CancelButton onClick={closeBox}>Cancel</CancelButton>
+                    </ButtonDiv>
+                </CustomDiv>
+                :
+
+                <SmallDiv>
+                    <TextEditor value={textValue} setValue={setTextValue} setCodeLanguage={setCodeLanguage} />
+                    <ButtonDiv>
+                        <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                        <CancelButton onClick={closeBox}>Cancel</CancelButton>
+                    </ButtonDiv>
+                </SmallDiv>
+            }
         </div>
     );
 }

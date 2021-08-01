@@ -199,7 +199,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
                 <>
                     {didCatch ? < PostRequestError /> :
                         <ErrorBoundary>
-                            <ReplyBox replyId={null} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} setTotalReplies={setTotalReplies} />
+                            <ReplyBox increaseSize={false} replyId={null} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} isReplyBoxOpenNew={isReplyBoxOpen} setReplyBoxOpenNew={setReplyBoxOpen} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} setTotalReplies={setTotalReplies} />
                         </ErrorBoundary>
                     }
                 </>
@@ -207,7 +207,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
             {replyBoxState &&
                 <>
                     <ReplyBoxHeader userName={replyUserName} />
-                    <ReplyBox replyId={replyId} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} setTotalReplies={setTotalReplies} />
+                    <ReplyBox increaseSize={false} replyId={replyId} postToReplies={true} allQuestion={questions} allQuestions={allQuestions} setPostReqError={setPostError} setReplyBoxStateNew={setReplyBoxState} replyBoxStateNew={setReplyBoxState} setNestedComments={setNestedComments} setTotalReplies={setTotalReplies} />
                 </>
             }
             {isReplyOpen &&

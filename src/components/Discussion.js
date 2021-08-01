@@ -165,7 +165,7 @@ const Discussion = () => {
 						value={{ questions, setQuestions }}
 					>
 						<TitleInput title={title} setTitle={setTitle} />
-						<ReplyBox postToReplies={false} allQuestions={questions} titleInput={title} askButtonState={askButtonState} askButtonStateFunc={setAskButtonState} />
+						<ReplyBox increaseSize={true} postToReplies={false} allQuestions={questions} titleInput={title} askButtonState={askButtonState} askButtonStateFunc={setAskButtonState} />
 					</QuestionContext.Provider>
 				</CustomDiv>
 			)}
