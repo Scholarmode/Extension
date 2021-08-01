@@ -120,7 +120,18 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     useEffect(() => {
         upvotedOrNot()
         downvotedOrNot()
+        loadReplyVotes()
     }, [])
+
+    const loadReplyVotes = () => {
+        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                setTotalVotes(JSON.parse(result).votes)
+            })
+            .catch(error => console.log('error', error))
+    }
+
     // const authorId = () => {
     //     chrome.storage.sync.get(['token'], async (result) => {
     //         getProfileInfo(result.token).then((info) => {
