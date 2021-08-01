@@ -47,6 +47,12 @@ const CustomTimeInput = styled.input`
   }
 `;
 
+const TimestampText = styled.p`
+    font-size: 14px;
+    color: #2196f3;
+    flex-grow: 1;
+`
+
 const CustomFont = styled.p`
     font-size: 15px;
 `;
@@ -178,15 +184,29 @@ const TextEditor = ({ value, setValue, setCodeLanguage }) => {
         }
     }, [focus])
 
+    const getTimestamp = () => {
+        const htmlVideoPlayer = document.getElementsByTagName('video')[0];
+        const formatTime = (s) => {
+            return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + ~~s;
+        };
+    
+        return formatTime(htmlVideoPlayer.currentTime);
+    };
+
+    const [timestamp, setTimestamp] = useState('00:00')
+
+    useEffect(() => {
+        setInterval(()=>{setTimestamp(getTimestamp())}, 1000)
+    })
 
     return (
         <MySlate editor={editor} value={value} onChange={(value) => {
             setValue(value)
         }}>
             <MyToolbar>
-                <CustomTimeInput type="number" placeholder="00"></CustomTimeInput>
-                <p>:</p>
-                <CustomTimeInput type="number" placeholder="00"></CustomTimeInput>
+                {/* <CustomTimeInput type="number" placeholder="00"></CustomTimeInput> */}
+                <TimestampText>{timestamp}</TimestampText>
+                {/* <CustomTimeInput type="number" placeholder="00"></CustomTimeInput> */}
                 <MarkButton format="bold" icon="format_bold" />
                 <MarkButton format="italic" icon="format_italic" />
                 <MarkButton format="underline" icon="format_underlined" />
