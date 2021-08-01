@@ -292,7 +292,7 @@ const initialValue = [
         type: 'paragraph',
         children: [
             {
-                text: '<h1>Hi!</h1>',
+                text: '',
             },
         ],
     },
