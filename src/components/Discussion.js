@@ -32,11 +32,17 @@ const linkifyYouTubeURLs = (text) => {
 const Discussion = () => {
 	const [error, setError] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(false)
+	const [questions, setQuestions] = useState(null)
 
     const refreshDiscussion = () => {
         setQuestions(null)
         console.log('refreshed discussion')
     }
+
+	// useEffect(() => {
+	// 	refreshDiscussion()
+		
+	// }, [questions])
 
     document.addEventListener('yt-navigate-finish', refreshDiscussion);
 
@@ -152,7 +158,7 @@ const Discussion = () => {
 	// 	],
 	// });
 
-	const [questions, setQuestions] = useState(null)
+	
 
 	const [askButtonState, setAskButtonState] = useState(false)
 

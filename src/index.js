@@ -101,6 +101,7 @@ const createDiv = async() => {
     beforeVideos.id = 'prevideos'
     beforeVideos.style.display = 'none'
 
+    console.log('1');
     return beforeVideos
 }
 
@@ -109,7 +110,8 @@ const placeDiv = async(beforeVideos) => {
     const secondary = document.querySelector('#secondary')
     secondary.insertAdjacentElement('afterbegin', beforeVideos)
 
-    return secondary
+    console.log('2');
+    return beforeVideos
 }
 
 const renderDiscussion = async() => {
@@ -120,9 +122,10 @@ const renderDiscussion = async() => {
         </React.StrictMode>,
         document.getElementById('prevideos')
     )
+    console.log('3');
 }
 
-const toggleVideos = (beforeVideos) => {
+const toggleVideos = async(beforeVideos) => {
     //find recommended videos
     const videos = document.getElementById('secondary-inner')
 
@@ -146,6 +149,7 @@ const toggleVideos = (beforeVideos) => {
         childList: false,
         attributes: true,
     })
+    console.log('4');
 }
 
 
@@ -156,9 +160,9 @@ const showDiscussion = async() => {
             
             
             let beforeVideos = await createDiv()
-            await placeDiv(beforeVideos)
+            let div = await placeDiv(beforeVideos)
             await renderDiscussion()
-            toggleVideos(beforeVideos)
+            await toggleVideos(div)
 
         }
     }
@@ -169,6 +173,7 @@ const showDiscussion = async() => {
 
 if(document.body){
     showDiscussion()
+    console.log('showDiscussion')
 }else{
     document.addEventListener('DOMContentLoaded', showDiscussion )
 }
