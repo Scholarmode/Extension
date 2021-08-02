@@ -126,6 +126,14 @@ const ReplyBox = ({ increaseSize, setTotalReplies, setNestedComments, replyId, a
                                 setTotalReplies(1)
                             }
                             setNestedComments(JSON.parse(result))
+                            if (replyBoxStateNew) {
+                                console.log("Here 1: ")
+                                setReplyBoxStateNew(false)
+                            }
+                            if (isReplyBoxOpenNew) {
+                                console.log("Here 2: ")
+                                setReplyBoxOpenNew(false)
+                            }
                         })
                         .catch(error => console.log('error-reply', error));
                 })
