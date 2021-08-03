@@ -22,7 +22,7 @@ const BugReportButton = styled.div`
     margin-bottom: auto;
     display: flex;
     align-items: center;
-    font-size: 9px;
+    font-size: 13px;
     cursor: pointer;
 `
 
@@ -46,7 +46,7 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
                 Ask a question
             </AskButton>
             <BugReportButton>
-                <BugReportIcon style={{ fill:'#C4C4C4'}}/>
+                <BugReportIcon style={{ fill:'#C4C4C4'}} fontSize='large'/>
                 Report a bug?
             </BugReportButton>
         </CustomDiv>
