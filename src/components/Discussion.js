@@ -34,16 +34,16 @@ const Discussion = () => {
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [questions, setQuestions] = useState(null)
 
-    const refreshDiscussion = () => {
-        setQuestions(null)
+	const refreshDiscussion = () => {
+		setQuestions(null)
 		setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
-		window.location.href
-	)}/`)
-    }
+			window.location.href
+		)}/`)
+	}
 
-    document.addEventListener('yt-navigate-finish', refreshDiscussion);
+	document.addEventListener('yt-navigate-finish', refreshDiscussion);
 
-    const [url, setUrl] = useState(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+	const [url, setUrl] = useState(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
 		window.location.href
 	)}/`)
 
@@ -152,7 +152,7 @@ const Discussion = () => {
 	// 	],
 	// });
 
-	
+
 
 	const [askButtonState, setAskButtonState] = useState(false)
 
@@ -167,7 +167,8 @@ const Discussion = () => {
 					setAskButtonOpen={setAskButtonState}
 				/>
 			)}
-			{askButtonState && (
+			{questions != null &&
+				askButtonState &&
 				<CustomDiv>
 					<QuestionContext.Provider
 						value={{ questions, setQuestions }}
@@ -176,7 +177,7 @@ const Discussion = () => {
 						<ReplyBox increaseSize={true} postToReplies={false} allQuestions={questions} titleInput={title} askButtonState={askButtonState} askButtonStateFunc={setAskButtonState} />
 					</QuestionContext.Provider>
 				</CustomDiv>
-			)}
+			}
 			{questions != null &&
 				questions == "" && <EmptyScreen />}
 			{questions != null &&
