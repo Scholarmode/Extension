@@ -32,7 +32,7 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
     return (
         <CustomDiv >
             <AskButton onClick={setAskButtonState}>
-                <AddIcon />
+                <AddIcon fontSize='large' />
                 Ask a question
             </AskButton>
         </CustomDiv>
