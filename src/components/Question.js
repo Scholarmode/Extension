@@ -13,7 +13,7 @@ const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
 	min-width: 389.27px;
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 `;
 
 const NewCustomWidthDiv = styled.div`
