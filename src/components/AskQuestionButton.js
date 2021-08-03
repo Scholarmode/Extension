@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import AddIcon from '@material-ui/icons/Add';
 
 const AskButton = styled.button`
-    border-radius: 18px;
-    background-color: #4081EC;
-    width: 200px;
-    height: 40px;
+    border-radius: 4px;
+    background-color: #065fd4;
+    padding: 10px;
     border: 1px solid black;
     margin-bottom: 10px;
     display: flex;
@@ -16,13 +15,9 @@ const AskButton = styled.button`
     font-weight: 600;
     cursor:pointer;
 `;
-const CustomP = styled.p`
-    font-size: 10px;
-`;
 
 const CustomDiv = styled.div`
     align-items: center;
-    justify-content: center;
     font-size: 15px;
     display: flex;
     
