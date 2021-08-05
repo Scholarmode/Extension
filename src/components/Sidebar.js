@@ -59,7 +59,7 @@ export const Sidebar = ({ question }) => {
     const removeVotes = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
-                await fetch(`http://localhost:8080/replies/${question._id}/${info._id}/unvote/`, requestOptions)
+                await fetch(`http://localhost:8080/questions/${question._id}/${info._id}/unvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => {
                         setClickable(true)
