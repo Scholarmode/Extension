@@ -33,6 +33,52 @@ module.exports = async (expressApp) => {
             })
     })
 
+    expressApp.use('/questions/:id/:accountId', (req, res, next) => {
+        const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
+        // Try retrieve profile info using token via Google API
+        fetch(url)
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.hasOwnProperty('error')) {
+                    res.json({ message: 'Invalid or expired token.' })
+                } else {
+                    // If token is valid, ensure the user is accessing their own data.
+                    Account.findOne({
+                        googleId: response.id,
+                    }).then((user) => {
+                        if (user._id.toString() !== req.params.accountId) {
+                            res.json({ message: 'Unauthorised user.' })
+                        } else {
+                            next()
+                        }
+                    })
+                }
+            })
+    })
+
+    expressApp.use('/replies/:id/:accountId', (req, res, next) => {
+        const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
+        // Try retrieve profile info using token via Google API
+        fetch(url)
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.hasOwnProperty('error')) {
+                    res.json({ message: 'Invalid or expired token.' })
+                } else {
+                    // If token is valid, ensure the user is accessing their own data.
+                    Account.findOne({
+                        googleId: response.id,
+                    }).then((user) => {
+                        if (user._id.toString() !== req.params.accountId) {
+                            res.json({ message: 'Unauthorised user.' })
+                        } else {
+                            next()
+                        }
+                    })
+                }
+            })
+    })
+
     //Configuring Endpoints
     // Account RESTFul endpoints
     expressApp.get('/accounts', accounts.getAll)
