@@ -45,11 +45,18 @@ module.exports = async (expressApp) => {
     expressApp.get('/questions', questions.getAll)
     expressApp.get('/questions/:id', questions.getOne)
     expressApp.get('/questions/author/:id', questions.getAuthorQuestions)
+    expressApp.get('/questions/video/:id', questions.getVideoQuestions)
     expressApp.post('/questions', questions.createOne)
     expressApp.put('/questions/:id', questions.updateOne)
     expressApp.delete('/questions/:id', questions.deleteOne)
-    expressApp.put('/questions/:id/upvote', questions.upvote)
-    expressApp.put('/questions/:id/downvote', questions.downvote)
+    expressApp.put('/questions/:id/:accountId/upvote', questions.upvote)
+    expressApp.put('/questions/:id/:accountId/downvote', questions.downvote)
+    expressApp.put('/questions/:id/:accountId/unvote', questions.removeVote)
+    expressApp.put('/questions/:id/:accountId/report', questions.report)
+    expressApp.delete(
+        '/questions/:id/:accountId/report',
+        questions.removeReport
+    )
 
     // Reply RESTFul endpoints
     expressApp.get('/replies', replies.getAll)
@@ -57,8 +64,11 @@ module.exports = async (expressApp) => {
     expressApp.post('/replies', replies.createOne)
     expressApp.put('/replies/:id', replies.updateOne)
     expressApp.delete('/replies/:id', replies.deleteOne)
-    expressApp.put('/replies/:id/upvote', replies.upvote)
-    expressApp.put('/replies/:id/downvote', replies.downvote)
+    expressApp.put('/replies/:id/:accountId/upvote', replies.upvote)
+    expressApp.put('/replies/:id/:accountId/downvote', replies.downvote)
+    expressApp.put('/replies/:id/:accountId/unvote', replies.removeVote)
+    expressApp.put('/replies/:id/:accountId/report', replies.report)
+    expressApp.delete('/replies/:id/:accountId/report', replies.removeReport)
 
     expressApp.get(
         '/auth/chrome',
