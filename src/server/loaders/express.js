@@ -29,7 +29,7 @@ module.exports = async (expressApp) => {
             })
     })
 
-    expressApp.get('/accounts', accounts.getAll)
+    // expressApp.get('/accounts', accounts.getAll)
 
     /** Secures user-specific account routes to ensure users can only access/modify their own data.*/
     expressApp.use('/accounts/:id', (req, res, next) => {
