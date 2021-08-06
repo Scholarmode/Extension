@@ -18,8 +18,8 @@ import { useContext } from 'react'
 
 import PostRequestError from './PostRequestError.js'
 
-const host = 'http://localhost:8080'
-// const host = 'https://scholarmode.herokuapp.com'
+// const host = 'http://localhost:8080'
+const host = 'https://scholarmode.herokuapp.com'
 
 const CustomDiv = styled.div`
     display: flex;

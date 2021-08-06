@@ -10,8 +10,8 @@ import TitleInput from './TitleInput'
 import { CircularProgress } from '@material-ui/core'
 import EmptyScreen from './EmptyScreen'
 
-const host = 'http://localhost:8080'
-// const host = 'https://scholarmode.herokuapp.com'
+// const host = 'http://localhost:8080'
+const host = 'https://scholarmode.herokuapp.com'
 
 const CustomDiv = styled.div`
     margin: 10px;

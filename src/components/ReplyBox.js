@@ -7,8 +7,8 @@ import PostRequestError from './PostRequestError'
 import { QuestionContext } from './QuestionContext'
 import { useContext } from 'react'
 
-const host = 'http://localhost:8080'
-// const host = 'https://scholarmode.herokuapp.com'
+// const host = 'http://localhost:8080'
+const host = 'https://scholarmode.herokuapp.com'
 
 const CustomDiv = styled.div`
     min-height: 100px;

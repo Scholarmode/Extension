@@ -10,8 +10,8 @@ import 'reactjs-popup/dist/index.css'
 import FlagIcon from '@material-ui/icons/Flag'
 import '../styles/reply-footer.css'
 
-const host = 'http://localhost:8080'
-// const host = 'https://scholarmode.herokuapp.com'
+// const host = 'http://localhost:8080'
+const host = 'https://scholarmode.herokuapp.com'
 
 const CustomDiv = styled.div`
     display: flex;

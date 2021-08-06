@@ -4,8 +4,8 @@ import ArrowUp from '@material-ui/icons/ArrowDropUp'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const host = 'http://localhost:8080'
-// const host = 'https://scholarmode.herokuapp.com'
+// const host = 'http://localhost:8080'
+const host = 'https://scholarmode.herokuapp.com'
 
 const SidebarBackground = styled.div`
     background: #dadada;
