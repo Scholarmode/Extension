@@ -143,7 +143,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 fetch(
-                    `${host}/questions/${questions._id}/${info._id}/report/`,
+                    `${host}/questions/${questions._id}/${info._id}/report?token=${result.token}`,
                     NewRequestOptions
                 )
                     .then((response) => response.text())

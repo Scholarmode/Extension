@@ -58,7 +58,7 @@ export const Sidebar = ({ question }) => {
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
                 await fetch(
-                    `${host}/questions/${question._id}/${info._id}/unvote/`,
+                    `${host}/questions/${question._id}/${info._id}/unvote?token=${result.token}`,
                     requestOptions
                 )
                     .then((response) => response.text())
@@ -98,7 +98,7 @@ export const Sidebar = ({ question }) => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 fetch(
-                    `${host}/questions/${question._id}/${info._id}/upvote/`,
+                    `${host}/questions/${question._id}/${info._id}/upvote?token=${result.token}`,
                     requestOptions
                 )
                     .then((response) => response.text())
@@ -112,7 +112,7 @@ export const Sidebar = ({ question }) => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 fetch(
-                    `${host}/questions/${question._id}/${info._id}/downvote/`,
+                    `${host}/questions/${question._id}/${info._id}/downvote?token=${result.token}`,
                     requestOptions
                 )
                     .then((response) => response.text())

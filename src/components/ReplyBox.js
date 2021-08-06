@@ -127,7 +127,7 @@ const ReplyBox = ({
                         slateLang: codeLanguage,
                     }
 
-                    fetch(`${host}/replies/`, {
+                    fetch(`${host}/replies?token=${result.token}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ const ReplyBox = ({
                     // (async () => {
                     //     const rawResponse =
                     // })
-                    fetch(`${host}/questions/`, {
+                    fetch(`${host}/questions?token=${result.token}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

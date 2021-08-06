@@ -1,3 +1,4 @@
+/* global chrome */
 import { useState } from 'react'
 import Question from './Question'
 import { QuestionContext } from './QuestionContext'
@@ -42,14 +43,14 @@ const Discussion = () => {
         setUrl(
             `${host}/questions/video/${linkifyYouTubeURLs(
                 window.location.href
-            )}/`
+            )}`
         )
     }
 
     document.addEventListener('yt-navigate-finish', refreshDiscussion)
 
     const [url, setUrl] = useState(
-        `${host}/questions/video/${linkifyYouTubeURLs(window.location.href)}/`
+        `${host}/questions/video/${linkifyYouTubeURLs(window.location.href)}`
     )
 
     //60fd66a250fd11167a18167b
@@ -58,26 +59,28 @@ const Discussion = () => {
     // const url = 'http://localhost:8080/questions/author/60eec4b4ca5eb79cc28d3e94';
 
     useEffect(() => {
-        fetch(url)
-            .then(function (response) {
-                if (response.status !== 200) {
-                    console.log(
-                        'Looks like there was a problem. Status Code: ' +
-                            response.status
-                    )
-                    return
-                }
+        chrome.storage.sync.get(['token'], (result) => {
+            fetch(url + `?token=${result.token}`)
+                .then(function (response) {
+                    if (response.status !== 200) {
+                        console.log(
+                            'Looks like there was a problem. Status Code: ' +
+                                response.status
+                        )
+                        return
+                    }
 
-                // Examine the text in the response
-                response.json().then(function (data) {
-                    console.log('Response: ' + data)
-                    setIsLoaded(true)
-                    setQuestions(data)
+                    // Examine the text in the response
+                    response.json().then(function (data) {
+                        console.log('Response: ' + data)
+                        setIsLoaded(true)
+                        setQuestions(data)
+                    })
                 })
-            })
-            .catch(function (err) {
-                console.log('Fetch Error :-S', err)
-            })
+                .catch(function (err) {
+                    console.log('Fetch Error :-S', err)
+                })
+        })
     }, [url])
 
     // const [question, setQuestion] = useState({

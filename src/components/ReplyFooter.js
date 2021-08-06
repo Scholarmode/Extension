@@ -119,7 +119,7 @@ function ReplyFooter({
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 fetch(
-                    `${host}/replies/${replyId}/${info._id}/report/`,
+                    `${host}/replies/${replyId}/${info._id}/report?token=${result.token}`,
                     NewRequestOptions
                 )
                     .then((response) => response.text())
@@ -136,12 +136,17 @@ function ReplyFooter({
     }, [])
 
     const loadReplyVotes = () => {
-        fetch(`${host}/replies/${replyId}/`, requestOptions)
-            .then((response) => response.text())
-            .then((result) => {
-                setTotalVotes(JSON.parse(result).votes)
-            })
-            .catch((error) => console.log('error', error))
+        chrome.storage.sync.get(['token'], (result) => {
+            fetch(
+                `${host}/replies/${replyId}?token=${result.token}`,
+                requestOptions
+            )
+                .then((response) => response.text())
+                .then((result) => {
+                    setTotalVotes(JSON.parse(result).votes)
+                })
+                .catch((error) => console.log('error', error))
+        })
     }
 
     // const authorId = () => {
@@ -180,7 +185,7 @@ function ReplyFooter({
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
                 await fetch(
-                    `${host}/replies/${replyId}/${info._id}/unvote/`,
+                    `${host}/replies/${replyId}/${info._id}/unvote?token=${result.token}`,
                     requestOptions
                 )
                     .then((response) => response.text())
@@ -194,11 +199,14 @@ function ReplyFooter({
     }
 
     const upvotedOrNot = () => {
-        fetch(`${host}/replies/${replyId}/`, requestOptions)
-            .then((response) => response.text())
-            .then((resultReply) => {
-                console.log('Upvotes: ' + JSON.parse(resultReply).upvoters)
-                chrome.storage.sync.get(['token'], async (result) => {
+        chrome.storage.sync.get(['token'], (result) => {
+            fetch(
+                `${host}/replies/${replyId}?token=${result.token}`,
+                requestOptions
+            )
+                .then((response) => response.text())
+                .then((resultReply) => {
+                    console.log('Upvotes: ' + JSON.parse(resultReply).upvoters)
                     getProfileInfo(result.token).then((info) => {
                         JSON.parse(resultReply).upvoters.map((id) => {
                             if (id == info._id) {
@@ -207,8 +215,8 @@ function ReplyFooter({
                         })
                     })
                 })
-            })
-            .catch((error) => console.log('error', error))
+                .catch((error) => console.log('error', error))
+        })
     }
 
     // const upvotedOrNot = () => {
@@ -234,26 +242,32 @@ function ReplyFooter({
     // }
 
     const downvotedOrNot = () => {
-        fetch(`${host}/replies/${replyId}/`, requestOptions)
-            .then((response) => response.text())
-            .then((resultReply) => {
-                console.log('Downvotes: ' + JSON.parse(resultReply).downvoters)
-                chrome.storage.sync.get(['token'], async (result) => {
-                    getProfileInfo(result.token).then((info) => {
-                        JSON.parse(resultReply).downvoters.map((id) => {
-                            if (id == info._id) {
-                                if (downStatus == true) {
-                                    setDownClickable(true)
-                                } else {
-                                    setDownClickable(false)
-                                } // This means vote icon has been clicked by the user
-                            }
+        chrome.storage.sync.get(['token'], (result) => {
+            fetch(
+                `${host}/replies/${replyId}?token=${result.token}`,
+                requestOptions
+            )
+                .then((response) => response.text())
+                .then((resultReply) => {
+                    console.log(
+                        'Downvotes: ' + JSON.parse(resultReply).downvoters
+                    )
+                    chrome.storage.sync.get(['token'], async (result) => {
+                        getProfileInfo(result.token).then((info) => {
+                            JSON.parse(resultReply).downvoters.map((id) => {
+                                if (id == info._id) {
+                                    if (downStatus == true) {
+                                        setDownClickable(true)
+                                    } else {
+                                        setDownClickable(false)
+                                    } // This means vote icon has been clicked by the user
+                                }
+                            })
                         })
                     })
                 })
-            })
-            .catch((error) => console.log('error', error))
-
+                .catch((error) => console.log('error', error))
+        })
         // console.log("Upvotes: " + reply.downvoters)
         // chrome.storage.sync.get(['token'], async (result) => {
         //     getProfileInfo(result.token).then((info) => {
@@ -277,9 +291,8 @@ function ReplyFooter({
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                console.log(`${host}/replies/${replyId}/${info._id}/upvote/`)
                 fetch(
-                    `${host}/replies/${replyId}/${info._id}/upvote/`,
+                    `${host}/replies/${replyId}/${info._id}/upvote?token=${result.token}`,
                     requestOptions
                 )
                     .then((response) => response.text())
@@ -293,7 +306,7 @@ function ReplyFooter({
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 fetch(
-                    `${host}/replies/${replyId}/${info._id}/downvote/`,
+                    `${host}/replies/${replyId}/${info._id}/downvote?token=${result.token}`,
                     requestOptions
                 )
                     .then((response) => response.text())
