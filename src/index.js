@@ -5,33 +5,37 @@ import './index.css'
 import ScholarModeButton from './components/ScholarModeButton'
 import Discussion from './components/Discussion'
 
+const renderScholarmode = async() => {
+    try{
+        const insertionPoint = document.createElement('div')
+        insertionPoint.id = 'insertion-point'
+        console.log('created div')
 
-const insertionPoint = document.createElement('div')
-insertionPoint.id = 'insertion-point'
+        const searchDiv = await document.querySelector('#center');
+        await searchDiv.appendChild(insertionPoint)
+        console.log('searchDiv triggered')
 
-//check for pc searchbar and append scholarmode
-if (document.querySelector('#center')) {
-    document.querySelector('#center').appendChild(insertionPoint)
-}
+        const renderToggle = ReactDOM.render(
+            <React.StrictMode>
+                <ScholarModeButton />
+            </React.StrictMode>,
+            document.getElementById('insertion-point')
+        )
+        console.log('rendered toggle')
+    } 
+    catch(err){
+        console.log(err)
+    }
+} 
 
-//check for mobile searchbar and append scholarmode !doesn't work because m.youtube.com 404 error
-else if (
-    document.querySelector('.mobile-topbar-header-content non-search-mode cbox')
-) {
-    document
-        .querySelector('.mobile-topbar-header-content non-search-mode cbox')
-        .appendChild(insertionPoint)
-} else {
-    console.log('scholarmode not rendered')
-}
+// if(document.body){
+//     renderScholarmode()
+// }else{
+//     document.addEventListener('DOMContentLoaded', renderScholarmode )
+// }
 
-//render ScholarMode
-ReactDOM.render(
-    <React.StrictMode>
-        <ScholarModeButton />
-    </React.StrictMode>,
-    document.getElementById('insertion-point')
-)
+
+
 
 
 const createDiv = async() => {
@@ -105,11 +109,11 @@ const showDiscussion = async() => {
     }
 }
 
-if(document.body){
-    showDiscussion()
-}else{
-    document.addEventListener('DOMContentLoaded', showDiscussion )
-}
+// if(document.body){
+//     showDiscussion()
+// }else{
+//     document.addEventListener('DOMContentLoaded', showDiscussion )
+// }
 
 
 const discussionFromHomepage = () => {
@@ -123,4 +127,40 @@ const discussionFromHomepage = () => {
 //if YouTube homepage then track render disccusion on navigate
 if(window.location.pathname === '/'){
 document.addEventListener('yt-navigate-finish', discussionFromHomepage)
+}
+
+
+const renderApp = async() =>{
+    await renderScholarmode()
+    showDiscussion()
+}
+
+
+
+// const searchbar = document.querySelector('#center')
+
+// const searchbarObserver = new MutationObserver(function (mutations) {
+//     for (let mutation of mutations) {
+//       if (mutation.type === 'childList') {
+//         console.log('Mutation Detected: A child node has been added or removed.');
+//         if(document.querySelector('#insertion-point')){
+//           searchbarObserver.disconnect()
+//         }
+//         else{
+//             renderApp()
+//         }
+//       }
+//     }
+//   });
+
+// searchbarObserver.observe(searchbar, {
+//     childList: true
+//   });
+
+
+
+if(document.body){
+    renderApp()
+}else{
+    document.addEventListener('DOMContentLoaded', renderApp )
 }
