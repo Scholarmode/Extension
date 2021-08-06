@@ -39,63 +39,63 @@ module.exports = async (expressApp) => {
         })
     })
 
-    /** Secures question routes to require a Google OAuth token. */
-    expressApp.use('/questions', (req, res, next) => {
-        const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
-        // Try retrieve profile info using token via Google API
-        fetch(url)
-            .then((response) => response.json())
-            .then((response) => {
-                if (response.hasOwnProperty('error')) {
-                    res.json({ message: 'Invalid or expired token.' })
-                } else {
-                    res.locals.googleId = response.id
-                    next()
-                }
-            })
-    })
+    // /** Secures question routes to require a Google OAuth token. */
+    // expressApp.use('/questions', (req, res, next) => {
+    //     const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
+    //     // Try retrieve profile info using token via Google API
+    //     fetch(url)
+    //         .then((response) => response.json())
+    //         .then((response) => {
+    //             if (response.hasOwnProperty('error')) {
+    //                 res.json({ message: 'Invalid or expired token.' })
+    //             } else {
+    //                 res.locals.googleId = response.id
+    //                 next()
+    //             }
+    //         })
+    // })
 
-    /** Secures user-specific question routes to ensure users can only access/modify their own data.*/
-    expressApp.use('/questions/:id/:accountId', (req, res, next) => {
-        Account.findOne({
-            googleId: res.locals.googleId,
-        }).then((user) => {
-            if (user._id.toString() !== req.params.accountId) {
-                res.json({ message: 'Unauthorised user.' })
-            } else {
-                next()
-            }
-        })
-    })
+    // /** Secures user-specific question routes to ensure users can only access/modify their own data.*/
+    // expressApp.use('/questions/:id/:accountId', (req, res, next) => {
+    //     Account.findOne({
+    //         googleId: res.locals.googleId,
+    //     }).then((user) => {
+    //         if (user._id.toString() !== req.params.accountId) {
+    //             res.json({ message: 'Unauthorised user.' })
+    //         } else {
+    //             next()
+    //         }
+    //     })
+    // })
 
-    /** Secures reply routes to require a Google OAuth token. */
-    expressApp.use('/replies', (req, res, next) => {
-        const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
-        // Try retrieve profile info using token via Google API
-        fetch(url)
-            .then((response) => response.json())
-            .then((response) => {
-                if (response.hasOwnProperty('error')) {
-                    res.json({ message: 'Invalid or expired token.' })
-                } else {
-                    res.locals.googleId = response.id
-                    next()
-                }
-            })
-    })
+    // /** Secures reply routes to require a Google OAuth token. */
+    // expressApp.use('/replies', (req, res, next) => {
+    //     const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${req.query.token}`
+    //     // Try retrieve profile info using token via Google API
+    //     fetch(url)
+    //         .then((response) => response.json())
+    //         .then((response) => {
+    //             if (response.hasOwnProperty('error')) {
+    //                 res.json({ message: 'Invalid or expired token.' })
+    //             } else {
+    //                 res.locals.googleId = response.id
+    //                 next()
+    //             }
+    //         })
+    // })
 
-    /** Secures user-specific reply routes to ensure users can only access/modify their own data.*/
-    expressApp.use('/replies/:id/:accountId', (req, res, next) => {
-        Account.findOne({
-            googleId: res.locals.googleId,
-        }).then((user) => {
-            if (user._id.toString() !== req.params.accountId) {
-                res.json({ message: 'Unauthorised user.' })
-            } else {
-                next()
-            }
-        })
-    })
+    // /** Secures user-specific reply routes to ensure users can only access/modify their own data.*/
+    // expressApp.use('/replies/:id/:accountId', (req, res, next) => {
+    //     Account.findOne({
+    //         googleId: res.locals.googleId,
+    //     }).then((user) => {
+    //         if (user._id.toString() !== req.params.accountId) {
+    //             res.json({ message: 'Unauthorised user.' })
+    //         } else {
+    //             next()
+    //         }
+    //     })
+    // })
 
     //Configuring Endpoints
     // Account RESTFul endpoints
