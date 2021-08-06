@@ -1,4 +1,7 @@
 /* global chrome */
+const localhost = "http://localhost:8080"
+const cloudhost = "https://scholarmode.herokuapp.com"
+
 let header = document.getElementsByTagName('header')[0]
 let main = document.getElementById('main')
 
@@ -17,7 +20,7 @@ const renderLogin = () => {
 }
 
 const getProfileInfo = (token) => {
-    const url = `http://localhost:8080/auth/chrome?access_token=${token}`
+    const url = `${cloudhost}/auth/chrome?access_token=${token}`
     return fetch(url).then((response) => response.json())
 }
 

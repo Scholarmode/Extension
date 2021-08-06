@@ -10,6 +10,9 @@ import 'reactjs-popup/dist/index.css';
 import FlagIcon from '@material-ui/icons/Flag';
 import '../styles/reply-footer.css'
 
+const localhost = "http://localhost:8080"
+const cloudhost = "https://scholarmode.herokuapp.com"
+
 const CustomDiv = styled.div`
 	display: flex;
 	flex-direction: row;
@@ -101,7 +104,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const [downClickable, setDownClickable] = useState(true);
 
     const getProfileInfo = (token) => {
-        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        const url = `${cloudhost}/auth/chrome?access_token=${token}`;
         return fetch(url).then((response) => response.json());
     };
 
@@ -109,7 +112,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
         //  /questions/:id/:accountId/report
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/report/`, NewRequestOptions)
+                fetch(`${cloudhost}/replies/${replyId}/${info._id}/report/`, NewRequestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));
@@ -124,7 +127,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     }, [])
 
     const loadReplyVotes = () => {
-        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+        fetch(`${cloudhost}/replies/${replyId}/`, requestOptions)
             .then(response => response.text())
             .then(result => {
                 setTotalVotes(JSON.parse(result).votes)
@@ -169,7 +172,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const removeVotes = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
-                await fetch(`http://localhost:8080/replies/${replyId}/${info._id}/unvote/`, requestOptions)
+                await fetch(`${cloudhost}/replies/${replyId}/${info._id}/unvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => {
                         setClickable(true)
@@ -181,7 +184,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     }
 
     const upvotedOrNot = () => {
-        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+        fetch(`${cloudhost}/replies/${replyId}/`, requestOptions)
             .then(response => response.text())
             .then(resultReply => {
                 console.log("Upvotes: " + JSON.parse(resultReply).upvoters)
@@ -221,7 +224,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     // }
 
     const downvotedOrNot = () => {
-        fetch(`http://localhost:8080/replies/${replyId}/`, requestOptions)
+        fetch(`${cloudhost}/replies/${replyId}/`, requestOptions)
             .then(response => response.text())
             .then(resultReply => {
                 console.log("Downvotes: " + JSON.parse(resultReply).downvoters)
@@ -265,8 +268,8 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                console.log(`http://localhost:8080/replies/${replyId}/${info._id}/upvote/`)
-                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/upvote/`, requestOptions)
+                console.log(`${cloudhost}/replies/${replyId}/${info._id}/upvote/`)
+                fetch(`${cloudhost}/replies/${replyId}/${info._id}/upvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));
@@ -277,7 +280,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const downvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`http://localhost:8080/replies/${replyId}/${info._id}/downvote/`, requestOptions)
+                fetch(`${cloudhost}/replies/${replyId}/${info._id}/downvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));

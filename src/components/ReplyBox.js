@@ -7,6 +7,9 @@ import PostRequestError from './PostRequestError'
 import { QuestionContext } from './QuestionContext';
 import { useContext } from 'react';
 
+const localhost = "http://localhost:8080"
+const cloudhost = "https://scholarmode.herokuapp.com"
+
 const CustomDiv = styled.div`
 	min-height: 100px;
 	border: 1px solid gray;
@@ -56,7 +59,7 @@ const ButtonDiv = styled.div`
 `;
 
 const getProfileInfo = (token) => {
-    const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+    const url = `${cloudhost}/auth/chrome?access_token=${token}`;
     return fetch(url).then((response) => response.json());
 };
 
@@ -109,7 +112,7 @@ const ReplyBox = ({ increaseSize, setTotalReplies, setNestedComments, replyId, a
                         slateLang: codeLanguage
                     };
 
-                    fetch("http://localhost:8080/replies/", {
+                    fetch(`${cloudhost}/replies/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -162,7 +165,7 @@ const ReplyBox = ({ increaseSize, setTotalReplies, setNestedComments, replyId, a
                     // (async () => {
                     //     const rawResponse = 
                     // })
-                    fetch('http://localhost:8080/questions/', {
+                    fetch(`${cloudhost}/questions/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

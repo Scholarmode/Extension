@@ -4,6 +4,8 @@ import ArrowUp from '@material-ui/icons/ArrowDropUp';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+const localhost = "http://localhost:8080"
+const cloudhost = "https://scholarmode.herokuapp.com"
 
 const SidebarBackground = styled.div`
     background: #DADADA;
@@ -59,7 +61,7 @@ export const Sidebar = ({ question }) => {
     const removeVotes = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
-                await fetch(`http://localhost:8080/questions/${question._id}/${info._id}/unvote/`, requestOptions)
+                await fetch(`${cloudhost}/questions/${question._id}/${info._id}/unvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => {
                         setClickable(true)
@@ -91,14 +93,14 @@ export const Sidebar = ({ question }) => {
     }
 
     const getProfileInfo = (token) => {
-        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        const url = `${cloudhost}/auth/chrome?access_token=${token}`;
         return fetch(url).then((response) => response.json());
     };
 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`http://localhost:8080/questions/${question._id}/${info._id}/upvote/`, requestOptions)
+                fetch(`${cloudhost}/questions/${question._id}/${info._id}/upvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));
@@ -109,7 +111,7 @@ export const Sidebar = ({ question }) => {
     const downvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`http://localhost:8080/questions/${question._id}/${info._id}/downvote/`, requestOptions)
+                fetch(`${cloudhost}/questions/${question._id}/${info._id}/downvote/`, requestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));

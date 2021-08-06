@@ -18,6 +18,9 @@ import { useContext } from 'react';
 
 import PostRequestError from './PostRequestError.js'
 
+const localhost = "http://localhost:8080"
+const cloudhost = "https://scholarmode.herokuapp.com"
+
 const CustomDiv = styled.div`
     display: flex;
     flex-direction: row;
@@ -133,7 +136,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
     }
 
     const getProfileInfo = (token) => {
-        const url = `http://localhost:8080/auth/chrome?access_token=${token}`;
+        const url = `${cloudhost}/auth/chrome?access_token=${token}`;
         return fetch(url).then((response) => response.json());
     };
 
@@ -141,7 +144,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
         //  /questions/:id/:accountId/report
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`http://localhost:8080/questions/${questions._id}/${info._id}/report/`, NewRequestOptions)
+                fetch(`${cloudhost}/questions/${questions._id}/${info._id}/report/`, NewRequestOptions)
                     .then(response => response.text())
                     .then(result => console.log(result))
                     .catch(error => console.log('error', error));

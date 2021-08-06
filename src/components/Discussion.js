@@ -9,6 +9,9 @@ import TitleInput from './TitleInput'
 import { CircularProgress } from '@material-ui/core'
 import EmptyScreen from './EmptyScreen'
 
+const localhost = "http://localhost:8080"
+const cloudhost = "https://scholarmode.herokuapp.com"
+
 const CustomDiv = styled.div`
     margin: 10px;
     margin-top: 0px;
@@ -36,14 +39,14 @@ const Discussion = () => {
 
 	const refreshDiscussion = () => {
 		setQuestions(null)
-		setUrl(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+		setUrl(`${cloudhost}/questions/video/${linkifyYouTubeURLs(
 			window.location.href
 		)}/`)
 	}
 
 	document.addEventListener('yt-navigate-finish', refreshDiscussion);
 
-	const [url, setUrl] = useState(`http://localhost:8080/questions/video/${linkifyYouTubeURLs(
+	const [url, setUrl] = useState(`${cloudhost}/questions/video/${linkifyYouTubeURLs(
 		window.location.href
 	)}/`)
 
