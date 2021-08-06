@@ -1,61 +1,61 @@
 /* global chrome */
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import ForwardIcon from '@material-ui/icons/Forward';
-import SmsIcon from '@material-ui/icons/Sms';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import React from 'react';
-import Popup from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
-import FlagIcon from '@material-ui/icons/Flag';
+import styled from 'styled-components'
+import { useState, useEffect } from 'react'
+import ForwardIcon from '@material-ui/icons/Forward'
+import SmsIcon from '@material-ui/icons/Sms'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import React from 'react'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
+import FlagIcon from '@material-ui/icons/Flag'
 import '../styles/reply-footer.css'
 
-const localhost = "http://localhost:8080"
-const cloudhost = "https://scholarmode.herokuapp.com"
+const host = 'http://localhost:8080'
+// const host = 'https://scholarmode.herokuapp.com'
 
 const CustomDiv = styled.div`
-	display: flex;
-	flex-direction: row;
-	background: #ececec;
-	flex: 1;
-	padding: 10px;
-	align-items: center;
-`;
+    display: flex;
+    flex-direction: row;
+    background: #ececec;
+    flex: 1;
+    padding: 10px;
+    align-items: center;
+`
 
 const CustomVotesText = styled.p`
-	font-size: 16px;
-	padding-left: 5px;
-	padding-right: 5px;
-`;
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+`
 
 const ReplyIcon = styled(SmsIcon)`
-	color: #c4c4c4;
-	margin-left: 15px;
-	align-items: center;
-	cursor: pointer;
-`;
+    color: #c4c4c4;
+    margin-left: 15px;
+    align-items: center;
+    cursor: pointer;
+`
 
 const ReplyClickText = styled.p`
-	color: #626262;
-	font-size: 16px;
-	margin-left: 2px;
-	cursor: pointer;
-	text-align: center;
-`;
+    color: #626262;
+    font-size: 16px;
+    margin-left: 2px;
+    cursor: pointer;
+    text-align: center;
+`
 
 const OptionsMenu = styled(MoreHorizIcon)`
-	color: #909090;
-	margin-left: 15px;
-	cursor: pointer;
-`;
+    color: #909090;
+    margin-left: 15px;
+    cursor: pointer;
+`
 
 const UpArrowNew = styled.div`
-	transform: rotate(-90deg);
+    transform: rotate(-90deg);
     cursor: pointer;
-`;
+`
 const DownArrow = styled.div`
     transform: rotate(90deg);
-    cursor: pointer
+    cursor: pointer;
 `
 
 const CustomPopup = styled(Popup)`
@@ -69,7 +69,7 @@ const ReportDiv = styled.div`
     display: flex;
     flex-direction: column;
     cursor: pointer;
-`;
+`
 
 /*
     Breakdown of upvote and downvote logic
@@ -79,43 +79,52 @@ const ReportDiv = styled.div`
 
 */
 
-function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, setReplyUserName, userName, replyId }) {
-
-
-    let raw = "";
-    let replyObject;
-    let downStatus = false;
-    let upStatus = false;
+function ReplyFooter({
+    reply,
+    setReplyId,
+    votes,
+    replyBoxOpen,
+    setReplyBoxOpen,
+    setReplyUserName,
+    userName,
+    replyId,
+}) {
+    let raw = ''
+    let replyObject
+    let downStatus = false
+    let upStatus = false
 
     let requestOptions = {
         method: 'PUT',
         body: raw,
-        redirect: 'follow'
-    };
+        redirect: 'follow',
+    }
 
     let NewRequestOptions = {
         method: 'PUT',
-        redirect: 'follow'
-    };
+        redirect: 'follow',
+    }
 
-
-    const [totalVotes, setTotalVotes] = useState(votes);
-    const [clickable, setClickable] = useState(true);
-    const [downClickable, setDownClickable] = useState(true);
+    const [totalVotes, setTotalVotes] = useState(votes)
+    const [clickable, setClickable] = useState(true)
+    const [downClickable, setDownClickable] = useState(true)
 
     const getProfileInfo = (token) => {
-        const url = `${cloudhost}/auth/chrome?access_token=${token}`;
-        return fetch(url).then((response) => response.json());
-    };
+        const url = `${host}/auth/chrome?access_token=${token}`
+        return fetch(url).then((response) => response.json())
+    }
 
     const reportReplies = () => {
         //  /questions/:id/:accountId/report
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`${cloudhost}/replies/${replyId}/${info._id}/report/`, NewRequestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
+                fetch(
+                    `${host}/replies/${replyId}/${info._id}/report/`,
+                    NewRequestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log('error', error))
             })
         })
     }
@@ -127,12 +136,12 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     }, [])
 
     const loadReplyVotes = () => {
-        fetch(`${cloudhost}/replies/${replyId}/`, requestOptions)
-            .then(response => response.text())
-            .then(result => {
+        fetch(`${host}/replies/${replyId}/`, requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
                 setTotalVotes(JSON.parse(result).votes)
             })
-            .catch(error => console.log('error', error))
+            .catch((error) => console.log('error', error))
     }
 
     // const authorId = () => {
@@ -145,24 +154,22 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     //     })
     // }
 
-
     const updateVotes = () => {
         if (clickable) {
             if (downClickable) {
-                console.log("downClickable: " + downClickable)
+                console.log('downClickable: ' + downClickable)
                 setClickable(false)
                 setTotalVotes((v) => v + 1)
                 upvotePutRequest()
-            }
-            else {
-                console.log("downClickable: " + downClickable)
+            } else {
+                console.log('downClickable: ' + downClickable)
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
                 upvotePutRequest()
             }
-        }
-        else { // Upvoted -> Unvote
+        } else {
+            // Upvoted -> Unvote
             removeVotes()
             upStatus = true
             setTotalVotes((v) => v - 1)
@@ -172,22 +179,25 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const removeVotes = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
-                await fetch(`${cloudhost}/replies/${replyId}/${info._id}/unvote/`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => {
+                await fetch(
+                    `${host}/replies/${replyId}/${info._id}/unvote/`,
+                    requestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => {
                         setClickable(true)
                         setDownClickable(true)
                     })
-                    .catch(error => console.log('error', error));
+                    .catch((error) => console.log('error', error))
             })
         })
     }
 
     const upvotedOrNot = () => {
-        fetch(`${cloudhost}/replies/${replyId}/`, requestOptions)
-            .then(response => response.text())
-            .then(resultReply => {
-                console.log("Upvotes: " + JSON.parse(resultReply).upvoters)
+        fetch(`${host}/replies/${replyId}/`, requestOptions)
+            .then((response) => response.text())
+            .then((resultReply) => {
+                console.log('Upvotes: ' + JSON.parse(resultReply).upvoters)
                 chrome.storage.sync.get(['token'], async (result) => {
                     getProfileInfo(result.token).then((info) => {
                         JSON.parse(resultReply).upvoters.map((id) => {
@@ -198,11 +208,11 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
                     })
                 })
             })
-            .catch(error => console.log('error', error));
+            .catch((error) => console.log('error', error))
     }
 
     // const upvotedOrNot = () => {
-    //     // This function is responsible for checking if the user has already upvoted the reply or not, 
+    //     // This function is responsible for checking if the user has already upvoted the reply or not,
     //     // If , yes then it would be rendered accordingly
     //     console.log("Upvotes: " + reply.upvoters)
     //     chrome.storage.sync.get(['token'], async (result) => {
@@ -224,18 +234,17 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     // }
 
     const downvotedOrNot = () => {
-        fetch(`${cloudhost}/replies/${replyId}/`, requestOptions)
-            .then(response => response.text())
-            .then(resultReply => {
-                console.log("Downvotes: " + JSON.parse(resultReply).downvoters)
+        fetch(`${host}/replies/${replyId}/`, requestOptions)
+            .then((response) => response.text())
+            .then((resultReply) => {
+                console.log('Downvotes: ' + JSON.parse(resultReply).downvoters)
                 chrome.storage.sync.get(['token'], async (result) => {
                     getProfileInfo(result.token).then((info) => {
                         JSON.parse(resultReply).downvoters.map((id) => {
                             if (id == info._id) {
                                 if (downStatus == true) {
                                     setDownClickable(true)
-                                }
-                                else {
+                                } else {
                                     setDownClickable(false)
                                 } // This means vote icon has been clicked by the user
                             }
@@ -243,7 +252,7 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
                     })
                 })
             })
-            .catch(error => console.log('error', error));
+            .catch((error) => console.log('error', error))
 
         // console.log("Upvotes: " + reply.downvoters)
         // chrome.storage.sync.get(['token'], async (result) => {
@@ -268,11 +277,14 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                console.log(`${cloudhost}/replies/${replyId}/${info._id}/upvote/`)
-                fetch(`${cloudhost}/replies/${replyId}/${info._id}/upvote/`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
+                console.log(`${host}/replies/${replyId}/${info._id}/upvote/`)
+                fetch(
+                    `${host}/replies/${replyId}/${info._id}/upvote/`,
+                    requestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log('error', error))
             })
         })
     }
@@ -280,30 +292,32 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     const downvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`${cloudhost}/replies/${replyId}/${info._id}/downvote/`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
+                fetch(
+                    `${host}/replies/${replyId}/${info._id}/downvote/`,
+                    requestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log('error', error))
             })
         })
     }
 
-    const updateDownVotes = () => {   // 1 -> 2
-        console.log("Down: " + downClickable)
+    const updateDownVotes = () => {
+        // 1 -> 2
+        console.log('Down: ' + downClickable)
         if (downClickable) {
             if (clickable) {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
                 downvotePutRequest()
-            }
-            else {
+            } else {
                 setClickable(true)
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
                 downvotePutRequest()
             }
-        }
-        else {
+        } else {
             removeVotes()
             downStatus = true
             setTotalVotes((v) => v + 1)
@@ -315,14 +329,11 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
         setReplyUserName(userName)
         // Set ReplyId here too manage nested replies
 
-        if (replyId != "") {
-            console.log("ReplyId: " + replyId)
+        if (replyId != '') {
+            console.log('ReplyId: ' + replyId)
             setReplyId(replyId)
         }
-
     }
-
-
 
     // nothing is votes
     // downvote,- color , clickable
@@ -334,28 +345,48 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     return (
         <CustomDiv>
             {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
-            {
-                clickable ? <UpArrowNew>
-                    <ForwardIcon style={{ width: 25, height: 25, color: '#909090' }} onClick={updateVotes} />
-                </UpArrowNew> : <UpArrowNew>
-                    <ForwardIcon style={{ width: 25, height: 25, color: '#3aa1f2', }} onClick={updateVotes} />
+            {clickable ? (
+                <UpArrowNew>
+                    <ForwardIcon
+                        style={{ width: 25, height: 25, color: '#909090' }}
+                        onClick={updateVotes}
+                    />
                 </UpArrowNew>
-            }
+            ) : (
+                <UpArrowNew>
+                    <ForwardIcon
+                        style={{ width: 25, height: 25, color: '#3aa1f2' }}
+                        onClick={updateVotes}
+                    />
+                </UpArrowNew>
+            )}
             {/* Total votes for this reply */}
             <CustomVotesText>{totalVotes}</CustomVotesText>
 
-            {
-                downClickable ? <DownArrow>
-                    <ForwardIcon style={{ width: 25, height: 25, color: '#909090' }} onClick={updateDownVotes} />
-                </DownArrow> : <DownArrow>
-                    <ForwardIcon style={{ width: 25, height: 25, color: 'red' }} onClick={updateDownVotes} />
+            {downClickable ? (
+                <DownArrow>
+                    <ForwardIcon
+                        style={{ width: 25, height: 25, color: '#909090' }}
+                        onClick={updateDownVotes}
+                    />
                 </DownArrow>
-            }
+            ) : (
+                <DownArrow>
+                    <ForwardIcon
+                        style={{ width: 25, height: 25, color: 'red' }}
+                        onClick={updateDownVotes}
+                    />
+                </DownArrow>
+            )}
 
             {/* TODO - onClick has to implemented */}
             <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
-            <ReplyClickText onClick={changeReplyBoxState} >Reply</ReplyClickText>
-            <CustomPopup trigger={<OptionsMenu fontSize="large" />} position="top center" className="my-popup">
+            <ReplyClickText onClick={changeReplyBoxState}>Reply</ReplyClickText>
+            <CustomPopup
+                trigger={<OptionsMenu fontSize="large" />}
+                position="top center"
+                className="my-popup"
+            >
                 <ReportDiv onClick={reportReplies}>
                     <FlagIcon />
                     <p>Report</p>
@@ -365,4 +396,4 @@ function ReplyFooter({ reply, setReplyId, votes, replyBoxOpen, setReplyBoxOpen, 
     )
 }
 
-export default ReplyFooter;
+export default ReplyFooter
