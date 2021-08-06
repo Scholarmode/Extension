@@ -1,37 +1,35 @@
 /* global chrome */
-import ArrowDown from '@material-ui/icons/ArrowDropDown';
-import ArrowUp from '@material-ui/icons/ArrowDropUp';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import ArrowDown from '@material-ui/icons/ArrowDropDown'
+import ArrowUp from '@material-ui/icons/ArrowDropUp'
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
-const localhost = "http://localhost:8080"
-const cloudhost = "https://scholarmode.herokuapp.com"
+const host = 'http://localhost:8080'
+// const host = 'https://scholarmode.herokuapp.com'
 
 const SidebarBackground = styled.div`
-    background: #DADADA;
+    background: #dadada;
     display: flex;
     flex-direction: column;
-    flex:1;
+    flex: 1;
     align-items: center;
     font-size: 14px;
     max-width: 30px;
-`;
-
+`
 
 export const Sidebar = ({ question }) => {
-
     // const {question} =  useContext(QuestionContext)
 
-    const [totalVotes, setTotalVotes] = useState(question.votes);
-    const [clickable, setClickable] = useState(true);
-    const [downClickable, setDownClickable] = useState(true);
-    let raw = "";
+    const [totalVotes, setTotalVotes] = useState(question.votes)
+    const [clickable, setClickable] = useState(true)
+    const [downClickable, setDownClickable] = useState(true)
+    let raw = ''
 
     let requestOptions = {
         method: 'PUT',
         body: raw,
-        redirect: 'follow'
-    };
+        redirect: 'follow',
+    }
 
     useEffect(() => {
         upvotedOrNot()
@@ -44,15 +42,13 @@ export const Sidebar = ({ question }) => {
                 setClickable(false)
                 setTotalVotes((v) => v + 1)
                 upvotePutRequest()
-            }
-            else {
+            } else {
                 setDownClickable(true)
                 setClickable(false)
                 setTotalVotes((v) => v + 2)
                 upvotePutRequest()
             }
-        }
-        else {
+        } else {
             removeVotes()
             setTotalVotes((v) => v - 1)
         }
@@ -61,13 +57,16 @@ export const Sidebar = ({ question }) => {
     const removeVotes = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             await getProfileInfo(result.token).then(async (info) => {
-                await fetch(`${cloudhost}/questions/${question._id}/${info._id}/unvote/`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => {
+                await fetch(
+                    `${host}/questions/${question._id}/${info._id}/unvote?token=${result.token}`,
+                    requestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => {
                         setClickable(true)
                         setDownClickable(true)
                     })
-                    .catch(error => console.log('error', error));
+                    .catch((error) => console.log('error', error))
             })
         })
     }
@@ -78,32 +77,33 @@ export const Sidebar = ({ question }) => {
                 setDownClickable(false)
                 setTotalVotes((v) => v - 1)
                 downvotePutRequest()
-            }
-            else {
+            } else {
                 setClickable(true)
                 setDownClickable(false)
                 setTotalVotes((v) => v - 2)
                 downvotePutRequest()
             }
-        }
-        else {
+        } else {
             removeVotes()
             setTotalVotes((v) => v + 1)
         }
     }
 
     const getProfileInfo = (token) => {
-        const url = `${cloudhost}/auth/chrome?access_token=${token}`;
-        return fetch(url).then((response) => response.json());
-    };
+        const url = `${host}/auth/chrome?access_token=${token}`
+        return fetch(url).then((response) => response.json())
+    }
 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`${cloudhost}/questions/${question._id}/${info._id}/upvote/`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
+                fetch(
+                    `${host}/questions/${question._id}/${info._id}/upvote?token=${result.token}`,
+                    requestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log('error', error))
             })
         })
     }
@@ -111,18 +111,21 @@ export const Sidebar = ({ question }) => {
     const downvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
-                fetch(`${cloudhost}/questions/${question._id}/${info._id}/downvote/`, requestOptions)
-                    .then(response => response.text())
-                    .then(result => console.log(result))
-                    .catch(error => console.log('error', error));
+                fetch(
+                    `${host}/questions/${question._id}/${info._id}/downvote?token=${result.token}`,
+                    requestOptions
+                )
+                    .then((response) => response.text())
+                    .then((result) => console.log(result))
+                    .catch((error) => console.log('error', error))
             })
         })
     }
 
     const upvotedOrNot = () => {
-        // This function is responsible for checking if the user has already upvoted the reply or not, 
+        // This function is responsible for checking if the user has already upvoted the reply or not,
         // If , yes then it would be rendered accordingly
-        console.log("Upvotes: " + question.upvoters)
+        console.log('Upvotes: ' + question.upvoters)
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 question.upvoters.map((id) => {
@@ -135,7 +138,7 @@ export const Sidebar = ({ question }) => {
     }
 
     const downvotedOrNot = () => {
-        console.log("Upvotes: " + question.downvoters)
+        console.log('Upvotes: ' + question.downvoters)
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 question.downvoters.map((id) => {
@@ -149,19 +152,53 @@ export const Sidebar = ({ question }) => {
 
     return (
         <SidebarBackground>
-            {
-                clickable ?
-                    <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#909090', cursor: 'pointer' }} onClick={updateVotes} />
-                    :
-                    <ArrowUp style={{ marginBottom: -10, width: 50, height: 50, color: '#3aa1f2', cursor: 'pointer' }} onClick={updateVotes} />
-            }
+            {clickable ? (
+                <ArrowUp
+                    style={{
+                        marginBottom: -10,
+                        width: 50,
+                        height: 50,
+                        color: '#909090',
+                        cursor: 'pointer',
+                    }}
+                    onClick={updateVotes}
+                />
+            ) : (
+                <ArrowUp
+                    style={{
+                        marginBottom: -10,
+                        width: 50,
+                        height: 50,
+                        color: '#3aa1f2',
+                        cursor: 'pointer',
+                    }}
+                    onClick={updateVotes}
+                />
+            )}
             {totalVotes}
-            {
-                downClickable ?
-                    <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: '#909090', cursor: 'pointer' }} onClick={updateDownVotes} />
-                    :
-                    <ArrowDown style={{ marginTop: -10, width: 50, height: 50, color: 'red', cursor: 'pointer' }} onClick={updateDownVotes} />
-            }
+            {downClickable ? (
+                <ArrowDown
+                    style={{
+                        marginTop: -10,
+                        width: 50,
+                        height: 50,
+                        color: '#909090',
+                        cursor: 'pointer',
+                    }}
+                    onClick={updateDownVotes}
+                />
+            ) : (
+                <ArrowDown
+                    style={{
+                        marginTop: -10,
+                        width: 50,
+                        height: 50,
+                        color: 'red',
+                        cursor: 'pointer',
+                    }}
+                    onClick={updateDownVotes}
+                />
+            )}
         </SidebarBackground>
     )
 }
