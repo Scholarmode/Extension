@@ -33,9 +33,13 @@ const CustomDiv = styled.div`
     justify-content: space-between;
 `;
 
-function openInNewTab(url) {
-    window.open(url, '_blank').focus();
-   }
+// function openInNewTab(url) {
+//     window.open(url, '_blank').focus();
+//    }
+
+const openBugReportURL = () => {
+    window.location.href = 'https://www.scholarmode.com/#bug-report'
+}
 
 function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
 
@@ -49,7 +53,7 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
                 <AddIcon fontSize='large' />
                 Ask a question
             </AskButton>
-            <BugReportButton onClick={openInNewTab('https://www.scholarmode.com/#bug-report')}>
+            <BugReportButton onClick={openBugReportURL}>
                 <BugReportIcon style={{ fill:'#C4C4C4'}} fontSize='large'/>
                 Report a bug?
             </BugReportButton>
