@@ -29,25 +29,6 @@ const renderScholarmode = async() => {
     }
 } 
 
-// if(document.body){
-//     renderScholarmode()
-// }else{
-//     document.addEventListener('DOMContentLoaded', renderScholarmode )
-// }
-
-
-
-
-
-// const createDiv = async() => {
-    
-//     return beforeVideos
-// }
-
-// const placeDiv = async(beforeVideos) => {
-    
-//     return beforeVideos
-// }
 
 const renderDiscussion = async() => {
     //create div for discussion
@@ -93,9 +74,6 @@ const renderDiscussion = async() => {
             attributes: true,
         })
 }
-
-// const toggleVideos = async(beforeVideos) => {
-// }
 
 
 
@@ -161,27 +139,6 @@ const renderApp = async() =>{
     await showDiscussion()
     renderTagContainer()
 }
-    // const searchbar = document.querySelector('#center')
-    
-// const searchbarObserver = new MutationObserver(function (mutations) {
-    //     for (let mutation of mutations) {
-        //       if (mutation.type === 'childList') {
-//         console.log('Mutation Detected: A child node has been added or removed.');
-//         if(document.querySelector('#insertion-point')){
-    //           searchbarObserver.disconnect()
-    //         }
-    //         else{
-        //             renderApp()
-//         }
-//       }
-//     }
-//   });
-
-// searchbarObserver.observe(searchbar, {
-    //     childList: true
-    //   });
-    
-
     
     if(document.body){
         renderApp()
