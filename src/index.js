@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import ScholarModeButton from './components/ScholarModeButton'
 import Discussion from './components/Discussion'
+import VotedTagContainer from './components/VotedTagContainer'
 
 const renderScholarmode = async() => {
     try{
@@ -130,14 +131,34 @@ document.addEventListener('yt-navigate-finish', discussionFromHomepage)
 }
 
 
+
+const renderTagContainer = async() => {
+        if(window.location.pathname === '/watch'){
+
+            const tagContainer = document.createElement('div')
+            tagContainer.id = 'tagContainer'
+            console.log('created tagContainer')
+            
+            const videoMenu = await document.getElementById('top-level-buttons-computed')
+            await videoMenu.insertAdjacentElement('afterbegin', tagContainer)
+            console.log('inserted into videoMenu')
+            
+            const injectTagContainer = ReactDOM.render(
+                <React.StrictMode>
+                    <VotedTagContainer />
+                </React.StrictMode>,
+                document.getElementById('tagContainer')
+                )
+                console.log('injected tagContainer')
+        } 
+} 
+    
 const renderApp = async() =>{
     await renderScholarmode()
     showDiscussion()
+    renderTagContainer()
 }
-
-
-
-// const searchbar = document.querySelector('#center')
+    // const searchbar = document.querySelector('#center')
 
 // const searchbarObserver = new MutationObserver(function (mutations) {
 //     for (let mutation of mutations) {
