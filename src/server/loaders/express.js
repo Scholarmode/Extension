@@ -5,6 +5,7 @@ const Account = require('../models/account')
 const accounts = require('../routers/account')
 const questions = require('../routers/question')
 const replies = require('../routers/reply')
+const votedTag = require('../routers/votedTag')
 
 module.exports = async (expressApp) => {
     expressApp.use(express.json())
@@ -145,6 +146,17 @@ module.exports = async (expressApp) => {
     expressApp.put('/replies/:id/:accountId/unvote', replies.removeVote)
     expressApp.put('/replies/:id/:accountId/report', replies.report)
     expressApp.delete('/replies/:id/:accountId/report', replies.removeReport)
+
+
+
+    expressApp.post('/votedTag', votedTag.createOne)
+    expressApp.get('/votedTag/:id', votedTag.getOne)
+    expressApp.get('/votedTag/:video', votedTag.getVideoTags)
+    expressApp.put('/votedTag/upvote', votedTag.upvote)
+    expressApp.delete('/votedTag/:id', votedTag.deleteOne)
+
+
+
 
     expressApp.get(
         '/auth/chrome',
