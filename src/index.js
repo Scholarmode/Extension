@@ -39,58 +39,63 @@ const renderScholarmode = async() => {
 
 
 
-const createDiv = async() => {
+// const createDiv = async() => {
+    
+//     return beforeVideos
+// }
+
+// const placeDiv = async(beforeVideos) => {
+    
+//     return beforeVideos
+// }
+
+const renderDiscussion = async() => {
     //create div for discussion
     const beforeVideos = document.createElement('div')
     beforeVideos.id = 'prevideos'
     beforeVideos.style.display = 'none'
-
-    return beforeVideos
-}
-
-const placeDiv = async(beforeVideos) => {
+    
     //check for recommended videos and place div before videos
     const secondary = document.querySelector('#secondary')
     secondary.insertAdjacentElement('afterbegin', beforeVideos)
 
-    return beforeVideos
-}
 
-const renderDiscussion = async() => {
     // render discussion into hidden div
-    ReactDOM.render(
+    const discussion = ReactDOM.render(
         <React.StrictMode>
             <Discussion />
         </React.StrictMode>,
         document.getElementById('prevideos')
     )
-}
 
-const toggleVideos = async(beforeVideos) => {
-    //find recommended videos
-    const videos = document.getElementById('secondary-inner')
 
-    //find toggle to know the state
-    const toggle = document.querySelector('.sc-bdnxRM')
-
-    //observe when toggle changes
-    const toggleObserver = new MutationObserver(function (mutations) {
-        mutations.forEach(function (mutation) {
-            if (mutation.target.classList[2] === 'active') {
-                beforeVideos.style.display = 'block'
-                videos.style.display = 'none'
-            } else {
-                beforeVideos.style.display = 'none'
-                videos.style.display = 'block'
-            }
+        //find recommended videos
+        const videos = document.getElementById('secondary-inner')
+        
+        //find toggle to know the state
+        const toggle = document.querySelector('.sc-bdnxRM')
+        
+        //observe when toggle changes
+        const toggleObserver = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.target.classList[2] === 'active') {
+                    beforeVideos.style.display = 'block'
+                    videos.style.display = 'none'
+                } else {
+                    beforeVideos.style.display = 'none'
+                    videos.style.display = 'block'
+                }
+            })
         })
-    })
-
-    toggleObserver.observe(toggle, {
-        childList: false,
-        attributes: true,
-    })
+        
+        toggleObserver.observe(toggle, {
+            childList: false,
+            attributes: true,
+        })
 }
+
+// const toggleVideos = async(beforeVideos) => {
+// }
 
 
 
@@ -99,10 +104,10 @@ const showDiscussion = async() => {
         if(window.location.pathname === '/watch'){
             
             
-            let beforeVideos = await createDiv()
-            let div = await placeDiv(beforeVideos)
+            // let beforeVideos = await createDiv()
+            // let div = await placeDiv(beforeVideos)
             await renderDiscussion()
-            await toggleVideos(div)
+            // await toggleVideos(div)
         }
     }
     catch(err){
@@ -110,11 +115,6 @@ const showDiscussion = async() => {
     }
 }
 
-// if(document.body){
-//     showDiscussion()
-// }else{
-//     document.addEventListener('DOMContentLoaded', showDiscussion )
-// }
 
 
 const discussionFromHomepage = () => {
@@ -133,15 +133,16 @@ document.addEventListener('yt-navigate-finish', discussionFromHomepage)
 
 
 const renderTagContainer = async() => {
+    try{
         if(window.location.pathname === '/watch'){
 
             const tagContainer = document.createElement('div')
             tagContainer.id = 'tagContainer'
             console.log('created tagContainer')
             
-            const videoMenu = await document.getElementById('top-level-buttons-computed')
-            await videoMenu.insertAdjacentElement('afterbegin', tagContainer)
-            console.log('inserted into videoMenu')
+            const videoMenu = document.getElementById('menu-container')
+            videoMenu.insertAdjacentElement('beforebegin', tagContainer)
+            console.log('inserted before videoMenu')
             
             const injectTagContainer = ReactDOM.render(
                 <React.StrictMode>
@@ -150,38 +151,47 @@ const renderTagContainer = async() => {
                 document.getElementById('tagContainer')
                 )
                 console.log('injected tagContainer')
+            }}catch(err){
+            console.log(err)
         } 
 } 
-    
+
 const renderApp = async() =>{
     await renderScholarmode()
-    showDiscussion()
+    await showDiscussion()
     renderTagContainer()
 }
     // const searchbar = document.querySelector('#center')
-
+    
 // const searchbarObserver = new MutationObserver(function (mutations) {
-//     for (let mutation of mutations) {
-//       if (mutation.type === 'childList') {
+    //     for (let mutation of mutations) {
+        //       if (mutation.type === 'childList') {
 //         console.log('Mutation Detected: A child node has been added or removed.');
 //         if(document.querySelector('#insertion-point')){
-//           searchbarObserver.disconnect()
-//         }
-//         else{
-//             renderApp()
+    //           searchbarObserver.disconnect()
+    //         }
+    //         else{
+        //             renderApp()
 //         }
 //       }
 //     }
 //   });
 
 // searchbarObserver.observe(searchbar, {
-//     childList: true
-//   });
+    //     childList: true
+    //   });
+    
 
-
-
-if(document.body){
-    renderApp()
+    
+    if(document.body){
+        renderApp()
 }else{
     document.addEventListener('DOMContentLoaded', renderApp )
 }
+
+
+// if(document.getElementById('top-level-buttons-computed')){
+//     renderTagContainer()
+// }else{
+//     document.addEventListener('DOMContentLoaded', renderTagContainer )
+// }

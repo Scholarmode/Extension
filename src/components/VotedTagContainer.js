@@ -7,6 +7,7 @@ const TagContainer = styled.div `
     border: 1px solid #DADADA;
     box-sizing: border-box;
     border-radius: 6px 6px 0px 0px;
+    background-color: black;
 `
 
 
