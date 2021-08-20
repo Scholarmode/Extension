@@ -9,6 +9,7 @@ const TagContainer = styled.div `
     border-radius: 6px 6px 0px 0px;
     position: relative;
     bottom: -9px;
+    margin-right: 10px;
 `
 
 
