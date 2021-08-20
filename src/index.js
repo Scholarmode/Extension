@@ -4,16 +4,15 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import ScholarModeButton from './components/ScholarModeButton'
 import Discussion from './components/Discussion'
+import VotedTags from './components/VotedTags'
 
 const renderScholarmode = async() => {
     try{
         const insertionPoint = document.createElement('div')
         insertionPoint.id = 'insertion-point'
-        console.log('created div')
 
         const searchDiv = await document.querySelector('#center');
         await searchDiv.appendChild(insertionPoint)
-        console.log('searchDiv triggered')
 
         const renderToggle = ReactDOM.render(
             <React.StrictMode>
@@ -21,7 +20,6 @@ const renderScholarmode = async() => {
             </React.StrictMode>,
             document.getElementById('insertion-point')
         )
-        console.log('rendered toggle')
     } 
     catch(err){
         console.log(err)
@@ -94,7 +92,6 @@ const toggleVideos = async(beforeVideos) => {
 
 
 const showDiscussion = async() => {
-    try{
         if(window.location.pathname === '/watch'){
             
             
@@ -103,10 +100,6 @@ const showDiscussion = async() => {
             await renderDiscussion()
             await toggleVideos(div)
         }
-    }
-    catch(err){
-        console.log(err)
-    }
 }
 
 // if(document.body){
@@ -130,22 +123,48 @@ document.addEventListener('yt-navigate-finish', discussionFromHomepage)
 }
 
 
-const renderApp = async() =>{
-    await renderScholarmode()
-    showDiscussion()
+
+
+const renderVotedTags = async() => {
+    const divNextToLikes = document.createElement('div')
+    divNextToLikes.id = 'votedTags'
+        console.log('created divNextToLikes in VirDOM')
+        
+        const videoButtons = await document.querySelector('#top-level-buttons-computed');
+        await videoButtons.insertAdjacentElement('afterbegin', divNextToLikes)
+        console.log('divNextToLikes inserted')
+        
+        ReactDOM.render(
+            <React.StrictMode>
+                <VotedTags />
+            </React.StrictMode>,
+            document.getElementById('votedTags')
+            )
+            console.log('rendered Tags')
+        } 
+        
+        const showTags = () => {
+    if(window.location.pathname === '/watch'){
+        renderVotedTags()
+    }
 }
 
 
+const renderApp = async() =>{
+    await renderScholarmode()
+    await showDiscussion()
+    await showTags()
+}
 
 // const searchbar = document.querySelector('#center')
 
 // const searchbarObserver = new MutationObserver(function (mutations) {
 //     for (let mutation of mutations) {
-//       if (mutation.type === 'childList') {
-//         console.log('Mutation Detected: A child node has been added or removed.');
+    //       if (mutation.type === 'childList') {
+        //         console.log('Mutation Detected: A child node has been added or removed.');
 //         if(document.querySelector('#insertion-point')){
-//           searchbarObserver.disconnect()
-//         }
+    //           searchbarObserver.disconnect()
+    //         }
 //         else{
 //             renderApp()
 //         }
