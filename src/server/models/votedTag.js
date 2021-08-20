@@ -15,7 +15,12 @@ const votedTagSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Account',
         },
-    ]
+    ],
+    dateCreated: Date,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account',
+    },
 });
 
 module.exports = mongoose.model('Tag', votedTagSchema);
