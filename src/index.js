@@ -114,6 +114,10 @@ const renderTagContainer = async() => {
     try{
         if(window.location.pathname === '/watch'){
 
+            if(!document.getElementById('menu-container')){
+                renderTagContainer()
+            }else{
+
             const tagContainer = document.createElement('div')
             tagContainer.id = 'tagContainer'
             console.log('created tagContainer')
@@ -129,7 +133,7 @@ const renderTagContainer = async() => {
                 document.getElementById('tagContainer')
                 )
                 console.log('injected tagContainer')
-            }}catch(err){
+            }}}catch(err){
             console.log(err)
         } 
 } 
