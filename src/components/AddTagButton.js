@@ -77,6 +77,7 @@ export default function AddTagButton({ tagName, setTagName, setNewTag, setArrayT
                 }}
                 onSubmit={submitTag}
                 onChange={handleChange}
+                onEnter = {submitTag}
                 value={tagName}
                 name="username"
                 type="text"
