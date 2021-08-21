@@ -43,11 +43,11 @@ function VotedTagContainer() {
     const [arrayTag, setArrayTag] = useState([
         {
             name: "Awesome",
-            votes: 242
+            votes: 0
         },
         {
             name: "Clever",
-            votes: 42
+            votes: 0
         }
     ]);
     const [newTag, setNewTag] = useState(false)

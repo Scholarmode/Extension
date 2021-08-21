@@ -13,6 +13,7 @@ const CustomDiv = styled.div`
     height: 36px;
     padding: 0px 14px;
     padding-left: 0px;
+    font-size: 15px;
   }
 
   label {
@@ -56,7 +57,13 @@ export default function AddTagButton({ tagName, setTagName, setNewTag, setArrayT
             name: tagName,
             votes: 0,
         };
-        setArrayTag(arrayTag.concat(newObj));
+        let newArray = [];
+        newArray.push(newObj);
+        for (let j = 0; j < arrayTag.length; j++) {
+            newArray.push(arrayTag[j]);
+        }
+        setArrayTag(newArray);
+        setTagName("")
     }
     const classes = useStyles();
     return (
@@ -70,6 +77,7 @@ export default function AddTagButton({ tagName, setTagName, setNewTag, setArrayT
                 }}
                 onSubmit={submitTag}
                 onChange={handleChange}
+                value={tagName}
                 name="username"
                 type="text"
                 placeholder="Add a Tag"
