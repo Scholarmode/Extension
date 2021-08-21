@@ -137,6 +137,7 @@ const renderTagContainer = async() => {
 const renderApp = async() =>{
     await renderScholarmode()
     await showDiscussion()
+    renderTagContainer()
 }
     
 if(document.body){
@@ -146,8 +147,8 @@ if(document.body){
 }
 
 
-if(document.getElementById('menu-container')){
-    renderTagContainer()
-}else{
-    document.addEventListener('DOMContentLoaded', renderTagContainer )
-}
+// if(document.getElementById('menu-container')){
+//     renderTagContainer()
+// }else{
+//     document.addEventListener('DOMContentLoaded', renderTagContainer )
+// }
