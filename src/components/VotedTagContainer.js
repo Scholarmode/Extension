@@ -12,6 +12,22 @@ const TagContainer = styled.div`
   padding-bottom: 10px;
   margin-right: 10px;
   overflow: scroll;
+
+  overflow-x: hidden;
+
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 8px 8px 8px 8px;
+        background-color: darkgray;
+        visibility: hidden;
+    }
+
+    :hover::-webkit-scrollbar-thumb {
+        visibility: visible;
+    }
 `;
 
 
@@ -19,8 +35,8 @@ function VotedTagContainer() {
     return (
         <div>
             <TagContainer>
-                <Tag clickedOrNot={true} />
-                <Tag clickedOrNot={false} />
+                <Tag clickedOrNot={true} voteName="Clever" />
+                <Tag clickedOrNot={false} voteName="Awesome" />
             </TagContainer>
         </div>
     )

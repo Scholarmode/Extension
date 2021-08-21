@@ -61,19 +61,19 @@ const GreyViewVotes = styled.button`
   cursor: pointer;
 `;
 
-export default function Tag({ clickedOrNot }) {
+export default function Tag({ clickedOrNot, voteName }) {
     const [clicked, setClicked] = useState(clickedOrNot);
     const changeState = () => {
         setClicked(!clicked);
     };
     return clicked ? (
         <DecolouredTag onClick={changeState}>
-            Awesome
+            {voteName}
             <ViewVotes>202</ViewVotes>
         </DecolouredTag>
     ) : (
         <GreyColouredTag onClick={changeState}>
-            Clever
+            {voteName}
             <GreyViewVotes>454</GreyViewVotes>
         </GreyColouredTag>
     );
