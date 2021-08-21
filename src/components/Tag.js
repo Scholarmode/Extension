@@ -4,11 +4,14 @@ import { ReactComponent as VotedArrow } from '../assets/votedArrow.svg';
 import { ReactComponent as VotedArrowGrey } from '../assets/votedGray.svg';
 
 const DecolouredTag = styled.button`
-  border-radius: 4px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right-width: 0px;
   background-color: #065fd4;
   padding: 5px;
   border: 1px solid black;
   margin: 10px;
+  margin-right: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,11 +22,13 @@ const DecolouredTag = styled.button`
 `;
 
 const ViewVotes = styled.button`
-  border-radius: 4px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left-width: 0px;
   background-color: #193b66;
   border: 1px solid black;
-  height: 20px;
-  margin-left: 8px;
+  height: 100%;
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,11 +39,11 @@ const ViewVotes = styled.button`
 `;
 
 const GreyColouredTag = styled.button`
-  border-radius: 4px;
   background-color: #ececec;
   padding: 5px;
   border: 1px solid black;
   margin: 10px;
+  margin-right: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,11 +54,10 @@ const GreyColouredTag = styled.button`
 `;
 
 const GreyViewVotes = styled.button`
-  border-radius: 4px;
   background-color: #909090;
   border: 1px solid black;
-  height: 20px;
-  margin-left: 8px;
+  height: 100%;
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,6 +65,11 @@ const GreyViewVotes = styled.button`
   color: white;
   font-weight: 400;
   cursor: pointer;
+`;
+
+const CustomDiv = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export default function Tag({ clickedOrNot, voteName, votes }) {
@@ -76,16 +85,20 @@ export default function Tag({ clickedOrNot, voteName, votes }) {
         }
     };
     return clicked ? (
-        <DecolouredTag onClick={changeState}>
-            <VotedArrow style={{ marginRight: '5px' }} />
-            {voteName}
+        <CustomDiv>
+            <DecolouredTag onClick={changeState}>
+                <VotedArrow style={{ marginRight: '5px' }} />
+                {voteName}
+            </DecolouredTag>
             <ViewVotes>{votesNew}</ViewVotes>
-        </DecolouredTag>
+        </CustomDiv>
     ) : (
-        <GreyColouredTag onClick={changeState}>
-            <VotedArrowGrey style={{ marginRight: '5px' }} />
-            {voteName}
+        <CustomDiv>
+            <GreyColouredTag onClick={changeState}>
+                <VotedArrowGrey style={{ marginRight: '5px' }} />
+                {voteName}
+            </GreyColouredTag>
             <GreyViewVotes>{votesNew}</GreyViewVotes>
-        </GreyColouredTag>
+        </CustomDiv>
     );
 }
