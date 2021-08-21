@@ -28,6 +28,13 @@ const TagContainer = styled.div`
     :hover::-webkit-scrollbar-thumb {
         visibility: visible;
     }
+
+    ::-webkit-scrollbar-track {
+    background-color: white;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: 8px 8px 0px 0px;
+  }
 `;
 
 
