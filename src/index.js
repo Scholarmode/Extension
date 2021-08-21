@@ -137,18 +137,17 @@ const renderTagContainer = async() => {
 const renderApp = async() =>{
     await renderScholarmode()
     await showDiscussion()
-    renderTagContainer()
 }
     
-    if(document.body){
-        renderApp()
+if(document.body){
+    renderApp()
 }else{
     document.addEventListener('DOMContentLoaded', renderApp )
 }
 
 
-// if(document.getElementById('top-level-buttons-computed')){
-//     renderTagContainer()
-// }else{
-//     document.addEventListener('DOMContentLoaded', renderTagContainer )
-// }
+if(document.getElementById('menu-container')){
+    renderTagContainer()
+}else{
+    document.addEventListener('DOMContentLoaded', renderTagContainer )
+}
