@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { ReactComponent as VotedArrow } from '../assets/votedArrow.svg';
+import { ReactComponent as VotedArrowGrey } from '../assets/votedGray.svg';
 
 const DecolouredTag = styled.button`
   border-radius: 4px;
@@ -68,11 +70,13 @@ export default function Tag({ clickedOrNot, voteName }) {
     };
     return clicked ? (
         <DecolouredTag onClick={changeState}>
+            <VotedArrow style={{ marginRight: '5px' }} />
             {voteName}
             <ViewVotes>202</ViewVotes>
         </DecolouredTag>
     ) : (
         <GreyColouredTag onClick={changeState}>
+            <VotedArrowGrey style={{ marginRight: '5px' }} />
             {voteName}
             <GreyViewVotes>454</GreyViewVotes>
         </GreyColouredTag>
