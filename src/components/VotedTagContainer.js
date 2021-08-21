@@ -1,5 +1,6 @@
-import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
+import AddTagButton from './AddTagButton';
 import Tag from './Tag';
 
 const TagContainer = styled.div`
@@ -39,11 +40,37 @@ const TagContainer = styled.div`
 
 
 function VotedTagContainer() {
+    const [arrayTag, setArrayTag] = useState([
+        {
+            name: "Awesome",
+            votes: 242
+        },
+        {
+            name: "Clever",
+            votes: 42
+        }
+    ]);
+    const [newTag, setNewTag] = useState(false)
+    const [tagName, setTagName] = useState("");
+
+    // const updateArray = () => {
+    //     console.log(newTag);
+    //     if (newTag) {
+    //         console.log("Here")
+    //         let newObj = {
+    //             name: tagName,
+    //             votes: 0,
+    //         };
+    //         setArrayTag(arrayTag.concat(newObj));
+    //     }
+    // }
     return (
         <div>
             <TagContainer>
-                <Tag clickedOrNot={true} voteName="Clever" votes={21} />
-                <Tag clickedOrNot={false} voteName="Awesome" votes={5} />
+                <AddTagButton tagName={tagName} setTagName={setTagName} setNewTag={setNewTag} setArrayTag={setArrayTag} arrayTag={arrayTag} />
+                {arrayTag.map((v) => {
+                    return (<Tag clickedOrNot={false} voteName={v.name} votes={v.votes} />);
+                })}
             </TagContainer>
         </div>
     )
