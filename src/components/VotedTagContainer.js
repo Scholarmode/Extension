@@ -35,8 +35,8 @@ function VotedTagContainer() {
     return (
         <div>
             <TagContainer>
-                <Tag clickedOrNot={true} voteName="Clever" />
-                <Tag clickedOrNot={false} voteName="Awesome" />
+                <Tag clickedOrNot={true} voteName="Clever" votes={21} />
+                <Tag clickedOrNot={false} voteName="Awesome" votes={5} />
             </TagContainer>
         </div>
     )
