@@ -11,7 +11,7 @@ const TagContainer = styled.div`
   position: relative;
   padding-bottom: 10px;
   margin-right: 10px;
-  overflow: scroll;
+  overflow: auto;
 `;
 
 
