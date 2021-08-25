@@ -7,38 +7,31 @@ import Discussion from './components/Discussion'
 
 const renderScholarmode = async() => {
     try{
+        if(!document.getElementById('center')){
+            renderScholarmode()
+        }else{
         const insertionPoint = document.createElement('div')
         insertionPoint.id = 'insertion-point'
-        console.log('created div')
 
         const searchDiv = await document.querySelector('#center');
         await searchDiv.appendChild(insertionPoint)
-        console.log('searchDiv triggered')
+
 
         const renderToggle = ReactDOM.render(
             <React.StrictMode>
                 <ScholarModeButton />
             </React.StrictMode>,
             document.getElementById('insertion-point')
-        )
-        console.log('rendered toggle')
+            )
+        }
     } 
     catch(err){
         console.log(err)
     }
 } 
 
-// if(document.body){
-//     renderScholarmode()
-// }else{
-//     document.addEventListener('DOMContentLoaded', renderScholarmode )
-// }
 
-
-
-
-
-const createDiv = async() => {
+const createDiscussionDiv = async() => {
     //create div for discussion
     const beforeVideos = document.createElement('div')
     beforeVideos.id = 'prevideos'
@@ -47,7 +40,7 @@ const createDiv = async() => {
     return beforeVideos
 }
 
-const placeDiv = async(beforeVideos) => {
+const placeDiscussionDiv = async(beforeVideos) => {
     //check for recommended videos and place div before videos
     const secondary = document.querySelector('#secondary')
     secondary.insertAdjacentElement('afterbegin', beforeVideos)
@@ -97,20 +90,14 @@ const showDiscussion = async() => {
     try{
         if(window.location.pathname === '/watch'){
             
-            
-            let beforeVideos = await createDiv()
-            let div = await placeDiv(beforeVideos)
-            await renderDiscussion()
-            await toggleVideos(div)
-
-        //     if(!document.getElementById('secondary')){
-        //         showDiscussion()
-        //     }else{
-        //     // let beforeVideos = await createDiv()
-        //     // let div = await placeDiv(beforeVideos)
-        //     await renderDiscussion()
-        //     // await toggleVideos(div)
-        //     }
+            if(!document.getElementById('secondary')){
+                showDiscussion()
+            }else{
+                let beforeVideos = await createDiscussionDiv()
+                let div = await placeDiscussionDiv(beforeVideos)
+                await renderDiscussion()
+                await toggleVideos(div)
+            }
         }
     }
     catch(err){
@@ -118,24 +105,20 @@ const showDiscussion = async() => {
     }
 }
 
-// if(document.body){
-//     showDiscussion()
-// }else{
-//     document.addEventListener('DOMContentLoaded', showDiscussion )
-// }
 
-
-const discussionFromHomepage = () => {
+// nothing loads if the page navigates from home-page to video
+// a refresh solves that problem in the short-term 
+const refreshPageFromYTNavigateEvent = () => {
     if(window.location.pathname === '/watch'){
         window.location.reload()
-        document.removeEventListener('yt-navigate-finish', discussionFromHomepage)
+        document.removeEventListener('yt-navigate-finish', refreshPageFromYTNavigateEvent)
     }
 }
 
 
-//if YouTube homepage then track render disccusion on navigate
+//if User is on the YouTube homepage then trigger a refresh on navigate
 if(window.location.pathname === '/'){
-document.addEventListener('yt-navigate-finish', discussionFromHomepage)
+    document.addEventListener('yt-navigate-finish', refreshPageFromYTNavigateEvent)
 }
 
 
@@ -143,30 +126,6 @@ const renderApp = async() =>{
     await renderScholarmode()
     showDiscussion()
 }
-
-
-
-// const searchbar = document.querySelector('#center')
-
-// const searchbarObserver = new MutationObserver(function (mutations) {
-//     for (let mutation of mutations) {
-//       if (mutation.type === 'childList') {
-//         console.log('Mutation Detected: A child node has been added or removed.');
-//         if(document.querySelector('#insertion-point')){
-//           searchbarObserver.disconnect()
-//         }
-//         else{
-//             renderApp()
-//         }
-//       }
-//     }
-//   });
-
-// searchbarObserver.observe(searchbar, {
-//     childList: true
-//   });
-
-
 
 if(document.body){
     renderApp()
