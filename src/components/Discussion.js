@@ -73,6 +73,7 @@ const Discussion = () => {
                     // Examine the text in the response
                     response.json().then(function (data) {
                         console.log('Response: ' + data)
+                        console.log(data)
                         setIsLoaded(true)
                         setQuestions(data)
                     })

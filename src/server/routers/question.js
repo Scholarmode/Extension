@@ -12,7 +12,22 @@ module.exports = {
                     { path: 'author' },
                     {
                         path: 'replies',
-                        populate: [{ path: 'author' }, { path: 'replies' }],
+                        populate: [
+                            { path: 'author' },
+                            {
+                                path: 'replies',
+                                populate: [
+                                    { path: 'author' },
+                                    {
+                                        path: 'replies',
+                                        populate: [
+                                            { path: 'author' },
+                                            { path: 'replies' },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             })
@@ -50,7 +65,22 @@ module.exports = {
                     { path: 'author' },
                     {
                         path: 'replies',
-                        populate: [{ path: 'author' }, { path: 'replies' }],
+                        populate: [
+                            { path: 'author' },
+                            {
+                                path: 'replies',
+                                populate: [
+                                    { path: 'author' },
+                                    {
+                                        path: 'replies',
+                                        populate: [
+                                            { path: 'author' },
+                                            { path: 'replies' },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             })
@@ -93,7 +123,29 @@ module.exports = {
                                         path: 'replies',
                                         populate: [
                                             { path: 'author' },
-                                            { path: 'replies' },
+                                            {
+                                                path: 'replies',
+                                                populate: [
+                                                    { path: 'author' },
+                                                    {
+                                                        path: 'replies',
+                                                        populate: [
+                                                            { path: 'author' },
+                                                            {
+                                                                path: 'replies',
+                                                                populate: [
+                                                                    {
+                                                                        path: 'author',
+                                                                    },
+                                                                    {
+                                                                        path: 'replies',
+                                                                    },
+                                                                ],
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
                                         ],
                                     },
                                 ],
