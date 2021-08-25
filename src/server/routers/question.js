@@ -123,7 +123,29 @@ module.exports = {
                                         path: 'replies',
                                         populate: [
                                             { path: 'author' },
-                                            { path: 'replies' },
+                                            {
+                                                path: 'replies',
+                                                populate: [
+                                                    { path: 'author' },
+                                                    {
+                                                        path: 'replies',
+                                                        populate: [
+                                                            { path: 'author' },
+                                                            {
+                                                                path: 'replies',
+                                                                populate: [
+                                                                    {
+                                                                        path: 'author',
+                                                                    },
+                                                                    {
+                                                                        path: 'replies',
+                                                                    },
+                                                                ],
+                                                            },
+                                                        ],
+                                                    },
+                                                ],
+                                            },
                                         ],
                                     },
                                 ],
