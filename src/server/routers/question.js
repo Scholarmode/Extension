@@ -83,7 +83,22 @@ module.exports = {
                     { path: 'author' },
                     {
                         path: 'replies',
-                        populate: [{ path: 'author' }, { path: 'replies' }],
+                        populate: [
+                            { path: 'author' },
+                            {
+                                path: 'replies',
+                                populate: [
+                                    { path: 'author' },
+                                    {
+                                        path: 'replies',
+                                        populate: [
+                                            { path: 'author' },
+                                            { path: 'replies' },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             })
@@ -94,7 +109,6 @@ module.exports = {
 
                 // Sort replies based on number of votes
                 const recursiveSort = (q) => {
-                    console.log(q)
                     if (!q.replies) return
 
                     recursiveSort(

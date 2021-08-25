@@ -101,6 +101,9 @@ module.exports = async (expressApp) => {
         questions.removeReport
     )
 
+    expressApp.get('/tags/:videoURL')
+    expressApp.post('/tags')
+    expressApp.put('/tags/:videoURL')
     // Reply RESTFul endpoints
 
     /** Secures reply routes to require a Google OAuth token. */
