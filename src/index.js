@@ -102,6 +102,15 @@ const showDiscussion = async() => {
             let div = await placeDiv(beforeVideos)
             await renderDiscussion()
             await toggleVideos(div)
+
+        //     if(!document.getElementById('secondary')){
+        //         showDiscussion()
+        //     }else{
+        //     // let beforeVideos = await createDiv()
+        //     // let div = await placeDiv(beforeVideos)
+        //     await renderDiscussion()
+        //     // await toggleVideos(div)
+        //     }
         }
     }
     catch(err){

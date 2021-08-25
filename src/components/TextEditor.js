@@ -235,7 +235,7 @@ const TextEditor = ({ value, setValue, setCodeLanguage }) => {
                 decorate={decorate}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
-                placeholder="Enter some rich text…"
+                placeholder="Explain what you mean..."
                 spellCheck
                 autoFocus
                 onFocus={() => {

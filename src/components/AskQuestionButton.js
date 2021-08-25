@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import AddIcon from '@material-ui/icons/Add';
+import BugReportIcon from '@material-ui/icons/BugReport';
 
 const AskButton = styled.button`
     border-radius: 4px;
@@ -16,12 +17,29 @@ const AskButton = styled.button`
     cursor:pointer;
 `;
 
+const BugReportButton = styled.div`
+    color: #2196F3;
+    margin-bottom: auto;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+`
+
 const CustomDiv = styled.div`
     align-items: center;
     font-size: 15px;
     display: flex;
-    
+    justify-content: space-between;
 `;
+
+// function openInNewTab(url) {
+//     window.open(url, '_blank').focus();
+//    }
+
+const openBugReportURL = () => {
+    window.location.href = 'https://www.scholarmode.com/#bug-report'
+}
 
 function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
 
@@ -35,6 +53,10 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
                 <AddIcon fontSize='large' />
                 Ask a question
             </AskButton>
+            <BugReportButton onClick={openBugReportURL}>
+                <BugReportIcon style={{ fill:'#C4C4C4'}} fontSize='large'/>
+                Report a bug?
+            </BugReportButton>
         </CustomDiv>
     )
 }

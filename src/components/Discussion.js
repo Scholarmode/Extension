@@ -38,16 +38,16 @@ const Discussion = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [questions, setQuestions] = useState(null)
 
-    const refreshDiscussion = () => {
-        setQuestions(null)
-        setUrl(
-            `${host}/questions/video/${linkifyYouTubeURLs(
-                window.location.href
-            )}`
-        )
+    const refreshDiscussion = (event) => {
+        if(window.location.pathname === '/watch'){
+            setQuestions(null)
+            setUrl(
+                `${host}/questions/video/${linkifyYouTubeURLs(window.location.href)}`
+            )
+        }   
     }
 
-    document.addEventListener('yt-navigate-finish', refreshDiscussion)
+    window.addEventListener('yt-navigate-finish', refreshDiscussion)
 
     const [url, setUrl] = useState(
         `${host}/questions/video/${linkifyYouTubeURLs(window.location.href)}`
