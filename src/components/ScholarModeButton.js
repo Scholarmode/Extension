@@ -79,6 +79,10 @@ const ButtonCircle = styled.div`
   }
 `
 
+const ToggleContainer = styled.div`
+  margin-left: 8px;
+`
+
 export default function ScholarModeButton() {
   const [active, setActive] = useState(false)
 
@@ -89,7 +93,7 @@ export default function ScholarModeButton() {
   // })
 
   return (
-    <div
+    <ToggleContainer
       className="scholarmode"
       onClick={() => {
         // active
@@ -103,6 +107,6 @@ export default function ScholarModeButton() {
           <WhiteHat />
         </ButtonCircle>
       </ButtonBackground>
-    </div>
+    </ToggleContainer>
   )
 }
