@@ -15,6 +15,8 @@ module.exports = {
     },
 
     createOne: (req, res) => {
+        // Retrieves the question using the ID and returns its replies as a JSON response
+        // This function should be called at the end as it results in the closure of the request session
         const getQuestion = (qId) => {
             Question.findOne({ _id: qId })
                 .populate('author')
@@ -32,6 +34,29 @@ module.exports = {
                     if (err) return err
                     res.json(question.replies)
                 })
+        }
+
+        // Traverse up the nesting and count the number of parent replies
+        const countNestedReplies = (currentReply) => {
+            if (!currentReply.parentReply) return 1
+
+            return (
+                1 +
+                countNestedReplies(
+                    Reply.findOne({ _id: currentReply.parentReply })
+                )
+            )
+        }
+
+        // Return client error if nested level exceeds limit
+        const NESTED_LEVEL_LIMIT = 5
+
+        if (1 + countNestedReplies(req.body.parentReply) > NESTED_LEVEL_LIMIT) {
+            return res
+                .status(422)
+                .json(
+                    `You have exceeded the nested replies limit of ${NESTED_LEVEL_LIMIT} nested replies`
+                )
         }
 
         let newReplyDetails = req.body
@@ -214,7 +239,7 @@ module.exports = {
 
                 reply.upvoters = upvoters
                 reply.downvoters = downvoters
-				reply.votes = upvoters.length - downvoters.length
+                reply.votes = upvoters.length - downvoters.length
                 reply.save((err, reply) => {
                     if (err) return res.status(400).json(err)
                     if (!reply) return res.status(404).json(err)
