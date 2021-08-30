@@ -11,6 +11,7 @@ const CustomDiv = styled.div`
 	width: 100%;
 	align-items: center;
 	overflow: hidden;
+	padding-bottom: 10px;
 `;
 
 const CustomUnorderedList = styled.ul`

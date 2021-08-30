@@ -18,7 +18,7 @@ const ReplyThread = styled.div`
 	flex-direction: column;
 	margin-left: 15px;
 	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-bottom: 0px;
 	margin-right: 10px;
 `;
 
