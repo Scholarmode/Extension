@@ -125,9 +125,11 @@ module.exports = async (expressApp) => {
 
     expressApp.get('/replies', replies.getAll)
     expressApp.get('/replies/:id', replies.getOne)
+    expressApp.get('/replies/nested-level/:id', replies.getNestedLevel)
     expressApp.post('/replies', replies.createOne)
     expressApp.put('/replies/:id', replies.updateOne)
     expressApp.delete('/replies/:id', replies.deleteOne)
+    
 
     /** Secures user-specific reply routes to ensure users can only access/modify their own data.*/
     expressApp.use('/replies/:id/:accountId', (req, res, next) => {

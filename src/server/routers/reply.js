@@ -2,6 +2,17 @@ const mongoose = require('mongoose')
 const Reply = require('../models/reply')
 const Question = require('../models/question')
 
+const countNestedReplies = (currentReply, count, callback) => {
+    if (!currentReply.parentReply || !currentReply) {
+        return callback(count)
+    }
+
+    Reply.findOne({ _id: currentReply.parentReply }, (err, parentReply) => {
+        if (err) return callback(count)
+        return countNestedReplies(parentReply, count + 1, callback)
+    })
+}
+
 module.exports = {
     getAll: (req, res) => {
         Reply.find((err, reply) => {
@@ -75,92 +86,73 @@ module.exports = {
                 })
         }
 
-        // Traverse up the nesting and count the number of parent replies
-        const countNestedReplies = (currentReply) => {
-            if (!currentReply || !currentReply.parentReply) return 1
-
-            Reply.findOne(
-                { _id: currentReply.parentReply },
-                (err, parentReply) => {
-                    if (err) return 1
-                    return 1 + countNestedReplies(parentReply)
-                }
-            )
-        }
+        const NESTED_LEVEL_LIMIT = 5
 
         // Return client error if nested level exceeds limit
-        const NESTED_LEVEL_LIMIT = 5
-        const nestedRepliesCount = 1 + countNestedReplies(req.body.parentReply)
-        console.log(`NESTED REPLIES COUNT: ${nestedRepliesCount}`)
-
-        if (nestedRepliesCount > NESTED_LEVEL_LIMIT) {
-            return res
-                .status(422)
-                .json(
-                    `You have exceeded the nested replies limit of ${NESTED_LEVEL_LIMIT} nested replies`
-                )
-        }
-
-        let newReplyDetails = req.body
-        newReplyDetails._id = new mongoose.Types.ObjectId()
-
-        let reply = new Reply(newReplyDetails)
-
-        reply.populate('author').execPopulate((err, populatedReply) => {
-            if (err) return res.status(400).json(err)
-
-            populatedReply.save((err) => {
-                if (err) return res.status(400).json(err)
-
-                // Add reply to parent reply / question
-                if (newReplyDetails.parentReply) {
-                    Reply.findOne(
-                        { _id: newReplyDetails.parentReply },
-                        (err, reply) => {
-                            if (err) return res.status(400).json(err)
-                            if (!reply) return res.status(404).json()
-
-                            reply.replies.push(newReplyDetails._id)
-                            reply.save((err) => {
-                                if (err) return res.status(400).json(err)
-                                getQuestion(populatedReply.parentQuestion)
-                            })
-                        }
-                    )
-                } else if (newReplyDetails.parentQuestion) {
-                    Question.findOne(
-                        { _id: newReplyDetails.parentQuestion },
-                        (err, question) => {
-                            if (err) return res.status(400).json(err)
-                            if (!question) return res.status(404).json()
-
-                            question.replies.push(newReplyDetails._id)
-                            question.save((err) => {
-                                if (err) return res.status(400).json(err)
-                                getQuestion(populatedReply.parentQuestion)
-                            })
-                        }
-                    )
+        Reply.findOne({ _id: req.body.parentReply }, (_, rep) => {
+            countNestedReplies(rep, 0, (level) => {
+                if (level > NESTED_LEVEL_LIMIT) {
+                    return res
+                        .status(422)
+                        .json(
+                            `You have exceeded the nested replies limit of ${NESTED_LEVEL_LIMIT} nested replies`
+                        )
                 }
+
+                let newReplyDetails = req.body
+                newReplyDetails._id = new mongoose.Types.ObjectId()
+
+                let reply = new Reply(newReplyDetails)
+
+                reply.populate('author').execPopulate((err, populatedReply) => {
+                    if (err) return res.status(400).json(err)
+
+                    populatedReply.save((err) => {
+                        if (err) return res.status(400).json(err)
+
+                        // Add reply to parent reply / question
+                        if (newReplyDetails.parentReply) {
+                            Reply.findOne(
+                                { _id: newReplyDetails.parentReply },
+                                (err, reply) => {
+                                    if (err) return res.status(400).json(err)
+                                    if (!reply) return res.status(404).json()
+
+                                    reply.replies.push(newReplyDetails._id)
+                                    reply.save((err) => {
+                                        if (err)
+                                            return res.status(400).json(err)
+                                        getQuestion(
+                                            populatedReply.parentQuestion
+                                        )
+                                    })
+                                }
+                            )
+                        } else if (newReplyDetails.parentQuestion) {
+                            Question.findOne(
+                                { _id: newReplyDetails.parentQuestion },
+                                (err, question) => {
+                                    if (err) return res.status(400).json(err)
+                                    if (!question) return res.status(404).json()
+
+                                    question.replies.push(newReplyDetails._id)
+                                    question.save((err) => {
+                                        if (err)
+                                            return res.status(400).json(err)
+                                        getQuestion(
+                                            populatedReply.parentQuestion
+                                        )
+                                    })
+                                }
+                            )
+                        }
+                    })
+                })
             })
         })
     },
 
     getOne: (req, res) => {
-        // Reply.findOne({ _id: req.params.id }, (err, reply) => {
-        // 	if (err) return res.status(400).json(err);
-        // 	if (!reply) return res.status(404).json();
-
-        // 	// Fetch replies
-        // 	Reply.find({ parentReply: reply._id })
-        // 		.sort({ votes: -1 })
-        // 		.exec((err, replies) => {
-        // 			if (err) return res.status(400).json(err);
-        // 			reply.replies = replies;
-        // 			reply.repliesCount = replies.length;
-        // 			res.json(reply);
-        // 		});
-        // });
         Reply.findOne({ _id: req.params.id })
             .populate('author')
             .populate('replies')
@@ -327,6 +319,19 @@ module.exports = {
             reply.reports = reports
             reply.save()
             res.json()
+        })
+    },
+
+    getNestedLevel: (req, res) => {
+        if (!req.params.id)
+            return res.status(400).json('Please include reply ID')
+
+        Reply.findOne({ _id: req.params.id }, (err, rep) => {
+            if (err) return res.status(404).json('No matching replies')
+
+            countNestedReplies(rep, 0, (level) => {
+                res.json(level)
+            })
         })
     },
 }
