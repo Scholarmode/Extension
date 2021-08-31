@@ -38,7 +38,7 @@ module.exports = {
 
         // Traverse up the nesting and count the number of parent replies
         const countNestedReplies = (currentReply) => {
-            if (!currentReply.parentReply) return 1
+            if (!currentReply || !currentReply.parentReply) return 1
 
             return (
                 1 +
