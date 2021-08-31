@@ -89,8 +89,10 @@ module.exports = {
 
         // Return client error if nested level exceeds limit
         const NESTED_LEVEL_LIMIT = 5
+        const nestedRepliesCount = 1 + countNestedReplies(req.body.parentReply)
+        console.log(`NESTED REPLIES COUNT: ${nestedRepliesCount}`)
 
-        if (1 + countNestedReplies(req.body.parentReply) > NESTED_LEVEL_LIMIT) {
+        if (nestedRepliesCount > NESTED_LEVEL_LIMIT) {
             return res
                 .status(422)
                 .json(
