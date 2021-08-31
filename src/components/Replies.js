@@ -10,18 +10,14 @@ const CustomDiv = styled.div`
 	background: #ececec;
 	width: 100%;
 	align-items: center;
+	overflow: hidden;
+	padding-bottom: 10px;
 `;
 
 const CustomUnorderedList = styled.ul`
 	margin-left: 0px;
 	padding-left: 0;
 	list-style-type: none;
-`;
-
-const TestDiv = styled.div`
-	background-color: blue;
-	width: 100%;
-	height: 50px;
 `;
 
 function Replies(props) {
