@@ -79,11 +79,12 @@ module.exports = {
         const countNestedReplies = (currentReply) => {
             if (!currentReply || !currentReply.parentReply) return 1
 
-            return (
-                1 +
-                countNestedReplies(
-                    Reply.findOne({ _id: currentReply.parentReply })
-                )
+            Reply.findOne(
+                { _id: currentReply.parentReply },
+                (err, parentReply) => {
+                    if (err) return 1
+                    return 1 + countNestedReplies(parentReply)
+                }
             )
         }
 
