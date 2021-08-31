@@ -51,13 +51,13 @@ module.exports = {
         // Return client error if nested level exceeds limit
         const NESTED_LEVEL_LIMIT = 5
 
-        // if (1 + countNestedReplies(req.body.parentReply) > NESTED_LEVEL_LIMIT) {
-        //     return res
-        //         .status(422)
-        //         .json(
-        //             `You have exceeded the nested replies limit of ${NESTED_LEVEL_LIMIT} nested replies`
-        //         )
-        // }
+        if (1 + countNestedReplies(req.body.parentReply) > NESTED_LEVEL_LIMIT) {
+            return res
+                .status(422)
+                .json(
+                    `You have exceeded the nested replies limit of ${NESTED_LEVEL_LIMIT} nested replies`
+                )
+        }
 
         let newReplyDetails = req.body
         newReplyDetails._id = new mongoose.Types.ObjectId()
