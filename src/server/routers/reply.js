@@ -26,7 +26,46 @@ module.exports = {
                         { path: 'author' },
                         {
                             path: 'replies',
-                            populate: [{ path: 'author' }, { path: 'replies' }],
+                            populate: [
+                                { path: 'author' },
+                                {
+                                    path: 'replies',
+                                    populate: [
+                                        { path: 'author' },
+                                        {
+                                            path: 'replies',
+                                            populate: [
+                                                { path: 'author' },
+                                                {
+                                                    path: 'replies',
+                                                    populate: [
+                                                        { path: 'author' },
+                                                        {
+                                                            path: 'replies',
+                                                            populate: [
+                                                                {
+                                                                    path: 'author',
+                                                                },
+                                                                {
+                                                                    path: 'replies',
+                                                                    populate: [
+                                                                        {
+                                                                            path: 'author',
+                                                                        },
+                                                                        {
+                                                                            path: 'replies',
+                                                                        },
+                                                                    ],
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
                         },
                     ],
                 })
