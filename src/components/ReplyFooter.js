@@ -88,6 +88,7 @@ function ReplyFooter({
     setReplyUserName,
     userName,
     replyId,
+    hideReplyIcon,
 }) {
     let raw = ''
     let replyObject
@@ -392,9 +393,15 @@ function ReplyFooter({
                 </DownArrow>
             )}
 
-            {/* TODO - onClick has to implemented */}
-            <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
-            <ReplyClickText onClick={changeReplyBoxState}>Reply</ReplyClickText>
+            {hideReplyIcon ?
+                <>
+                </>
+                :
+                <>
+                    <ReplyIcon fontSize="large" onClick={changeReplyBoxState} />
+                    <ReplyClickText onClick={changeReplyBoxState}>Reply</ReplyClickText>
+                </>
+            }
             <CustomPopup
                 trigger={<OptionsMenu fontSize="large" />}
                 position="top center"

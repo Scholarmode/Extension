@@ -1,10 +1,13 @@
+/* global chrome */
 import styled from 'styled-components';
 import QuestionHeader from './QuestionHeader';
 import ReplyContent from './ReplyContent';
 import ReplyHeader from './ReplyHeader';
 import ReplyFooter from './ReplyFooter';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import moment from 'moment';
+
+const host = 'https://scholarmode.herokuapp.com';
 
 const CustomUnorderedList = styled.ul`
 	margin-left: 10px;
@@ -32,6 +35,32 @@ const Reply = (props) => {
 	const comment = { ...props.comment };
 
 	let userNameUrl = 'https://material-ui.com/static/images/avatar/1.jpg';
+	const [showReply, setShowReply] = useState(true);
+
+	var requestOptions = {
+		method: 'GET',
+		redirect: 'follow'
+	};
+
+	useEffect(() => {
+
+		chrome.storage.sync.get(['token'], async (result) => {
+			fetch(`${host}/replies/nested-level/${comment._id}?token=${result.token}`, requestOptions)
+				.then(response => response.text())
+				.then(resultH => {
+					console.log("Result Here: " + resultH)
+					if (parseInt(resultH) >= 5) {
+						setShowReply(false)
+					}
+					else {
+						setShowReply(true)
+					}
+				})
+				.catch(error => console.log('error', error));
+		})
+
+	}, [])
+
 	return (
 		<>
 			<div>
@@ -44,25 +73,43 @@ const Reply = (props) => {
 					/>
 					<ReplyThread>
 						<ReplyContent reply={comment.content} hasMargin={true} slateLang={comment.slateLang} />
-						<ReplyFooter
-							votes={comment.votes}
-							replyBoxOpen={props.replyBoxOpen}
-							setReplyBoxOpen={props.setReplyBoxOpen}
-							setReplyUserName={props.setReplyUserName}
-							userName={comment.author.given_name}
-							replyId={comment._id}
-							setReplyId={props.setReplyId}
-							reply={comment}
-						/>
+						{showReply ?
+							<ReplyFooter
+								votes={comment.votes}
+								replyBoxOpen={props.replyBoxOpen}
+								setReplyBoxOpen={props.setReplyBoxOpen}
+								setReplyUserName={props.setReplyUserName}
+								userName={comment.author.given_name}
+								replyId={comment._id}
+								setReplyId={props.setReplyId}
+								reply={comment}
+								hideReplyIcon={false}
+							/>
+							:
+							<ReplyFooter
+								votes={comment.votes}
+								replyBoxOpen={props.replyBoxOpen}
+								setReplyBoxOpen={props.setReplyBoxOpen}
+								setReplyUserName={props.setReplyUserName}
+								userName={comment.author.given_name}
+								replyId={comment._id}
+								setReplyId={props.setReplyId}
+								reply={comment}
+								hideReplyIcon={true}
+							/>
+						}
 						<CustomUnorderedList>
-							{comment.replies.map((child) => (
-								<Reply
-									comment={child}
-									replyBoxOpen={props.replyBoxOpen}
-									setReplyBoxOpen={props.setReplyBoxOpen}
-									setReplyUserName={props.setReplyUserName}
-									setReplyId={props.setReplyId}
-								/>
+							{comment.replies.map((child, index) => (
+								<>
+									{console.log("Index: " + index)}
+									<Reply
+										comment={child}
+										replyBoxOpen={props.replyBoxOpen}
+										setReplyBoxOpen={props.setReplyBoxOpen}
+										setReplyUserName={props.setReplyUserName}
+										setReplyId={props.setReplyId}
+									/>
+								</>
 							))}
 						</CustomUnorderedList>
 					</ReplyThread>
