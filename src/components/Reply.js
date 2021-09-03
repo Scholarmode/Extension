@@ -6,8 +6,8 @@ import ReplyHeader from './ReplyHeader';
 import ReplyFooter from './ReplyFooter';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { host } from './Discussion';
 
-const host = 'https://scholarmode.herokuapp.com';
 
 const CustomUnorderedList = styled.ul`
 	margin-left: 10px;
@@ -49,7 +49,7 @@ const Reply = (props) => {
 				.then(response => response.text())
 				.then(resultH => {
 					console.log("Result Here: " + resultH)
-					if (parseInt(resultH) >= 5) {
+					if (parseInt(resultH) >= 4) {
 						setShowReply(false)
 					}
 					else {
