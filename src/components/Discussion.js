@@ -210,3 +210,5 @@ const Discussion = () => {
 }
 
 export default Discussion
+
+export {host}
