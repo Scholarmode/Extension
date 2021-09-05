@@ -7,7 +7,7 @@ module.exports = async (expressApp) => {
     //testing DB
     // const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@realmcluster.fi10q.mongodb.net/ScholarMode?retryWrites=true&w=majority`
     
-    //production DB
+    // production DB
     const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@scholarmodeprod.oipeo.mongodb.net/ScholarMode?retryWrites=true&w=majority`
 
     mongoose.connect(
