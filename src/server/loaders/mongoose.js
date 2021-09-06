@@ -5,10 +5,10 @@ module.exports = async (expressApp) => {
     const atlasPwrd = process.env.ATLAS_PWRD
 
     //testing DB
-    // const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@realmcluster.fi10q.mongodb.net/ScholarMode?retryWrites=true&w=majority`
+    const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@realmcluster.fi10q.mongodb.net/ScholarMode?retryWrites=true&w=majority`
     
     // production DB
-    const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@scholarmodeprod.oipeo.mongodb.net/ScholarMode?retryWrites=true&w=majority`
+    // const uri = `mongodb+srv://${atlasUser}:${atlasPwrd}@scholarmodeprod.oipeo.mongodb.net/ScholarMode?retryWrites=true&w=majority`
 
     mongoose.connect(
         uri,

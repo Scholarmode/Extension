@@ -2,7 +2,6 @@ require('dotenv').config()
 const loaders = require('./loaders')
 const cookieSession = require('cookie-session')
 const express = require('express')
-const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 8080
 
@@ -15,7 +14,5 @@ app.use(
         keys: [process.env.S_COOKIE_KEY],
     })
 )
-
-app.use(cors())
 
 loaders(app)
