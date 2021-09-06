@@ -8,17 +8,7 @@ const replies = require('../routers/reply')
 const cors = require('cors')
 
 module.exports = async (expressApp) => {
-    // cors
-    await expressApp.use(cors())
-    expressApp.use(function (_, res, next) {
-        res.header('Access-Control-Allow-Origin', '*')
-        res.header(
-            'Access-Control-Allow-Headers',
-            'Origin, X-Requested-With, Content-Type, Accept'
-        )
-        next()
-    })
-
+    expressApp.use(cors())
     expressApp.use(express.json())
     expressApp.use(express.urlencoded({ extended: false }))
 
