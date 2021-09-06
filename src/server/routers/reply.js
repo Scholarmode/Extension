@@ -3,7 +3,7 @@ const Reply = require('../models/reply')
 const Question = require('../models/question')
 
 const countNestedReplies = (currentReply, count, callback) => {
-    if (!currentReply.parentReply || !currentReply) {
+    if (!currentReply || !currentReply.parentReply) {
         return callback(count)
     }
 
