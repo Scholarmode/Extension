@@ -8,10 +8,10 @@ const replies = require('../routers/reply')
 const cors = require('cors')
 
 module.exports = async (expressApp) => {
+    expressApp.use(cors({ origin: '*' }))
     expressApp.use(express.json())
     expressApp.use(express.urlencoded({ extended: false }))
-    expressApp.use(cors({ origin: '*' }))
-
+    
     //Configuring Endpoints
     // Account RESTFul endpoints
     /** Secures account routes to require a Google OAuth token. */
