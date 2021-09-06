@@ -5,10 +5,12 @@ const Account = require('../models/account')
 const accounts = require('../routers/account')
 const questions = require('../routers/question')
 const replies = require('../routers/reply')
+const cors = require('cors')
 
 module.exports = async (expressApp) => {
     expressApp.use(express.json())
     expressApp.use(express.urlencoded({ extended: false }))
+    expressApp.use(cors({ origin: '*' }))
 
     //Configuring Endpoints
     // Account RESTFul endpoints
@@ -129,7 +131,6 @@ module.exports = async (expressApp) => {
     expressApp.post('/replies', replies.createOne)
     expressApp.put('/replies/:id', replies.updateOne)
     expressApp.delete('/replies/:id', replies.deleteOne)
-    
 
     /** Secures user-specific reply routes to ensure users can only access/modify their own data.*/
     expressApp.use('/replies/:id/:accountId', (req, res, next) => {
