@@ -17,6 +17,7 @@ const QuietText = styled.p`
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    color: #313131;
 `;
 
 const MoreText = styled.p`
