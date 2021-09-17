@@ -1,6 +1,6 @@
 {
   "short_name": "ScholarMode",
-  "name": "ScholarMode",
+  "name": "ScholarMode Beta",
 
   "version":"0.1.0",
   "manifest_version": 3,
@@ -33,7 +33,7 @@
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqTMT8ZB/AbAwVZBPqUnnv0j6sD+ejWZFPW7F5vyx8O4N/CDse+7XS4DMQindh3Vginyahu43Zt9XjBQdDPwavefaVu6Oi6EU7x7bULDRRENiwHRuC94ZErxNy9ro72hqnrOZ08P4Lp2YZosD88RfavXvjdUSlIO7A+tEPob79P1Htf6DOn91znoKMYR7LbfByryt3nNyhIDKP38zDa4k8+evLtcFfTh5GgorS6aDjzGKWzzYy2XOe+IjkdKuGPu/YxhNhKESHbMVszqAsAREP4WvegeAVToNz7PAZ5gTBE3p2fpiaspqyR67EQ3J+F3uga6TwYQDoOLfu2ZPwBVu2QIDAQAB",
   "oauth2": {
-    "client_id": "708218095522-rho1gnbvtf57phbhjf8agsf44dt6tgm4.apps.googleusercontent.com",
+    "client_id": "708218095522-f9mdljrtrf267lbp8772j1a2812kc59d.apps.googleusercontent.com",
     "scopes":["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
   }
 }
