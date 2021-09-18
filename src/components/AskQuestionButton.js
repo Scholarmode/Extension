@@ -65,7 +65,6 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
                     <BugReportIcon style={{ fill:'#C4C4C4'}} fontSize='large'/>
                     Report a bug
                 </BugReportButton>
-                {/* <InviteComments /> */}
             </ButtonsDiv>
         </CustomDiv>
     )

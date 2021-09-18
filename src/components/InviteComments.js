@@ -1,8 +1,9 @@
 import {useState} from 'react'
 import styled from 'styled-components'
+import { ChevronLeft } from '@material-ui/icons'
+import { ChevronRight } from '@material-ui/icons'
 
-
-const MegaphoneButton = styled.div`
+const ParentDiv = styled.div`
     color: #2196F3;
     margin-bottom: auto;
     display: flex;
@@ -10,16 +11,23 @@ const MegaphoneButton = styled.div`
     font-size: 13px;
     cursor: pointer;
 `
+const ArrowDiv = styled.div`
+
+`
+const InviteTextDiv = styled.div`
+    padding-bottom: 5px;
+`
+
 
 export const InviteComments = () => {
 
     const [comment, setComment] = useState(0)
 
     const inviteLibrary = [
-        'Hey 1  ',
-        'Hey 2 ',
-        'Nigga 3',
-        'Checheck it out 4'
+        "Has anyone heard of ScholarMode? It's a chrome-extension that makes YouTube more education friendly. I’ve just posted a question and would love some help, so if you get a chance it’s here 😋 https://chrome.google.com/webstore/detail/scholarmode/heonechjlniccepejmajdmaokjocphoe?hl=en",
+        "Cool video, but I have a question. YouTube comments aren't the best for explaining myself though, I've asked something on ScholarMode 🧐 (if you're interested it's a chrome-extension found here https://chrome.google.com/webstore/detail/scholarmode/heonechjlniccepejmajdmaokjocphoe?hl=en) would be awesome to get an answer. Thanks again for the video",
+        "Hmmm, nice concept. I'd love to ask a few questions right here on YouTube but comments kinda suck tbh. Anyone know about ScholarMode? It's like reddit but on YouTube 👾 https://chrome.google.com/webstore/detail/scholarmode/heonechjlniccepejmajdmaokjocphoe?hl=en",
+        "Just found this extension for better discussions on YouTube. Check it out 🎓 https://chrome.google.com/webstore/detail/scholarmode/heonechjlniccepejmajdmaokjocphoe?hl=en"
     ]
     
     
@@ -31,27 +39,62 @@ export const InviteComments = () => {
     }
     
     const handleInviteComments = () => {
-        if(window.localStorage.getItem('libraryIndex')){ 
-            setComment(window.localStorage.getItem('libraryIndex'))
+        if(window.localStorage.getItem('inviteLibraryIndex')){ 
+            setComment(window.localStorage.getItem('inviteLibraryIndex'))
         } 
 
-        if(comment<inviteLibrary.length-1){
+        if(comment < inviteLibrary.length-1){
             postInComments(inviteLibrary[comment])
             setComment(comment+1)
-            window.localStorage.setItem('libraryIndex', {comment})
+            window.localStorage.setItem('inviteLibraryIndex', {comment})
         }else{
             postInComments(inviteLibrary[comment])
             setComment(0)
-            window.localStorage.setItem('libraryIndex', {comment})
+            window.localStorage.setItem('inviteLibraryIndex', {comment})
         }
     }
 
-    return (
-        <div>
-            <MegaphoneButton onClick={() => handleInviteComments()}>
-                {/* <CampaignIcon style={{ fill:'#C4C4C4'}} fontSize='large'/> */}
-                Invite Comments
-            </MegaphoneButton>
-        </div>
+    // const nextInvite = () => {
+    //     if(window.localStorage.getItem('inviteLibraryIndex')){ 
+    //         setComment(window.localStorage.getItem('inviteLibraryIndex'))
+    //     } 
+
+    //     if(comment < inviteLibrary.length-1){
+    //         setComment(comment+1)
+    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
+    //         postInComments(inviteLibrary[comment])
+    //     }else{
+    //         setComment(0)
+    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
+    //         postInComments(inviteLibrary[comment])
+    //     }
+    // }
+
+    // const prevInvite = () => {
+    //     if(window.localStorage.getItem('inviteLibraryIndex')){ 
+    //         setComment(window.localStorage.getItem('inviteLibraryIndex'))
+    //     } 
+
+    //     if(comment === 0){
+    //         setComment(inviteLibrary.length-1)
+    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
+    //         postInComments(inviteLibrary[comment])
+    //     }else{
+    //         setComment(comment-1)
+    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
+    //         postInComments(inviteLibrary[comment])
+    //     }
+    // }
+
+    return (        
+        <ParentDiv>
+            <InviteTextDiv onClick={() => handleInviteComments()}>
+                Invite to ScholarMode 🎓
+            </InviteTextDiv>
+            {/* <ArrowDiv>
+                <ChevronLeft style={{ fill:'#C4C4C4'}} fontSize='large' onClick={()=>prevInvite()}/>
+                <ChevronRight style={{ fill:'#C4C4C4'}} fontSize='large' onClick={()=>nextInvite()}/>
+            </ArrowDiv> */}
+        </ParentDiv>
     )
 }

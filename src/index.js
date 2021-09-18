@@ -127,11 +127,11 @@ const showInviteComments = () => {
     try{
         if(window.location.pathname === '/watch'){
             const CommentsHeader = document.querySelector('#title.ytd-comments-header-renderer');
-            console.log('triggered');
             if(CommentsHeader){
-                const CommentsDiv = document.createElement('div')
-                CommentsDiv.id = 'CommentsDiv'
-                CommentsHeader.appendChild(CommentsDiv)
+                const CommentsDiv = document.createElement('div');
+                CommentsDiv.id = 'CommentsDiv';
+                CommentsDiv.style.marginLeft = 'auto';
+                CommentsHeader.appendChild(CommentsDiv);
 
                 const renderInvite = ReactDOM.render(
                     <React.StrictMode>
@@ -139,7 +139,6 @@ const showInviteComments = () => {
                     </React.StrictMode>,
                     document.getElementById('CommentsDiv')
                     )
-                console.log('rendered invite')
                 document.removeEventListener('scroll', scrollEventListener)
                 document.removeEventListener('scroll', showInviteComments)
             }
