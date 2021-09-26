@@ -6,6 +6,31 @@ import ScholarModeButton from './components/ScholarModeButton'
 import Discussion from './components/Discussion'
 import { InviteComments } from './components/InviteComments'
 
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDyxVxuiH66KarODGB7QISaS_ys32eUHHM",
+  authDomain: "engaged-lamp-319600.firebaseapp.com",
+  projectId: "engaged-lamp-319600",
+  storageBucket: "engaged-lamp-319600.appspot.com",
+  messagingSenderId: "708218095522",
+  appId: "1:708218095522:web:a78b0114854234d1b654fb",
+  measurementId: "G-Y92DHHRVEZ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+
+
 const renderScholarmode = async() => {
     try{
         if(!document.getElementById('center')){
