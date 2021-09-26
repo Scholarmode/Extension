@@ -55,47 +55,11 @@ export const InviteComments = () => {
         }
     }
 
-    // const nextInvite = () => {
-    //     if(window.localStorage.getItem('inviteLibraryIndex')){ 
-    //         setComment(window.localStorage.getItem('inviteLibraryIndex'))
-    //     } 
-
-    //     if(comment < inviteLibrary.length-1){
-    //         setComment(comment+1)
-    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
-    //         postInComments(inviteLibrary[comment])
-    //     }else{
-    //         setComment(0)
-    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
-    //         postInComments(inviteLibrary[comment])
-    //     }
-    // }
-
-    // const prevInvite = () => {
-    //     if(window.localStorage.getItem('inviteLibraryIndex')){ 
-    //         setComment(window.localStorage.getItem('inviteLibraryIndex'))
-    //     } 
-
-    //     if(comment === 0){
-    //         setComment(inviteLibrary.length-1)
-    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
-    //         postInComments(inviteLibrary[comment])
-    //     }else{
-    //         setComment(comment-1)
-    //         window.localStorage.setItem('inviteLibraryIndex', {comment})
-    //         postInComments(inviteLibrary[comment])
-    //     }
-    // }
-
     return (        
         <ParentDiv>
             <InviteTextDiv onClick={() => handleInviteComments()}>
                 Invite to ScholarMode 🎓
             </InviteTextDiv>
-            {/* <ArrowDiv>
-                <ChevronLeft style={{ fill:'#C4C4C4'}} fontSize='large' onClick={()=>prevInvite()}/>
-                <ChevronRight style={{ fill:'#C4C4C4'}} fontSize='large' onClick={()=>nextInvite()}/>
-            </ArrowDiv> */}
         </ParentDiv>
     )
 }
