@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import AddIcon from '@material-ui/icons/Add';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import { InviteComments } from './InviteComments';
+import { Mixpanel } from './Mixpanel';
+
 
 const AskButton = styled.button`
     border-radius: 4px;
@@ -43,6 +45,7 @@ const ButtonsDiv = styled.div`
 //    }
 
 const openBugReportURL = () => {
+    Mixpanel.track('Bug-report clicked')
     window.location.href = 'https://www.scholarmode.com/#bug-report'
 }
 
@@ -52,6 +55,9 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
 
     const setAskButtonState = () => {
         setAskButtonOpen(!askButtonOpen)
+        Mixpanel.track('askButton clicked', {
+            "askButtonOpened" : !askButtonOpen,
+        })
     }
 
     return (
