@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { ReactComponent as WhiteHat } from '../assets/scholarHatWhite.svg'
 import React from 'react'
+import { Mixpanel } from './Mixpanel'
 
 const activateBackground = keyframes`
     from{
@@ -96,6 +97,9 @@ export default function ScholarModeButton() {
     <ToggleContainer
       className="scholarmode"
       onClick={() => {
+        Mixpanel.track('ScholarMode toggled', {
+          "active" : !active,
+      })
         // active
         //   ? chrome.storage.sync.set({ active: false })
         //   : chrome.storage.sync.set({ active: true })
