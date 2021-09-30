@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import ScholarModeButton from './components/ScholarModeButton'
 import Discussion from './components/Discussion'
+import { InviteComments } from './components/InviteComments'
 
 const renderScholarmode = async() => {
     try{
@@ -122,6 +123,33 @@ if(window.location.pathname === '/'){
 }
 
 
+const showInviteComments = () => {
+    try{
+        if(window.location.pathname === '/watch'){
+            const CommentsHeader = document.querySelector('#title.ytd-comments-header-renderer');
+            if(CommentsHeader){
+                const CommentsDiv = document.createElement('div');
+                CommentsDiv.id = 'CommentsDiv';
+                CommentsDiv.style.marginLeft = 'auto';
+                CommentsHeader.appendChild(CommentsDiv);
+
+                const renderInvite = ReactDOM.render(
+                    <React.StrictMode>
+                        <InviteComments />
+                    </React.StrictMode>,
+                    document.getElementById('CommentsDiv')
+                    )
+                document.removeEventListener('scroll', scrollEventListener)
+                document.removeEventListener('scroll', showInviteComments)
+            }
+        }
+    } 
+    catch(err){
+        console.log(err)
+    }
+} 
+
+
 const renderApp = async() =>{
     await renderScholarmode()
     showDiscussion()
@@ -132,3 +160,12 @@ if(document.body){
 }else{
     document.addEventListener('DOMContentLoaded', renderApp )
 }
+
+const scrollEventListener = () => {
+    document.addEventListener('scroll', showInviteComments())
+
+}
+
+document.addEventListener('scroll', scrollEventListener)
+document.addEventListener('yt-navigate-finish', scrollEventListener)
+
