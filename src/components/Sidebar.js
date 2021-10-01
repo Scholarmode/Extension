@@ -3,6 +3,7 @@ import ArrowDown from '@material-ui/icons/ArrowDropDown'
 import ArrowUp from '@material-ui/icons/ArrowDropUp'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { Mixpanel } from './Mixpanel'
 
 // const host = 'http://localhost:8080'
 const host = 'https://scholarmode.herokuapp.com'
@@ -21,8 +22,8 @@ export const Sidebar = ({ question }) => {
     // const {question} =  useContext(QuestionContext)
 
     const [totalVotes, setTotalVotes] = useState(question.votes)
-    const [clickable, setClickable] = useState(true)
-    const [downClickable, setDownClickable] = useState(true)
+    const [upvoted, setUpvoted] = useState(true)
+    const [downvoted, setDownvoted] = useState(true)
     let raw = ''
 
     let requestOptions = {
@@ -36,15 +37,19 @@ export const Sidebar = ({ question }) => {
         downvotedOrNot()
     }, [])
 
-    const updateVotes = () => {
-        if (clickable) {
-            if (downClickable) {
-                setClickable(false)
+    const updateUpvotes = () => {
+        Mixpanel.track('Upvote clicked', {
+            'unvote': !upvoted,
+        })
+        
+        if (upvoted) {
+            if (downvoted) {
+                setUpvoted(false)
                 setTotalVotes((v) => v + 1)
                 upvotePutRequest()
             } else {
-                setDownClickable(true)
-                setClickable(false)
+                setDownvoted(true)
+                setUpvoted(false)
                 setTotalVotes((v) => v + 2)
                 upvotePutRequest()
             }
@@ -63,23 +68,27 @@ export const Sidebar = ({ question }) => {
                 )
                     .then((response) => response.text())
                     .then((result) => {
-                        setClickable(true)
-                        setDownClickable(true)
+                        setUpvoted(true)
+                        setDownvoted(true)
                     })
                     .catch((error) => console.log('error', error))
             })
         })
     }
 
-    const updateDownVotes = () => {
-        if (downClickable) {
-            if (clickable) {
-                setDownClickable(false)
+    const updateDownvotes = () => {
+        Mixpanel.track('Downvote clicked', {
+            'unvote': !downvoted,
+        })
+
+        if (downvoted) {
+            if (upvoted) {
+                setDownvoted(false)
                 setTotalVotes((v) => v - 1)
                 downvotePutRequest()
             } else {
-                setClickable(true)
-                setDownClickable(false)
+                setUpvoted(true)
+                setDownvoted(false)
                 setTotalVotes((v) => v - 2)
                 downvotePutRequest()
             }
@@ -130,7 +139,7 @@ export const Sidebar = ({ question }) => {
             getProfileInfo(result.token).then((info) => {
                 question.upvoters.map((id) => {
                     if (id == info._id) {
-                        setClickable(false)
+                        setUpvoted(false)
                     }
                 })
             })
@@ -143,7 +152,7 @@ export const Sidebar = ({ question }) => {
             getProfileInfo(result.token).then((info) => {
                 question.downvoters.map((id) => {
                     if (id == info._id) {
-                        setDownClickable(false)
+                        setDownvoted(false)
                     }
                 })
             })
@@ -152,7 +161,7 @@ export const Sidebar = ({ question }) => {
 
     return (
         <SidebarBackground>
-            {clickable ? (
+            {upvoted ? (
                 <ArrowUp
                     style={{
                         marginBottom: -10,
@@ -161,7 +170,7 @@ export const Sidebar = ({ question }) => {
                         color: '#909090',
                         cursor: 'pointer',
                     }}
-                    onClick={updateVotes}
+                    onClick={updateUpvotes}
                 />
             ) : (
                 <ArrowUp
@@ -172,11 +181,11 @@ export const Sidebar = ({ question }) => {
                         color: '#3aa1f2',
                         cursor: 'pointer',
                     }}
-                    onClick={updateVotes}
+                    onClick={updateUpvotes}
                 />
             )}
             {totalVotes}
-            {downClickable ? (
+            {downvoted ? (
                 <ArrowDown
                     style={{
                         marginTop: -10,
@@ -185,7 +194,7 @@ export const Sidebar = ({ question }) => {
                         color: '#909090',
                         cursor: 'pointer',
                     }}
-                    onClick={updateDownVotes}
+                    onClick={updateDownvotes}
                 />
             ) : (
                 <ArrowDown
@@ -196,7 +205,7 @@ export const Sidebar = ({ question }) => {
                         color: 'red',
                         cursor: 'pointer',
                     }}
-                    onClick={updateDownVotes}
+                    onClick={updateDownvotes}
                 />
             )}
         </SidebarBackground>
