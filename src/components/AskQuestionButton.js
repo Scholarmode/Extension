@@ -56,7 +56,7 @@ function AskQuestionButton({ askButtonOpen, setAskButtonOpen }) {
     const setAskButtonState = () => {
         setAskButtonOpen(!askButtonOpen)
         Mixpanel.track('askButton clicked', {
-            "askButtonOpened" : !askButtonOpen,
+            "hide text editor" : askButtonOpen,
         })
     }
 
