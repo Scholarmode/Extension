@@ -17,6 +17,7 @@ import { QuestionContext } from './QuestionContext'
 import { useContext } from 'react'
 
 import PostRequestError from './PostRequestError.js'
+import { Mixpanel } from './Mixpanel.js'
 
 // const host = 'http://localhost:8080'
 const host = 'https://scholarmode.herokuapp.com'
@@ -114,7 +115,7 @@ const OptionsMenu = styled(MoreHorizIcon)`
 `
 
 function QuestionFooter({ totalReplies, questions, allQuestions }) {
-    const [isReplyOpen, setReplyOpen] = useState(false)
+    const [repliesVisible, setRepliesVisible] = useState(false)
 
     const [isReplyBoxOpen, setReplyBoxOpen] = useState(false)
 
@@ -125,11 +126,17 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
         redirect: 'follow',
     }
 
-    const onClickReply = () => {
-        setReplyOpen(!isReplyOpen)
+    const viewReplies = () => {
+    Mixpanel.track('View-replies clicked', {
+        'hide-replies': repliesVisible,
+    })
+        setRepliesVisible(!repliesVisible)
     }
 
     const onReplyBoxClick = () => {
+        Mixpanel.track('Reply-to-question clicked', {
+            'close text editor':isReplyBoxOpen,
+        })
         setReplyBoxOpen(!isReplyBoxOpen)
     }
 
@@ -139,6 +146,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
     }
 
     const reportQuestion = () => {
+        Mixpanel.track('Report-question clicked')
         //  /questions/:id/:accountId/report
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
@@ -176,16 +184,16 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
             <CustomDiv>
                 {newTotalReplies > 0 && (
                     <>
-                        {isReplyOpen ? (
-                            <ArrowUp fontSize="large" onClick={onClickReply} />
+                        {repliesVisible ? (
+                            <ArrowUp fontSize="large" onClick={viewReplies} />
                         ) : (
                             <ArrowDown
                                 fontSize="large"
-                                onClick={onClickReply}
+                                onClick={viewReplies}
                             />
                         )}
-                        <RepliesTextLink onClick={onClickReply}>
-                            {isReplyOpen ? (
+                        <RepliesTextLink onClick={viewReplies}>
+                            {repliesVisible ? (
                                 <> Hide {newTotalReplies} Replies </>
                             ) : (
                                 <> View {newTotalReplies} Replies </>
@@ -253,7 +261,7 @@ function QuestionFooter({ totalReplies, questions, allQuestions }) {
                     />
                 </>
             )}
-            {isReplyOpen && (
+            {repliesVisible && (
                 <Replies
                     replyBoxState={replyBoxState}
                     setReplyBoxState={setReplyBoxState}
