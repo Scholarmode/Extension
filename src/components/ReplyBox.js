@@ -79,6 +79,7 @@ const getTimestamp = () => {
     return formatTime(htmlVideoPlayer.currentTime)
 }
 
+
 const ReplyBox = ({
     increaseSize,
     setTotalReplies,
@@ -97,114 +98,120 @@ const ReplyBox = ({
     isReplyBoxOpenNew,
 }) => {
     const [textValue, setTextValue] = useState(initialValue)
-
+    
     const { setQuestions } = useContext(QuestionContext)
-
+    
     const insertObject = (array, index, arrayToInsert) => {
         Array.prototype.splice.apply(array, [index, 0].concat(arrayToInsert))
         return array
     }
-
+    
     const [codeLanguage, setCodeLanguage] = useState('html')
+    
+    const postToRepliesDB = (content) => {
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                const reqBody = {
+                    author: info._id,
+                    content: content,
+                    dateCreated: new Date(),
+                    flagged: false,
+                    replies: [],
+                    reports: [],
+                    timestamp: getTimestamp(),
+                    parentQuestion: allQuestion._id,
+                    parentReply: replyId != null ? replyId : null,
+                    votes: 0,
+                    slateLang: codeLanguage,
+                }
 
+                fetch(`${host}/replies?token=${result.token}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reqBody),
+                    redirect: 'follow',
+                })
+                    .then((response) => {
+                        Mixpanel.track('POST Reply triggered')
+                        response.text()
+                    })
+                    .then((result) => {
+                        if (JSON.parse(result).length == 1) {
+                            setTotalReplies(1)
+                        }
+                        setNestedComments(JSON.parse(result))
+                        if (replyBoxStateNew) {
+                            setReplyBoxStateNew(false)
+                        }
+                        if (isReplyBoxOpenNew) {
+                            setReplyBoxOpenNew(false)
+                        }
+                    })
+                    .catch((error) => {
+                        Mixpanel.track('POST Reply failed')
+                        console.log('error-reply', error)
+                        }
+                    )
+            })
+        })    
+    }
+
+    const postToQuestionsDB = (content) => {
+        chrome.storage.sync.get(['token'], async (result) => {
+            getProfileInfo(result.token).then((info) => {
+                const reqBody = {
+                    author: info._id,
+                    content: content,
+                    dateCreated: new Date(),
+                    flagged: false,
+                    replies: [],
+                    reports: [],
+                    timestamp: getTimestamp(),
+                    title: titleInput,
+                    video: linkifyYouTubeURLs(window.location.href),
+                    votes: 0,
+                    slateLang: codeLanguage,
+                }
+
+                fetch(`${host}/questions?token=${result.token}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reqBody),
+                    redirect: 'follow',
+                })
+                    .then(async (response) => {
+                        Mixpanel.track('POST Question triggered')
+                        let data = await response.json()
+                        if (response.status != 200) {
+                            console.log('Error', response.status)
+                        } else {
+                            let newObj = insertObject(allQuestions, 0, data)
+                            setQuestions(null)
+                            setQuestions(newObj)
+                            askButtonStateFunc(false)
+                            Mixpanel.track('POST Question success')
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('Error: ' + err)
+                        setPostReqError(true)
+                        Mixpanel.track('POST Question error')
+                    })
+            })
+        })
+    }
+    
     const submitValue = () => {
         const newValue = JSON.stringify(textValue)
-
+        
         if (postToReplies) {
-            // This will basically post the content to replies db
-            chrome.storage.sync.get(['token'], async (result) => {
-                getProfileInfo(result.token).then((info) => {
-                    const reqBody = {
-                        author: info._id,
-                        content: newValue,
-                        dateCreated: new Date(),
-                        flagged: false,
-                        replies: [],
-                        reports: [],
-                        timestamp: getTimestamp(),
-                        parentQuestion: allQuestion._id,
-                        parentReply: replyId != null ? replyId : null,
-                        votes: 0,
-                        slateLang: codeLanguage,
-                    }
-
-                    fetch(`${host}/replies?token=${result.token}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(reqBody),
-                        redirect: 'follow',
-                    })
-                        .then((response) => {
-                            Mixpanel.track('POST Reply triggered')
-                            response.text()
-                        })
-                        .then((result) => {
-                            if (JSON.parse(result).length == 1) {
-                                setTotalReplies(1)
-                            }
-                            setNestedComments(JSON.parse(result))
-                            if (replyBoxStateNew) {
-                                setReplyBoxStateNew(false)
-                            }
-                            if (isReplyBoxOpenNew) {
-                                setReplyBoxOpenNew(false)
-                            }
-                        })
-                        .catch((error) => {
-                            Mixpanel.track('POST Reply failed')
-                            console.log('error-reply', error)
-                            }
-                        )
-                })
-            })
+            postToRepliesDB(newValue)
         } else {
-            // This will basically post the content to questions db
-            chrome.storage.sync.get(['token'], async (result) => {
-                getProfileInfo(result.token).then((info) => {
-                    const reqBody = {
-                        author: info._id,
-                        content: newValue,
-                        dateCreated: new Date(),
-                        flagged: false,
-                        replies: [],
-                        reports: [],
-                        timestamp: getTimestamp(),
-                        title: titleInput,
-                        video: linkifyYouTubeURLs(window.location.href),
-                        votes: 0,
-                        slateLang: codeLanguage,
-                    }
-
-                    fetch(`${host}/questions?token=${result.token}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(reqBody),
-                        redirect: 'follow',
-                    })
-                        .then(async (response) => {
-                            Mixpanel.track('POST Question triggered')
-                            let data = await response.json()
-                            if (response.status != 200) {
-                                console.log('Error')
-                            } else {
-                                let newObj = insertObject(allQuestions, 0, data)
-                                setQuestions(null)
-                                setQuestions(newObj)
-                                askButtonStateFunc(false)
-                                Mixpanel.track('POST Question success')
-                            }
-                        })
-                        .catch((err) => {
-                            console.log('Error: ' + err)
-                            setPostReqError(true)
-                            Mixpanel.track('POST Question error')
-                        })
-                })
-            })
+            postToQuestionsDB(newValue)
         }
     }
 
