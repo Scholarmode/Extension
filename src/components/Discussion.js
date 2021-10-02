@@ -60,7 +60,6 @@ const Discussion = () => {
     useEffect(() => {
         chrome.storage.sync.get(['token'], (result) => {
             getProfileInfo(result.token).then((info) => {
-                console.log(info)
                 // Mixpanel.alias(info.email)
                 Mixpanel.identify(info.email)
                 Mixpanel.people.set({

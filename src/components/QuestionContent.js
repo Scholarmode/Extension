@@ -19,7 +19,6 @@ const QuestionContentText = styled.div`
 
 function QuestionContent({ question, slateLang }) {
 	let newQuestion = question
-	console.log("Changed: " + newQuestion)
 	return (
 		<CustomDiv>
 			<ReplyContent reply={newQuestion} hasMargin={false} slateLang={slateLang} />

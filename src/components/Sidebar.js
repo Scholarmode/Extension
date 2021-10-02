@@ -111,7 +111,6 @@ export const Sidebar = ({ question }) => {
                     requestOptions
                 )
                     .then((response) => response.text())
-                    .then((result) => console.log(result))
                     .catch((error) => console.log('error', error))
             })
         })
@@ -125,7 +124,6 @@ export const Sidebar = ({ question }) => {
                     requestOptions
                 )
                     .then((response) => response.text())
-                    .then((result) => console.log(result))
                     .catch((error) => console.log('error', error))
             })
         })
@@ -134,7 +132,6 @@ export const Sidebar = ({ question }) => {
     const upvotedOrNot = () => {
         // This function is responsible for checking if the user has already upvoted the reply or not,
         // If , yes then it would be rendered accordingly
-        console.log('Upvotes: ' + question.upvoters)
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 question.upvoters.map((id) => {
@@ -147,7 +144,6 @@ export const Sidebar = ({ question }) => {
     }
 
     const downvotedOrNot = () => {
-        console.log('Upvotes: ' + question.downvoters)
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 question.downvoters.map((id) => {

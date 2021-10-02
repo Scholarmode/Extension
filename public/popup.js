@@ -25,7 +25,6 @@ const getProfileInfo = (token) => {
 }
 
 const renderProfile = (info) => {
-    // console.log(info)
     // // Add total votes to header
     // let votesDiv = document.createElement('div')
     // votesDiv.id = 'votes'

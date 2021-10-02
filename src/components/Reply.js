@@ -25,16 +25,8 @@ const ReplyThread = styled.div`
 	margin-right: 10px;
 `;
 
-const TestDiv = styled.div`
-	background-color: red;
-	width: 100%;
-	height: 50px;
-`;
-
 const Reply = (props) => {
 	const comment = { ...props.comment };
-
-	let userNameUrl = 'https://material-ui.com/static/images/avatar/1.jpg';
 	const [showReply, setShowReply] = useState(true);
 
 	var requestOptions = {
@@ -48,7 +40,6 @@ const Reply = (props) => {
 			fetch(`${host}/replies/nested-level/${comment._id}?token=${result.token}`, requestOptions)
 				.then(response => response.text())
 				.then(resultH => {
-					console.log("Result Here: " + resultH)
 					if (parseInt(resultH) >= 4) {
 						setShowReply(false)
 					}
@@ -101,7 +92,6 @@ const Reply = (props) => {
 						<CustomUnorderedList>
 							{comment.replies.map((child, index) => (
 								<>
-									{console.log("Index: " + index)}
 									<Reply
 										comment={child}
 										replyBoxOpen={props.replyBoxOpen}
