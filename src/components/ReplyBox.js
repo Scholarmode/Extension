@@ -6,6 +6,7 @@ import { Node } from 'slate'
 import PostRequestError from './PostRequestError'
 import { QuestionContext } from './QuestionContext'
 import { useContext } from 'react'
+import { Mixpanel } from './Mixpanel'
 
 // const host = 'http://localhost:8080'
 const host = 'https://scholarmode.herokuapp.com'
@@ -58,7 +59,7 @@ const ButtonDiv = styled.div`
     margin-top: 10px;
 `
 
-const getProfileInfo = (token) => {
+export const getProfileInfo = (token) => {
     const url = `${host}/auth/chrome?access_token=${token}`
     return fetch(url).then((response) => response.json())
 }
@@ -106,7 +107,7 @@ const ReplyBox = ({
 
     const [codeLanguage, setCodeLanguage] = useState('html')
 
-    const storeValue = () => {
+    const submitValue = () => {
         const newValue = JSON.stringify(textValue)
 
         if (postToReplies) {
@@ -135,31 +136,30 @@ const ReplyBox = ({
                         body: JSON.stringify(reqBody),
                         redirect: 'follow',
                     })
-                        .then((response) => response.text())
+                        .then((response) => {
+                            Mixpanel.track('POST Reply triggered')
+                            response.text()
+                        })
                         .then((result) => {
-                            console.log(JSON.parse(result))
-                            console.log(
-                                'result length: ' + JSON.parse(result).length
-                            )
                             if (JSON.parse(result).length == 1) {
-                                console.log('Inside')
                                 setTotalReplies(1)
                             }
                             setNestedComments(JSON.parse(result))
                             if (replyBoxStateNew) {
-                                console.log('Here 1: ')
                                 setReplyBoxStateNew(false)
                             }
                             if (isReplyBoxOpenNew) {
-                                console.log('Here 2: ')
                                 setReplyBoxOpenNew(false)
                             }
                         })
-                        .catch((error) => console.log('error-reply', error))
+                        .catch((error) => {
+                            Mixpanel.track('POST Reply failed')
+                            console.log('error-reply', error)
+                            }
+                        )
                 })
             })
         } else {
-            console.log('Here: ' + postToReplies)
             // This will basically post the content to questions db
             chrome.storage.sync.get(['token'], async (result) => {
                 getProfileInfo(result.token).then((info) => {
@@ -177,9 +177,6 @@ const ReplyBox = ({
                         slateLang: codeLanguage,
                     }
 
-                    // (async () => {
-                    //     const rawResponse =
-                    // })
                     fetch(`${host}/questions?token=${result.token}`, {
                         method: 'POST',
                         headers: {
@@ -189,40 +186,22 @@ const ReplyBox = ({
                         redirect: 'follow',
                     })
                         .then(async (response) => {
-                            // if (response.status !== 200) {
-                            //     setPostReqError(true)
-                            // }
-                            // else {
-                            //     console.log("Response: " + response);
-                            //     console.log("Questions: " + allQuestions)
-                            //     console.log("JSON: " + response.json());
-                            //     let jsonR = response.json()
-                            //     let whole = { ...allQuestions, reqBody }
-                            //     let newObj = Object.assign({}, allQuestions, reqBody)
-                            //     console.log("NewObj: " + JSON.stringify(reqBody))
-                            //     // setQuestions(newObj)
-                            // }
+                            Mixpanel.track('POST Question triggered')
                             let data = await response.json()
                             if (response.status != 200) {
                                 console.log('Error')
                             } else {
-                                console.log(JSON.stringify(data))
                                 let newObj = insertObject(allQuestions, 0, data)
-                                console.log(
-                                    'New Obj: ' + JSON.stringify(newObj)
-                                )
                                 setQuestions(null)
                                 setQuestions(newObj)
                                 askButtonStateFunc(false)
-                                // console.log("Length of all questions: " + allQuestions.length())
+                                Mixpanel.track('POST Question success')
                             }
-                        })
-                        .then((data) => {
-                            console.log('Responses m: ' + data)
                         })
                         .catch((err) => {
                             console.log('Error: ' + err)
                             setPostReqError(true)
+                            Mixpanel.track('POST Question error')
                         })
                 })
             })
@@ -261,7 +240,7 @@ const ReplyBox = ({
                         setCodeLanguage={setCodeLanguage}
                     />
                     <ButtonDiv>
-                        <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                        <SubmitButton onClick={submitValue}>Submit</SubmitButton>
                         <CancelButton onClick={closeBox}>Cancel</CancelButton>
                     </ButtonDiv>
                 </CustomDiv>
@@ -273,7 +252,7 @@ const ReplyBox = ({
                         setCodeLanguage={setCodeLanguage}
                     />
                     <ButtonDiv>
-                        <SubmitButton onClick={storeValue}>Submit</SubmitButton>
+                        <SubmitButton onClick={submitValue}>Submit</SubmitButton>
                         <CancelButton onClick={closeBox}>Cancel</CancelButton>
                     </ButtonDiv>
                 </SmallDiv>
@@ -282,40 +261,6 @@ const ReplyBox = ({
     )
 }
 
-// const initialValue = [
-//     {
-//         type: 'paragraph',
-//         children: [
-//             { text: 'This is editable ' },
-//             { text: 'rich', bold: true },
-//             { text: ' text, ' },
-//             { text: 'much', italic: true },
-//             { text: ' better than a ' },
-//             { text: '<textarea>', code: true },
-//             { text: '!' },
-//         ],
-//     },
-//     {
-//         type: 'paragraph',
-//         children: [
-//             {
-//                 text: "Since it's rich text, you can do things like turn a selection of text ",
-//             },
-//             { text: 'bold', bold: true },
-//             {
-//                 text: ', or add a semantically rendered block quote in the middle of the page, like this:',
-//             },
-//         ],
-//     },
-//     {
-//         type: 'block-quote',
-//         children: [{ text: 'A wise quote.' }],
-//     },
-//     {
-//         type: 'paragraph',
-//         children: [{ text: 'Try it out for yourself!' }],
-//     },
-// ];
 
 const initialValue = [
     {
