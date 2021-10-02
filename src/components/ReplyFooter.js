@@ -9,6 +9,7 @@ import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import FlagIcon from '@material-ui/icons/Flag'
 import '../styles/reply-footer.css'
+import { Mixpanel } from "./Mixpanel";
 
 // const host = 'http://localhost:8080'
 const host = 'https://scholarmode.herokuapp.com'
@@ -107,8 +108,8 @@ function ReplyFooter({
     }
 
     const [totalVotes, setTotalVotes] = useState(votes)
-    const [clickable, setClickable] = useState(true)
-    const [downClickable, setDownClickable] = useState(true)
+    const [upvoted, setUpvoted] = useState(true)
+    const [downvoted, setDownvoted] = useState(true)
 
     const getProfileInfo = (token) => {
         const url = `${host}/auth/chrome?access_token=${token}`
@@ -150,34 +151,24 @@ function ReplyFooter({
         })
     }
 
-    // const authorId = () => {
-    //     chrome.storage.sync.get(['token'], async (result) => {
-    //         getProfileInfo(result.token).then((info) => {
-    //             console.log("Token: " + result.token)
-    //             console.log("Info: " + info);
-    //             return info._id;
-    //         })
-    //     })
-    // }
-
-    const updateVotes = () => {
-        if (clickable) {
-            if (downClickable) {
-                console.log('downClickable: ' + downClickable)
-                setClickable(false)
+    const updateUpvotes = () => {
+        Mixpanel.track('Upvote clicked', {
+            'unvote': !upvoted,
+        })
+        
+        if (upvoted) {
+            if (downvoted) {
+                setUpvoted(false)
                 setTotalVotes((v) => v + 1)
                 upvotePutRequest()
             } else {
-                console.log('downClickable: ' + downClickable)
-                setDownClickable(true)
-                setClickable(false)
+                setDownvoted(true)
+                setUpvoted(false)
                 setTotalVotes((v) => v + 2)
                 upvotePutRequest()
             }
         } else {
-            // Upvoted -> Unvote
             removeVotes()
-            upStatus = true
             setTotalVotes((v) => v - 1)
         }
     }
@@ -191,8 +182,8 @@ function ReplyFooter({
                 )
                     .then((response) => response.text())
                     .then((result) => {
-                        setClickable(true)
-                        setDownClickable(true)
+                        setUpvoted(true)
+                        setDownvoted(true)
                     })
                     .catch((error) => console.log('error', error))
             })
@@ -211,7 +202,7 @@ function ReplyFooter({
                     getProfileInfo(result.token).then((info) => {
                         JSON.parse(resultReply).upvoters.map((id) => {
                             if (id == info._id) {
-                                setClickable(false) // Upvote - Blue
+                                setUpvoted(false) // Upvote - Blue
                             }
                         })
                     })
@@ -219,28 +210,6 @@ function ReplyFooter({
                 .catch((error) => console.log('error', error))
         })
     }
-
-    // const upvotedOrNot = () => {
-    //     // This function is responsible for checking if the user has already upvoted the reply or not,
-    //     // If , yes then it would be rendered accordingly
-    //     console.log("Upvotes: " + reply.upvoters)
-    //     chrome.storage.sync.get(['token'], async (result) => {
-    //         getProfileInfo(result.token).then((info) => {
-    //             if (upStatus) {
-    //                 let index = reply.upvoters.indexOf(info._id)
-    //                 if (index > -1) {
-    //                     reply.upvoters.splice(info._id, 1)
-    //                 }
-    //             }
-    //             console.log("Upvotes New: " + reply.upvoters)
-    //             reply.upvoters.map((id) => {
-    //                 if (id == info._id) {
-    //                     setClickable(false)
-    //                 }
-    //             })
-    //         })
-    //     })
-    // }
 
     const downvotedOrNot = () => {
         chrome.storage.sync.get(['token'], (result) => {
@@ -258,9 +227,9 @@ function ReplyFooter({
                             JSON.parse(resultReply).downvoters.map((id) => {
                                 if (id == info._id) {
                                     if (downStatus == true) {
-                                        setDownClickable(true)
+                                        setDownvoted(true)
                                     } else {
-                                        setDownClickable(false)
+                                        setDownvoted(false)
                                     } // This means vote icon has been clicked by the user
                                 }
                             })
@@ -269,25 +238,8 @@ function ReplyFooter({
                 })
                 .catch((error) => console.log('error', error))
         })
-        // console.log("Upvotes: " + reply.downvoters)
-        // chrome.storage.sync.get(['token'], async (result) => {
-        //     getProfileInfo(result.token).then((info) => {
-        //         reply.downvoters.map((id) => {
-        //             if (id == info._id) {
-        //                 setDownClickable(false)
-        //             }
-        //         })
-        //     })
-        // })
     }
 
-    // const authorId = () => {
-    //     chrome.storage.sync.get(['token'], async (result) => {
-    //         getProfileInfo(result.token).then((info) => info.text()).then((result) => {
-    //             realUserId = result
-    //         })
-    //     })
-    // }
 
     const upvotePutRequest = () => {
         chrome.storage.sync.get(['token'], async (result) => {
@@ -317,78 +269,71 @@ function ReplyFooter({
         })
     }
 
-    const updateDownVotes = () => {
-        // 1 -> 2
-        console.log('Down: ' + downClickable)
-        if (downClickable) {
-            if (clickable) {
-                setDownClickable(false)
+    const updateDownvotes = () => {
+        Mixpanel.track('Downvote clicked', {
+            'unvote': !downvoted,
+        })
+
+        if (downvoted) {
+            if (upvoted) {
+                setDownvoted(false)
                 setTotalVotes((v) => v - 1)
                 downvotePutRequest()
             } else {
-                setClickable(true)
-                setDownClickable(false)
+                setUpvoted(true)
+                setDownvoted(false)
                 setTotalVotes((v) => v - 2)
                 downvotePutRequest()
             }
         } else {
             removeVotes()
-            downStatus = true
             setTotalVotes((v) => v + 1)
         }
     }
-
     const changeReplyBoxState = () => {
+        Mixpanel.track('Reply-to-reply clicked')
         setReplyBoxOpen(!replyBoxOpen)
         setReplyUserName(userName)
-        // Set ReplyId here too manage nested replies
+        // Set ReplyId here to manage nested replies
 
         if (replyId != '') {
-            console.log('ReplyId: ' + replyId)
             setReplyId(replyId)
         }
     }
 
-    // nothing is votes
-    // downvote,- color , clickable
-    // clickable - false, color
 
-    // upvotedOrNot()
-    // authorId()
-    // console.log("AuthorId: " + realUserId)
     return (
         <CustomDiv>
-            {/* <Arrow onClick={setTotalVotes((prevVotes) => prevVotes + 1)} /> */}
-            {clickable ? (
+            {upvoted ? (
                 <UpArrowNew>
                     <ForwardIcon
                         style={{ width: 25, height: 25, color: '#909090' }}
-                        onClick={updateVotes}
+                        onClick={updateUpvotes}
                     />
                 </UpArrowNew>
             ) : (
                 <UpArrowNew>
                     <ForwardIcon
                         style={{ width: 25, height: 25, color: '#3aa1f2' }}
-                        onClick={updateVotes}
+                        onClick={updateUpvotes}
                     />
                 </UpArrowNew>
             )}
             {/* Total votes for this reply */}
             <CustomVotesText>{totalVotes}</CustomVotesText>
 
-            {downClickable ? (
+            {downvoted ? (
                 <DownArrow>
                     <ForwardIcon
                         style={{ width: 25, height: 25, color: '#909090' }}
-                        onClick={updateDownVotes}
+                        onClick={updateDownvotes}
                     />
                 </DownArrow>
             ) : (
                 <DownArrow>
                     <ForwardIcon
                         style={{ width: 25, height: 25, color: 'red' }}
-                        onClick={updateDownVotes}
+                        onClick={updateDownvotes}
                     />
                 </DownArrow>
             )}
