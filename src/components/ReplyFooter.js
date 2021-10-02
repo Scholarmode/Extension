@@ -117,7 +117,7 @@ function ReplyFooter({
     }
 
     const reportReplies = () => {
-        //  /questions/:id/:accountId/report
+        Mixpanel.track('Report-reply clicked')
         chrome.storage.sync.get(['token'], async (result) => {
             getProfileInfo(result.token).then((info) => {
                 fetch(
@@ -198,7 +198,6 @@ function ReplyFooter({
             )
                 .then((response) => response.text())
                 .then((resultReply) => {
-                    console.log('Upvotes: ' + JSON.parse(resultReply).upvoters)
                     getProfileInfo(result.token).then((info) => {
                         JSON.parse(resultReply).upvoters.map((id) => {
                             if (id == info._id) {
@@ -219,9 +218,6 @@ function ReplyFooter({
             )
                 .then((response) => response.text())
                 .then((resultReply) => {
-                    console.log(
-                        'Downvotes: ' + JSON.parse(resultReply).downvoters
-                    )
                     chrome.storage.sync.get(['token'], async (result) => {
                         getProfileInfo(result.token).then((info) => {
                             JSON.parse(resultReply).downvoters.map((id) => {
@@ -249,7 +245,6 @@ function ReplyFooter({
                     requestOptions
                 )
                     .then((response) => response.text())
-                    .then((result) => console.log(result))
                     .catch((error) => console.log('error', error))
             })
         })
@@ -263,7 +258,6 @@ function ReplyFooter({
                     requestOptions
                 )
                     .then((response) => response.text())
-                    .then((result) => console.log(result))
                     .catch((error) => console.log('error', error))
             })
         })
