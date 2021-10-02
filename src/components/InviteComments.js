@@ -2,6 +2,7 @@ import {useState} from 'react'
 import styled from 'styled-components'
 import { ChevronLeft } from '@material-ui/icons'
 import { ChevronRight } from '@material-ui/icons'
+import { Mixpanel } from './Mixpanel'
 
 const ParentDiv = styled.div`
     color: #2196F3;
@@ -40,6 +41,9 @@ export const InviteComments = () => {
     }
     
     const handleInviteComments = () => {
+        Mixpanel.track('Invite Comment clicked', {
+            "Comment index": comment,
+        })
         if(window.localStorage.getItem('inviteLibraryIndex')){ 
             setComment(window.localStorage.getItem('inviteLibraryIndex'))
         } 
