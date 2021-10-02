@@ -10,6 +10,7 @@ import TitleInput from './TitleInput'
 import { CircularProgress } from '@material-ui/core'
 import EmptyScreen from './EmptyScreen'
 import { Mixpanel } from './Mixpanel';
+import { getProfileInfo } from "./ReplyBox";
 
 Mixpanel.track('Discussion rendered');
 
@@ -58,6 +59,19 @@ const Discussion = () => {
     )
     useEffect(() => {
         chrome.storage.sync.get(['token'], (result) => {
+            getProfileInfo(result.token).then((info) => {
+                console.log(info)
+                // Mixpanel.alias(info.email)
+                Mixpanel.identify(info.email)
+                Mixpanel.people.set({
+                    "$email":info.email,
+                    "$name":info.name,
+                    "$avatar":info.picture,
+                    "OAuth_id":info._id,
+                    "Google_id":info.googleId,
+                    "locale":info.locale,
+                })
+            })
             fetch(url + `?token=${result.token}`)
                 .then(function (response) {
                     if (response.status !== 200) {
@@ -70,8 +84,6 @@ const Discussion = () => {
 
                     // Examine the text in the response
                     response.json().then(function (data) {
-                        console.log('Response: ' + data)
-                        console.log(data)
                         setIsLoaded(true)
                         setQuestions(data)
                     })
