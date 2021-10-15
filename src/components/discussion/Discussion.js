@@ -9,7 +9,7 @@ import ReplyBox from './ReplyBox'
 import TitleInput from './TitleInput'
 import { CircularProgress } from '@material-ui/core'
 import EmptyScreen from './EmptyScreen'
-import { Mixpanel } from './Mixpanel';
+import { Mixpanel } from '../Mixpanel';
 import { getProfileInfo } from "./ReplyBox";
 
 Mixpanel.track('Discussion rendered');

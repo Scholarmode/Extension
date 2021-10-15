@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as EmptyLogo } from '../assets/emptyQuestionIcon.svg'
+import { ReactComponent as EmptyLogo } from '../../assets/emptyQuestionIcon.svg'
 
 const CustomDiv = styled.div`
 display: flex;

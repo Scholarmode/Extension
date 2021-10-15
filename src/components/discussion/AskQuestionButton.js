@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import AddIcon from '@material-ui/icons/Add';
 import BugReportIcon from '@material-ui/icons/BugReport';
-import { InviteComments } from './InviteComments';
-import { Mixpanel } from './Mixpanel';
+import { InviteComments } from '../InviteComments';
+import { Mixpanel } from '../Mixpanel';
 
 
 const AskButton = styled.button`

@@ -3,7 +3,7 @@ import ArrowDown from '@material-ui/icons/ArrowDropDown'
 import ArrowUp from '@material-ui/icons/ArrowDropUp'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Mixpanel } from './Mixpanel'
+import { Mixpanel } from '../Mixpanel'
 
 // const host = 'http://localhost:8080'
 const host = 'https://scholarmode.herokuapp.com'

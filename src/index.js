@@ -3,9 +3,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import ScholarModeButton from './components/ScholarModeButton'
-import Discussion from './components/Discussion'
+import Discussion from './components/discussion/Discussion'
 import { InviteComments } from './components/InviteComments'
 import { Mixpanel } from './components/Mixpanel'
+import { Viewport } from './components/Viewport'
 
 
 
@@ -66,7 +67,7 @@ const renderDiscussion = async() => {
     // render discussion into hidden div
     ReactDOM.render(
         <React.StrictMode>
-            <Discussion />
+            <Viewport />
         </React.StrictMode>,
         document.getElementById('prevideos')
     )

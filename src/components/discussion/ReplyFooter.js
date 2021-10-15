@@ -8,8 +8,8 @@ import React from 'react'
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 import FlagIcon from '@material-ui/icons/Flag'
-import '../styles/reply-footer.css'
-import { Mixpanel } from "./Mixpanel";
+import '../../styles/reply-footer.css'
+import { Mixpanel } from "../Mixpanel";
 
 // const host = 'http://localhost:8080'
 const host = 'https://scholarmode.herokuapp.com'
