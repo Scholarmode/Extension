@@ -49,6 +49,20 @@ const Discussion = () => {
                 `${host}/questions/video/${linkifyYouTubeURLs(window.location.href)}`
             )
             Mixpanel.track('Discussion refresh')
+            chrome.storage.sync.get(['token'], (result) => {
+                getProfileInfo(result.token).then((info) => {
+                    Mixpanel.alias(info.name)
+                    Mixpanel.identify(info.name)
+                    Mixpanel.people.set({
+                        "$email":info.email,
+                        "$name":info.name,
+                        "$avatar":info.picture,
+                        "OAuth_id":info._id,
+                        "Google_id":info.googleId,
+                        "locale":info.locale,
+                    })
+                }) 
+            })
         }   
     }
 
@@ -59,18 +73,7 @@ const Discussion = () => {
     )
     useEffect(() => {
         chrome.storage.sync.get(['token'], (result) => {
-            getProfileInfo(result.token).then((info) => {
-                // Mixpanel.alias(info.email)
-                Mixpanel.identify(info.email)
-                Mixpanel.people.set({
-                    "$email":info.email,
-                    "$name":info.name,
-                    "$avatar":info.picture,
-                    "OAuth_id":info._id,
-                    "Google_id":info.googleId,
-                    "locale":info.locale,
-                })
-            })
+            getProfileInfo(result.token).then((info) => {})
             fetch(url + `?token=${result.token}`)
                 .then(function (response) {
                     if (response.status !== 200) {
