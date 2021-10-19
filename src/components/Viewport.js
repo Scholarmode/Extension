@@ -2,6 +2,7 @@ import React from 'react'
 import styled, {keyframes, css} from 'styled-components'
 import { useState } from 'react'
 import Discussion from './discussion/Discussion'
+import { Milestones } from './project/Milestones'
 
 const ViewportContainer = styled.div`
     width: auto;
@@ -53,6 +54,13 @@ const DiscussionContainer = styled.div`
     margin: 10px;
 `
 
+const ProjectContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3%;
+`
+
 
 
 
@@ -83,7 +91,13 @@ export const Viewport = () => {
                     </Tab>
                 </TabContainer>
 
-                {activeTab==="questions" 
+                {activeTab==="projects"
+                    ?
+                    <ProjectContainer>
+                        <Milestones />
+                    </ProjectContainer>
+                    : 
+                    activeTab==="questions" 
                     ? 
                     <DiscussionContainer>
                         <Discussion />

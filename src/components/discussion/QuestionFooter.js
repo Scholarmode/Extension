@@ -55,7 +55,7 @@ const RepliesTextLink = styled.div`
     }
 `
 
-const ArrowDown = styled(ArrowDropDownIcon)`
+export const ArrowDown = styled(ArrowDropDownIcon)`
     color: #2196f3;
     cursor: pointer;
 
@@ -84,7 +84,7 @@ const ZeroReplyIcon = styled(SmsIcon)`
     cursor: pointer;
 `
 
-const ArrowUp = styled(ArrowDropDownIcon)`
+export const ArrowUp = styled(ArrowDropDownIcon)`
     color: #2196f3;
     cursor: pointer;
     transform: rotate(180deg);
