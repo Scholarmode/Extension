@@ -91,13 +91,13 @@ export const Viewport = () => {
                     </Tab>
                 </TabContainer>
 
-                {activeTab==="projects"
+                {activeTab === "projects"
                     ?
                     <ProjectContainer>
                         <Milestones />
                     </ProjectContainer>
                     : 
-                    activeTab==="questions" 
+                activeTab === "questions" 
                     ? 
                     <DiscussionContainer>
                         <Discussion />

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ReactComponent as Milestone } from '../../assets/MileStoneSymbol14px.svg'
+import { ReactComponent as Milestone } from '../../assets/Milestone_Icon14px.svg'
 import {ArrowUp, ArrowDown} from '../discussion/QuestionFooter'
 
 
