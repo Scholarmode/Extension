@@ -159,15 +159,14 @@ export const Milestones = () => {
     )
 
     const [milestonesHidden, setMilestonesHidden] = useState(false)
-    const [newMilestone, setNewMilestone] = useState([])
 
     useEffect(() => {
-        
-    }, [])
+        // update database when milestones are added, deleted, renamed or reordered
+    }, [milestoneList])
 
     const addMilestone = (event) => {
         if(event.key === 'Enter' && event.target.value){
-            setNewMilestone([...newMilestone, {
+            setMilestoneList([...milestoneList, {
                 'title': event.target.value,
                 'completed':false,
                 "current_video":0,
@@ -191,15 +190,6 @@ export const Milestones = () => {
             </TitleContainer>
             <Spacer />
             {milestoneList.map(milestone => (
-                <>
-                    <CollapsibleMilestone 
-                        milestoneTitle={milestone.title}
-                        completed={milestone.completed}
-                        videosArray={milestone.videos} 
-                        currentVideo={milestone.current_video} /> 
-                </>
-            ))}
-            {newMilestone.map(milestone => (
                 <>
                     <CollapsibleMilestone 
                         milestoneTitle={milestone.title}

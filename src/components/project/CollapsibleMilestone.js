@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 import { ReactComponent as Milestone } from '../../assets/Milestone_Icon14px.svg'
 import { ReactComponent as CheckedMilestone } from '../../assets/Milestone_Icon14px_checked.svg'
 import { ReactComponent as Expand } from '../../assets/Expand_Icon.svg'
@@ -47,14 +47,35 @@ const Options = styled.div`
     padding-right: 10px;
 `
 
+const MilestoneDetails = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+    margin-top: 5px;
+`
 
 const VideoListDetails = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 25px;
-    margin-top: 5px;
     padding: 5px;
+`
+
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+`
+
+const ErrorMessage = styled.p`
+    color: var(--red);
+    animation: ${fadeOut} 1s ease-out forwards;
+    animation-delay: 3s;
 `
 
 const MilestoneProgress = styled.p`
@@ -74,40 +95,86 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
     const [collapsed, setCollapsed] = useState(true)
     const [hover, setHover] = useState(false)
     const [title, setTitle] = useState(milestoneTitle)
+
+    const [videos, setVideos] = useState(videosArray)
     // current = currentVideo = current_video in milestone
     const [current, setCurrent] = useState(currentVideo)
-    const [newVideos, setNewVideos] = useState([])
-
-
-    const addVideo = () => {
-        const title = 'Ben Awad'
-        const account_name = 'Benny boi'
-        const thumbnail = ''
-        const url = ''
-        const voted_tags = []
-
-        setNewVideos([...newVideos, {
-            'index':newVideos.length + 1,
-            'title':title,
-            'account_name':account_name,
-            'thumbnail':thumbnail,
-            'url':url,
-            'voted_tags':voted_tags
-        }])        
-    }
+    const [videoExists, setVideoExists] = useState(false)
 
 
     const ToggleCollapsedMilestone = () => {
         setCollapsed(!collapsed)
     }
-
-
     const ToggleCheckedMilestone = () => {
         setChecked(!checked)
     }
 
-    const addVideoToMilestone = () => {
+    // >> original post: https://stackoverflow.com/questions/18681788/how-to-get-a-youtube-thumbnail-from-a-youtube-iframe
+    // quality options: low, medium, high, max | default is max. 
+    const GetYoutubeThumbnail = (url, quality) => {
+        if(url){
+            let video_id, thumbnail, result;
+            if(result === url.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/)){
+                video_id = result.pop();
+            }
+            else if(result === url.match(/youtu.be\/(.{11})/))
+            {
+                video_id = result.pop();
+            }
+    
+            if(video_id){
+                if(typeof quality == "undefined"){
+                    quality = 'high';
+                }
+            
+                var quality_key = 'maxresdefault'; // Max quality
+                if(quality === 'low'){
+                    quality_key = 'sddefault';
+                }else if(quality === 'medium'){
+                    quality_key = 'mqdefault';
+                } else if (quality === 'high') {
+                    quality_key = 'hqdefault';
+                }
+    
+                thumbnail = "http://img.youtube.com/vi/"+video_id+"/"+quality_key+".jpg";
+                return thumbnail;
+            }
+        }
+        return null;
+    }
 
+    const addVideoToMilestone = () => {
+        const title = 'Ben Awad'
+        const account_name = 'Benny boi'
+        const url = window.location.toString()
+        const voted_tags = []
+        
+        // using a local variable because the
+        // videoExists state rendered the video twice
+        let newVideo = true
+        
+        for(let video of videos){
+            if(video.url === url){
+                newVideo = false
+                setVideoExists(true)
+            }
+        }
+        
+        const thumbnail = GetYoutubeThumbnail(url, "high")
+        if(newVideo){
+            setVideos([...videos, {
+                'index':videos.length + 1,
+                'title':title,
+                'account_name':account_name,
+                'thumbnail':thumbnail,
+                'url':url,
+                'voted_tags':voted_tags
+            }])  
+        }else{
+        console.log(thumbnail)
+        console.log(url)
+        console.log(videos);
+        }
     }
 
     return (
@@ -141,19 +208,26 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                 {collapsed 
                     ? null
                     : 
-                    <VideoListDetails>
-                        <AddVideo onClick={addVideo}/>
-                        <MilestoneProgress>
-                            {currentVideo > 0 
-                                ? currentVideo + '/' + videosArray.length
-                                : null
-                            }     
-                        </MilestoneProgress>
-                    </VideoListDetails>
+                    <MilestoneDetails>
+                        <VideoListDetails>
+                            <AddVideo onClick={addVideoToMilestone}/>
+                            <MilestoneProgress>
+                                {currentVideo > 0 
+                                    ? currentVideo + '/' + videos.length
+                                    : null
+                                }     
+                            </MilestoneProgress>
+                        </VideoListDetails>
+                        {videoExists
+                            ? 
+                            <ErrorMessage>This video is already listed</ErrorMessage>
+                            : null
+                        }
+                    </MilestoneDetails>
                 }
             </MilestoneContainer>
             <VideoContainer visible={!collapsed}>
-                {videosArray.map(video => (
+                {videos.map(video => (
                     <>
                         <VideoListItem 
                             videoTitle={video.title}
@@ -163,19 +237,6 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                             // videoUrl={video.url}
                             // thumbnail={video.thumbnail}
                             currentVideo={current}
-                            />
-                    </> 
-                ))}
-                {newVideos.map(video => (
-                    <>
-                        <VideoListItem 
-                            videoTitle={video.title}
-                            videoIndex={video.index}
-                            videoAccountName={video.account_name}
-                            videoTags={video.voted_tags}
-                            // videoUrl={video.url}
-                            // thumbnail={video.thumbnail}
-                            currentVideo={video.current}
                             />
                     </> 
                 ))}

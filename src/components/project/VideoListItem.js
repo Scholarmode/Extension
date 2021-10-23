@@ -33,11 +33,10 @@ const VideoDetails = styled.div`
     align-items: center;
 `
 
-const Thumbnail = styled.div`
+const Thumbnail = styled.img`
     width: 120px;
     height: 67px;
     background-color: var(--grey-3);
-
 `
 
 const VideoText = styled.div`
@@ -95,7 +94,7 @@ export const VideoListItem = ({videoTitle, videoIndex, videoAccountName, videoTa
                             : '' + index
                         }
                     </Index>
-                    <Thumbnail />
+                    <Thumbnail src={'https://img.youtube.com/vi/fhr3yxYf-P0/maxresdefault.jpg'} />
                     <VideoText>
                         <VideoTitle>
                             {title}
