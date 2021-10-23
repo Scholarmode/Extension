@@ -42,6 +42,7 @@ const Thumbnail = styled.div`
 
 const VideoText = styled.div`
     padding: 0px 10px;
+    max-width: 40%;
 `
 
 const VideoTitle = styled.h1`

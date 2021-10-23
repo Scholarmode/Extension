@@ -29,7 +29,6 @@ const TitleContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    max-width: 40%;
 `
 
 const Title = styled.h1`
@@ -75,8 +74,27 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
     const [collapsed, setCollapsed] = useState(true)
     const [hover, setHover] = useState(false)
     const [title, setTitle] = useState(milestoneTitle)
-    const [videos, setVideos] = useState(videosArray)
+    // current = currentVideo = current_video in milestone
     const [current, setCurrent] = useState(currentVideo)
+    const [newVideos, setNewVideos] = useState([])
+
+
+    const addVideo = () => {
+        const title = 'Ben Awad'
+        const account_name = 'Benny boi'
+        const thumbnail = ''
+        const url = ''
+        const voted_tags = []
+
+        setNewVideos([...newVideos, {
+            'index':newVideos.length + 1,
+            'title':title,
+            'account_name':account_name,
+            'thumbnail':thumbnail,
+            'url':url,
+            'voted_tags':voted_tags
+        }])        
+    }
 
 
     const ToggleCollapsedMilestone = () => {
@@ -88,6 +106,10 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
         setChecked(!checked)
     }
 
+    const addVideoToMilestone = () => {
+
+    }
+
     return (
         <div>
             <MilestoneContainer checked={checked}
@@ -96,9 +118,11 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                 <HeaderContainer>
                     <TitleContainer>
                         {checked 
-                            ? <CheckedMilestone onClick={ToggleCheckedMilestone} 
-                                style={{margin: 5}}/> 
-                            : <Milestone onClick={ToggleCheckedMilestone} 
+                            ? <CheckedMilestone 
+                                onClick={ToggleCheckedMilestone} 
+                                style={{margin: 5}} /> 
+                            : <Milestone 
+                                onClick={ToggleCheckedMilestone} 
                                 style={{margin: 5}} />}
                         <Title>{title}</Title>
                     </TitleContainer>
@@ -118,8 +142,13 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                     ? null
                     : 
                     <VideoListDetails>
-                        <AddVideo />
-                        <MilestoneProgress>{currentVideo+'/'+videosArray.length}</MilestoneProgress>
+                        <AddVideo onClick={addVideo}/>
+                        <MilestoneProgress>
+                            {currentVideo > 0 
+                                ? currentVideo + '/' + videosArray.length
+                                : null
+                            }     
+                        </MilestoneProgress>
                     </VideoListDetails>
                 }
             </MilestoneContainer>
@@ -134,6 +163,19 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                             // videoUrl={video.url}
                             // thumbnail={video.thumbnail}
                             currentVideo={current}
+                            />
+                    </> 
+                ))}
+                {newVideos.map(video => (
+                    <>
+                        <VideoListItem 
+                            videoTitle={video.title}
+                            videoIndex={video.index}
+                            videoAccountName={video.account_name}
+                            videoTags={video.voted_tags}
+                            // videoUrl={video.url}
+                            // thumbnail={video.thumbnail}
+                            currentVideo={video.current}
                             />
                     </> 
                 ))}
