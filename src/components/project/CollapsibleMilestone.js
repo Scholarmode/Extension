@@ -109,43 +109,38 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
         setChecked(!checked)
     }
 
-    // >> original post: https://stackoverflow.com/questions/18681788/how-to-get-a-youtube-thumbnail-from-a-youtube-iframe
-    // quality options: low, medium, high, max | default is max. 
-    const GetYoutubeThumbnail = (url, quality) => {
-        if(url){
-            let video_id, thumbnail, result;
-            if(result === url.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/)){
-                video_id = result.pop();
-            }
-            else if(result === url.match(/youtu.be\/(.{11})/))
-            {
-                video_id = result.pop();
-            }
-    
-            if(video_id){
-                if(typeof quality == "undefined"){
-                    quality = 'high';
-                }
-            
-                var quality_key = 'maxresdefault'; // Max quality
-                if(quality === 'low'){
-                    quality_key = 'sddefault';
-                }else if(quality === 'medium'){
-                    quality_key = 'mqdefault';
-                } else if (quality === 'high') {
-                    quality_key = 'hqdefault';
-                }
-    
-                thumbnail = "http://img.youtube.com/vi/"+video_id+"/"+quality_key+".jpg";
-                return thumbnail;
+
+    const getYoutubeThumbnail = (url) => {
+        if(url===null){return ''}
+        const segment = url.match('[\\?&]v=([^&#]*)');
+        let video_id  = (segment === null) ? url : segment[1];
+        const thumbnail = 'https://img.youtube.com/vi/' + video_id + '/maxresdefault.jpg';
+
+        return thumbnail
+    }
+
+    const getAccountName = () => {
+
+        let account_name = ''
+        // the account_name node is in a nodeList that constantly changes
+        // depending on how many video tags it has, we to find the first node 
+        // with a pathname = channel
+        for(let node of document.getElementsByClassName('yt-simple-endpoint style-scope yt-formatted-string')){
+            if(node.pathname.split('/')[1] === 'channel'){
+                account_name = node.textContent
+                break
             }
         }
-        return null;
+
+
+        if(account_name){
+            return account_name
+        }else{return ''}
     }
 
     const addVideoToMilestone = () => {
-        const title = 'Ben Awad'
-        const account_name = 'Benny boi'
+        const title = document.getElementsByClassName('style-scope ytd-video-primary-info-renderer')[6].textContent
+        const account_name = getAccountName()
         const url = window.location.toString()
         const voted_tags = []
         
@@ -160,7 +155,7 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
             }
         }
         
-        const thumbnail = GetYoutubeThumbnail(url, "high")
+        const thumbnail = getYoutubeThumbnail(url, "high")
         if(newVideo){
             setVideos([...videos, {
                 'index':videos.length + 1,
@@ -235,7 +230,7 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                             videoAccountName={video.account_name}
                             videoTags={video.voted_tags}
                             // videoUrl={video.url}
-                            // thumbnail={video.thumbnail}
+                            thumbnail={video.thumbnail}
                             currentVideo={current}
                             />
                     </> 

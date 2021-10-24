@@ -40,8 +40,8 @@ const Thumbnail = styled.img`
 `
 
 const VideoText = styled.div`
-    padding: 0px 10px;
-    max-width: 40%;
+    padding: 0px 0px 0px 10px;
+    max-width: 190px;
 `
 
 const VideoTitle = styled.h1`
@@ -94,7 +94,7 @@ export const VideoListItem = ({videoTitle, videoIndex, videoAccountName, videoTa
                             : '' + index
                         }
                     </Index>
-                    <Thumbnail src={'https://img.youtube.com/vi/fhr3yxYf-P0/maxresdefault.jpg'} />
+                    <Thumbnail src={thumbnail} />
                     <VideoText>
                         <VideoTitle>
                             {title}
