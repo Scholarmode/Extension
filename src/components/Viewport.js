@@ -3,6 +3,7 @@ import styled, {keyframes, css} from 'styled-components'
 import { useState } from 'react'
 import Discussion from './discussion/Discussion'
 import { Milestones } from './project/Milestones'
+import { EmptyProject } from './project/EmptyProject'
 
 const ViewportContainer = styled.div`
     width: auto;
@@ -66,6 +67,7 @@ const ProjectContainer = styled.div`
 
 export const Viewport = () => {
     const [activeTab, setActiveTab] = useState("projects")
+    const [projectExists, setProjectExists] = useState(false)
 
     return (
         <div>
@@ -92,10 +94,15 @@ export const Viewport = () => {
                 </TabContainer>
 
                 {activeTab === "projects"
-                    ?
-                    <ProjectContainer>
-                        <Milestones />
-                    </ProjectContainer>
+                    ? projectExists 
+                        ? 
+                        <ProjectContainer>
+                            <Milestones />
+                        </ProjectContainer>
+                        :
+                        <ProjectContainer>
+                            <EmptyProject />
+                        </ProjectContainer>
                     : 
                 activeTab === "questions" 
                     ? 

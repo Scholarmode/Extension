@@ -10,7 +10,7 @@
     "48":"./logo/logo48x48.png",
     "128":"./logo/logo128x128.png"
   },
-  "description":"YouTube. But designed for learning.",
+  "description":"YouTube redesigned for learning.",
   "permissions":[
     "storage",
     "identity",
