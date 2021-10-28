@@ -54,7 +54,7 @@ const CreateProjectButton = styled.button`
 `
 
 
-export const EmptyProject = () => {
+export const EmptyProject = ({ milestoneList, setMilestoneList, setProjectExists }) => {
     const [popup, setPopup] = useState(false)
     const [project, setProject] = useState('')
     const [goal, setGoal] = useState('')
@@ -96,7 +96,10 @@ export const EmptyProject = () => {
                 <ProjectMilestonesPopup
                     setPopup={setPopup} 
                     project={project} 
-                    goal={goal}/>
+                    goal={goal}
+                    milestoneList={milestoneList}
+                    setMilestoneList={setMilestoneList} 
+                    setProjectExists={setProjectExists}/>
 
             : null
             }

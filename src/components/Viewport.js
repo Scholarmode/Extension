@@ -66,6 +66,105 @@ const ProjectContainer = styled.div`
 
 
 export const Viewport = () => {
+    const [milestoneList, setMilestoneList] = useState([
+        {
+            'title':'Learn how to draw a face',
+            'completed':false,
+            "current_video":1,
+            'videos':[
+                {
+                'index':1,
+                'title':'HOW TO DRAW: FACE',
+                'thumbnail':'',
+                'account_name':'Lazy Arts',
+                'url':'',
+                'voted_tags':[
+                    {
+                        'title':'#quick',
+                        'votes':'7003'
+                    },
+                    {
+                        'title':'#informational',
+                        'votes':'2197'
+                    },
+                    {
+                        'title':'#mustwatch',
+                        'votes':'375'
+                    }]
+                },
+                {
+                'index':2,
+                'title':'MikeCwazowsky',
+                'thumbnail':'',
+                'account_name':'Cowabunga',
+                'url':'',
+                'voted_tags':[
+                    {
+                        'title':'#quick',
+                        'votes':'7003'
+                    },
+                    {
+                        'title':'#informational',
+                        'votes':'2197'
+                    },
+                    {
+                        'title':'#mustwatch',
+                        'votes':'375'
+                    }]
+                },
+            ]
+        }, 
+        {
+            'title':'sketch something with greyled',
+            'completed':true,
+            "current_video":2,
+            'videos':[
+            {
+                'index':1,
+                'title':'HOW TO DRAW: FACE',
+                'thumbnail':'src="https://i.ytimg.com/vi/q7S6WoTPNwo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDSgSZ31AnZl_Cbeh_l3tzCRDkoZA"',
+                'account_name':'Lazy Arts',
+                'url':'',
+                'voted_tags':[
+                    {
+                        'title':'#quick',
+                        'votes':'7003'
+                    },
+                    {
+                        'title':'#informational',
+                        'votes':'2197'
+                    },
+                    {
+                        'title':'#mustwatch',
+                        'votes':'375'
+                    },
+                ]
+                },
+            {
+                'index':2,
+                'title':'How to Draw Heads - Diving into the thirds',
+                'thumbnail':'src="https://i.ytimg.com/vi/RFFqxT_RxfE/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLC0DaqKbg7o8rJE3XgH0WFoPnn7ZQ"',
+                'account_name':'Lazy Arts',
+                'url':'',
+                'voted_tags':[
+                    {
+                        'title':'#quick',
+                        'votes':'7003'
+                    },
+                    {
+                        'title':'#informational',
+                        'votes':'2197'
+                    },
+                    {
+                        'title':'#mustwatch',
+                        'votes':'375'
+                    },
+                ]
+            },
+        ]
+    }
+]
+)
     const [activeTab, setActiveTab] = useState("projects")
     const [projectExists, setProjectExists] = useState(false)
 
@@ -97,11 +196,16 @@ export const Viewport = () => {
                     ? projectExists 
                         ? 
                         <ProjectContainer>
-                            <Milestones />
+                            <Milestones 
+                                milestoneList={milestoneList}
+                                setMilestoneList={setMilestoneList} />
                         </ProjectContainer>
                         :
                         <ProjectContainer>
-                            <EmptyProject />
+                            <EmptyProject 
+                                milestoneList={milestoneList}
+                                setMilestoneList={setMilestoneList} 
+                                setProjectExists={setProjectExists}/>
                         </ProjectContainer>
                     : 
                 activeTab === "questions" 
