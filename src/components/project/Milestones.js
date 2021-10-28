@@ -50,121 +50,28 @@ const Input = styled.input`
     outline: none;
     border: none;
     font-weight: 600;
+    width: 100%;
     &::placeholder {
         color: var(--grey-4);
     }
 `
 
+const InputCharLimit = styled.p`
+    text-align: end;
+    margin-top: 3px;
+`
 
 
-export const Milestones = () => {
-    const [milestoneList, setMilestoneList] = useState([
-                {
-                    'title':'Learn how to draw a face',
-                    'completed':false,
-                    "current_video":1,
-                    'videos':[
-                        {
-                        'index':1,
-                        'title':'HOW TO DRAW: FACE',
-                        'thumbnail':'',
-                        'account_name':'Lazy Arts',
-                        'url':'',
-                        'voted_tags':[
-                            {
-                                'title':'#quick',
-                                'votes':'7003'
-                            },
-                            {
-                                'title':'#informational',
-                                'votes':'2197'
-                            },
-                            {
-                                'title':'#mustwatch',
-                                'votes':'375'
-                            }]
-                        },
-                        {
-                        'index':2,
-                        'title':'MikeCwazowsky',
-                        'thumbnail':'',
-                        'account_name':'Cowabunga',
-                        'url':'',
-                        'voted_tags':[
-                            {
-                                'title':'#quick',
-                                'votes':'7003'
-                            },
-                            {
-                                'title':'#informational',
-                                'votes':'2197'
-                            },
-                            {
-                                'title':'#mustwatch',
-                                'votes':'375'
-                            }]
-                        },
-                    ]
-                }, 
-                {
-                    'title':'sketch something with greyled',
-                    'completed':true,
-                    "current_video":2,
-                    'videos':[
-                    {
-                        'index':1,
-                        'title':'HOW TO DRAW: FACE',
-                        'thumbnail':'src="https://i.ytimg.com/vi/q7S6WoTPNwo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDSgSZ31AnZl_Cbeh_l3tzCRDkoZA"',
-                        'account_name':'Lazy Arts',
-                        'url':'',
-                        'voted_tags':[
-                            {
-                                'title':'#quick',
-                                'votes':'7003'
-                            },
-                            {
-                                'title':'#informational',
-                                'votes':'2197'
-                            },
-                            {
-                                'title':'#mustwatch',
-                                'votes':'375'
-                            },
-                        ]
-                        },
-                    {
-                        'index':2,
-                        'title':'How to Draw Heads - Diving into the thirds',
-                        'thumbnail':'src="https://i.ytimg.com/vi/RFFqxT_RxfE/hqdefault.jpg?sqp=-oaymwEbCKgBEF5IVfKriqkDDggBFQAAiEIYAXABwAEG&rs=AOn4CLC0DaqKbg7o8rJE3XgH0WFoPnn7ZQ"',
-                        'account_name':'Lazy Arts',
-                        'url':'',
-                        'voted_tags':[
-                            {
-                                'title':'#quick',
-                                'votes':'7003'
-                            },
-                            {
-                                'title':'#informational',
-                                'votes':'2197'
-                            },
-                            {
-                                'title':'#mustwatch',
-                                'votes':'375'
-                            },
-                        ]
-                    },
-                ]
-            }
-        ]
-    )
 
+export const Milestones = ({ milestoneList, setMilestoneList }) => {
+    const [inputValue, setInputValue] = useState('')
     const [milestonesHidden, setMilestonesHidden] = useState(false)
 
     useEffect(() => {
         // update database when milestones are added, deleted, renamed or reordered
     }, [milestoneList])
 
-    const addMilestone = (event) => {
+    const addMilestoneInViewport = (event) => {
         if(event.key === 'Enter' && event.target.value){
             setMilestoneList([...milestoneList, {
                 'title': event.target.value,
@@ -173,6 +80,8 @@ export const Milestones = () => {
                 'videos':[]
             }])
             event.target.value = null;
+            setInputValue('')
+            console.log(milestoneList)
         }
     }
     
@@ -200,10 +109,19 @@ export const Milestones = () => {
             ))}
             <InputContainer>
                 <InputTitleContainer>
-                    <GreyMilestone style={{margin: 5}} />
+                    <GreyMilestone 
+                        style={{
+                            margin: 5, 
+                            minWidth: 20, 
+                            maxWidth: 20 }} />
                     <Input 
                         placeholder='+ ADD MILESTONE' 
-                        onKeyPress={(event)=>addMilestone(event)} />
+                        maxLength='48'
+                        onChange={(event)=>setInputValue(event.target.value)}
+                        onKeyPress={(event)=>addMilestoneInViewport(event)} />
+                    <InputCharLimit>
+                        {inputValue.length}/48
+                    </InputCharLimit>
                 </InputTitleContainer>
             </InputContainer>
         </HeaderContainer>
