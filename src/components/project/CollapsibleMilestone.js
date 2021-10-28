@@ -34,6 +34,8 @@ const TitleContainer = styled.div`
 const Title = styled.h1`
     font-size: 14px;
     padding: 5px;
+    padding-right: 20px;
+    overflow-wrap: anywhere;
 `
 
 const ExpandIconContainer = styled.div`
@@ -182,10 +184,17 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                         {checked 
                             ? <CheckedMilestone 
                                 onClick={ToggleCheckedMilestone} 
-                                style={{margin: 5}} /> 
+                                style={{
+                                    margin: 5, 
+                                    minWidth: 20, 
+                                    maxWidth: 20 }} /> 
                             : <Milestone 
                                 onClick={ToggleCheckedMilestone} 
-                                style={{margin: 5}} />}
+                                style={{
+                                    margin: 5, 
+                                    minWidth: 20, 
+                                    maxWidth: 20 }} />
+                        }
                         <Title>{title}</Title>
                     </TitleContainer>
                     <ExpandIconContainer>
