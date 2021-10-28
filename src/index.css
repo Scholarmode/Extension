@@ -23,6 +23,7 @@ code {
   --red:#FF0000;
   --dark-red:#DA0000;
   --highlight:#2196F3;
+  --grey-05: rgba(196, 196, 196, 0.1); 
   --grey-1:#ECECEC;
   --grey-2:#DADADA;
   --grey-3:#C4C4C4;

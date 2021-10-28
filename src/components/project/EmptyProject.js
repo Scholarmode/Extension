@@ -50,11 +50,14 @@ const CreateProjectButton = styled.button`
     padding-bottom: 8px;
     font-weight: bold;
     border: none;
+    cursor: pointer;
 `
 
 
 export const EmptyProject = () => {
     const [popup, setPopup] = useState(false)
+    const [project, setProject] = useState('')
+    const [goal, setGoal] = useState('')
 
     const overlayDiv = document.createElement('div')
         overlayDiv.id = 'overlayDiv'
@@ -78,18 +81,23 @@ export const EmptyProject = () => {
             {popup === 'projectName'
                 ? 
                 <ProjectNamePopup 
-                    setPopup={setPopup} />
+                    setPopup={setPopup} 
+                    setProject={setProject} />
 
             :popup === 'projectGoal'
                 ? 
                 <ProjectGoalPopup
-                    setPopup={setPopup} />
+                    setPopup={setPopup}
+                    project={project} 
+                    setGoal={setGoal} />
 
             :popup === 'projectMilestones'
                 ? 
                 <ProjectMilestonesPopup
-                    setPopup={setPopup} />
-                    
+                    setPopup={setPopup} 
+                    project={project} 
+                    goal={goal}/>
+
             : null
             }
         </div>

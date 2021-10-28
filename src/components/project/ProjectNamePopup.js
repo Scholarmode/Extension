@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const NamePopupContainer = styled.div`
     display: flex;
     background-color:var(--white);
     box-shadow: 0 0 0 100vmax rgba(0, 0, 0, .5);
@@ -32,9 +32,10 @@ export const PopupInput = styled.input`
     outline: none;
     height: 20px;
     padding-left: 10px;
+    font-weight: bold;
 
     ::placeholder{
-        color: var(--black);
+        color: var(--grey-4);
         font-weight: bold;
     }
 
@@ -49,39 +50,44 @@ export const ButtonContainer = styled.div`
     flex-direction: row;
     align-items: center;
     padding-top: 30px;
-    justify-content: space-between;
-    width: 150px;
 `
 
 export const PopupButtonPrimary = styled.button`
     background-color: var(--dark-red);
-    border-radius: 15px;
+    border-radius: 3px;
     padding: 7px 30px;
     font-weight: 500;
     font-size: 11px;
     color: var(--white);
     border: none;
+    cursor: pointer;
 `
 
 export const PopupButtonSecondary = styled.p`
     font-size: 12px;
     color: var(--grey-4);
+    font-weight: bold;
+    cursor: pointer;
+    padding-left: 30px;
 `
 
 
-export const ProjectNamePopup = ({ setPopup }) => {
+export const ProjectNamePopup = ({ setPopup, setProject }) => {
+
     return (
         <div>
-            <Container>
+            <NamePopupContainer>
                 <PopupTitle>
                     Name your project
                 </PopupTitle>
                 <PopupDescription>
-                    Projects consist of a goal, milestones, and a roadmap to achieve it.
+                    Projects consist of a goal, milestones, and a 
+                    roadmap to achieve it.
                 </PopupDescription>
                 <PopupInput 
                     placeholder='🎁 Quick Sketch'
-                    maxLength='64'
+                    maxLength='24'
+                    onChange={(event)=>setProject(event.target.value)}
                     />
                 <ButtonContainer>
                     <PopupButtonPrimary onClick={()=>setPopup('projectGoal')}>
@@ -91,7 +97,7 @@ export const ProjectNamePopup = ({ setPopup }) => {
                         Cancel
                     </PopupButtonSecondary>
                 </ButtonContainer>
-            </Container>
+            </NamePopupContainer>
         </div>
     )
 }
