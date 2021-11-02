@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { ProjectNamePopup, NamePopupContainer, PopupTitle, 
+import { NamePopupContainer, PopupTitle, 
         PopupDescription, PopupInput, ButtonContainer,
         PopupButtonPrimary, PopupButtonSecondary } from './ProjectNamePopup'
 import { ProjectBlock, ProjectBlockTitle} from './ProjectGoalPopup'
 import { ReactComponent as Expand } from '../../assets/Expand_Icon.svg'
+import { ReactComponent as MilestoneIcon } from '../../assets/Milestone_Icon14px.svg'
+
 
 
 
 
 const MilestonePopupContainer = styled(NamePopupContainer)`
-
+    top: calc(20%);
 `
 
 const GoalBlock = styled(ProjectBlock)`
@@ -39,7 +41,7 @@ const HighlightIcon = styled.div`
 `
 
 const MilestoneInputContainer = styled.div`
-    margin-top: 15px ;
+    margin-top: 15px;
 `
 
 const MilestoneInput = styled(PopupInput)`
@@ -58,16 +60,40 @@ const MilestoneInputSubmit = styled.div`
     font-weight: 500;
     text-align: end;
     margin-top: 20px;
+    cursor: pointer;
+`
+
+const MilestoneBlockContainer = styled(ProjectBlock)`
+    width: auto;
+    align-items: center;
+`
+
+const MilestoneBlockTitle = styled(ProjectBlockTitle)`
+    font-weight: 500;
+    height: auto;
+    overflow-wrap: anywhere;
 `
 
 
+export const ProjectMilestonesPopup = ({setPopup, project, goal, milestoneList, 
+                                        setMilestoneList, setProjectExists }) => {
+    const [inputValue, setInputValue] = useState('')
 
-export const ProjectMilestonesPopup = ({setPopup, project, goal}) => {
-    
-
+    const handleInputChange = (e) => {
+        if(e.key === 'Enter'){
+            setMilestoneList([...milestoneList, {
+                'title': e.target.value,
+                'completed':false,
+                "current_video":0,
+                'videos':[]
+            }])
+            e.target.value = ''
+            setInputValue(e.target.value)
+        }
+    }
 
     return (
-        <div>
+        <div style={{position:'absolute'}}>
             <MilestonePopupContainer>
                 <ProjectBlock onClick={()=>setPopup('projectName')}>
                     <ProjectBlockTitle>
@@ -97,19 +123,35 @@ export const ProjectMilestonesPopup = ({setPopup, project, goal}) => {
                     </HighlightText>
                 </HighlightContainer>
                 <MilestoneInputContainer>  
+                    {milestoneList.map(milestone => (
+                        <>
+                            <MilestoneBlockContainer>
+                                <MilestoneIcon 
+                                    style={{ 
+                                        minWidth: 17, 
+                                        maxWidth:17, 
+                                        marginRight: 8 }} />
+                                <MilestoneBlockTitle>
+                                    {milestone.title}
+                                </MilestoneBlockTitle>
+                            </MilestoneBlockContainer>
+                        </>
+                    ))}
                     <MilestoneInput 
                         placeholder='Enter milestone...'
                         maxLength='48' 
+                        onChange={(event)=>setInputValue(event.target.value)}
+                        onKeyPress={(event)=>handleInputChange(event)}
                         />
                     <MilestoneInputCharLimit>
-                        0/120
+                        {inputValue.length}/48
                     </MilestoneInputCharLimit>
-                    <MilestoneInputSubmit>
+                    <MilestoneInputSubmit> 
                         CREATE
                     </MilestoneInputSubmit>
                 </MilestoneInputContainer>
                 <ButtonContainer>
-                    <PopupButtonPrimary onClick={()=>setPopup('projectMilestones')}>
+                    <PopupButtonPrimary onClick={()=>setProjectExists(true)}>
                         SUBMIT
                     </PopupButtonPrimary>
                     <PopupButtonSecondary onClick={()=>setPopup(false)}>

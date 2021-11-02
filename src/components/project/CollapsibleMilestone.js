@@ -91,7 +91,9 @@ const VideoContainer = styled.div`
     flex-direction: column;
 `
 
-export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, currentVideo }) => {
+export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, 
+                                        currentVideo, setMilestoneList, 
+                                        milestoneList, key }) => {
     // completed = checked (bool)
     const [checked, setChecked] = useState(completed)
     const [collapsed, setCollapsed] = useState(true)
@@ -166,11 +168,27 @@ export const CollapsibleMilestone = ({ milestoneTitle, completed, videosArray, c
                 'thumbnail':thumbnail,
                 'url':url,
                 'voted_tags':voted_tags
-            }])  
+            }]) 
+            // ~ My attempt at updating the milestoneList 
+            //   within react's state.. using StackO >> https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
+            // 
+            // setMilestoneList(prevState => {
+            //     let updatedMilestones = Object.assign({}, prevState);
+            //     updatedMilestones[key].videos = [...videos, {
+            //         'index':videos.length + 1,
+            //         'title':title,
+            //         'account_name':account_name,
+            //         'thumbnail':thumbnail,
+            //         'url':url,
+            //         'voted_tags':voted_tags
+            //     }]            
+            //     return {updatedMilestones}     
+            //   }) 
         }else{
         console.log(thumbnail)
         console.log(url)
         console.log(videos);
+        console.log(milestoneList)
         }
     }
 

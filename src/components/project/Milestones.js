@@ -98,13 +98,15 @@ export const Milestones = ({ milestoneList, setMilestoneList }) => {
                     milestonesHidden={milestonesHidden} />
             </TitleContainer>
             <Spacer />
-            {milestoneList.map(milestone => (
+            {milestoneList.map((milestone, index) => (
                 <>
-                    <CollapsibleMilestone 
+                    <CollapsibleMilestone key={index}
                         milestoneTitle={milestone.title}
                         completed={milestone.completed}
                         videosArray={milestone.videos} 
-                        currentVideo={milestone.current_video} /> 
+                        currentVideo={milestone.current_video}
+                        setMilestoneList={setMilestoneList}
+                        milestoneList={milestoneList} /> 
                 </>
             ))}
             <InputContainer>
