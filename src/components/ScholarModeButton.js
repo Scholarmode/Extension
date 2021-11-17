@@ -87,11 +87,11 @@ const ToggleContainer = styled.div`
 export default function ScholarModeButton() {
   const [active, setActive] = useState(false)
 
-  // useEffect(() => {
-  //   chrome.storage.sync.get(['active'], (result) => {
-  //     setActive(result.active)
-  //   })
-  // })
+  useEffect(() => {
+    chrome.storage.sync.get(['active'], (result) => {
+      setActive(result.active)
+    })
+  })
 
   return (
     <ToggleContainer
@@ -100,9 +100,9 @@ export default function ScholarModeButton() {
         Mixpanel.track('ScholarMode toggled', {
           "active" : !active,
       })
-        // active
-        //   ? chrome.storage.sync.set({ active: false })
-        //   : chrome.storage.sync.set({ active: true })
+        active
+          ? chrome.storage.sync.set({ active: false })
+          : chrome.storage.sync.set({ active: true })
         setActive(!active)
       }}
     >
