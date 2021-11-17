@@ -1,6 +1,6 @@
 /* global chrome */
 const localhost = "http://localhost:8080"
-const cloudhost = "https://scholarmode.herokuapp.com"
+const cloudhost = "https://scholarmodedb.herokuapp.com"
 
 let header = document.getElementsByTagName('header')[0]
 let main = document.getElementById('main')
