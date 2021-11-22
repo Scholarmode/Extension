@@ -15,12 +15,12 @@ const MilestonePopupContainer = styled(NamePopupContainer)`
     top: calc(20%);
 `
 
-const GoalBlock = styled(ProjectBlock)`
+export const GoalBlock = styled(ProjectBlock)`
     background-color: var(--grey-1);
     border: none;
 `
 
-const GoalBlockTitle = styled(ProjectBlockTitle)`
+export const GoalBlockTitle = styled(ProjectBlockTitle)`
 `
 
 const HighlightContainer = styled.div`

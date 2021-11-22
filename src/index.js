@@ -7,8 +7,9 @@ import Discussion from './components/discussion/Discussion'
 import { InviteComments } from './components/InviteComments'
 import { Mixpanel } from './components/Mixpanel'
 import { Viewport } from './components/Viewport'
-
-
+import faunadb from 'faunadb'
+export var q = faunadb.query
+export var client = new faunadb.Client({ secret: "fnAEYYpf4vACQgnotQRfs-JhAKqLnjtmyOuoYO1y" })
 
 // chrome.runtime.onInstalled.addListener(function(details){
 //     if(details.reason === "install"){
